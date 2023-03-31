@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name_release">Smashup</string>
+    <string name="app_name_debug">Smashup D</string>
+
+    <string name="notification_channel">notification_channel</string>
+    <string name="notification_channel_description">notification_channel_description</string>
+    <string name="failed_to_load">Не удалось загрузить данные</string>
+    <string name="failed_to_load_user_profile">Не удалось загрузить профиль</string>
+
+    <string name="bitrate">Битрейт</string>
+    <string name="ui_language">Язык</string>
+    <string name="explicit_content">Контент с пометкой Explicit</string>
+    <string name="turned_on">ВКЛ</string>
+    <string name="turned_off">ВЫКЛ</string>
+    <string name="log_out">Выход</string>
+    <string name="log_out_confirmation">Вы действительно хотите выйти?</string>
+    <string name="button_yes">ДА</string>
+    <string name="button_no">НЕТ</string>
+    <string name="button_understand">ПОНЯТНО</string>
+    <string name="loading">ЗАГРУЗКА</string>
+    <string name="login_button">ВОЙТИ</string>
+    <string name="registration">Регистрация</string>
+    <string name="and_other_actions">и другие действия - пока только на</string>
+    <string name="the_website">оф. сайте</string>
+    <string name="why_no_registration">(Почему так?)</string>
+    <string name="no_registration_reasoning">Это приложение является неофициальным.\n\nЕсли правила регистрации поменяются, то я могу не успеть обновить их в приложении.</string>
+    <string name="username_placeholder">Юзернейм</string>
+    <string name="password_placeholder">Пароль</string>
+    <string name="wrong_username_or_password">Неправильный юзернейм или пароль</string>
+    <string name="something_went_wrong_try_later">Что-то пошло не так, попробуйте позже</string>
+    <string name="string_empty"> </string>
+
+    <string name="search">Поиск</string>
+    <string name="search_hint">минимум 4 символа</string>
+    <string name="error_during_search">При запросе произошла ошибка</string>
+    <string name="no_results">Ничего не нашлось</string>
+    <string name="search_mashups">Мэшапы</string>
+    <string name="search_authors">Авторы</string>
+    <string name="search_playlists">Плейлисты</string>
+    <string name="search_sources">Сурсы</string>
+    <string name="sources_of_mashup">Сурсы мэшапа:</string>
+    <string name="mashups_with_source">Мэшапы с этим сурсом:</string>
+
+    <string name="charts">Подборки</string>
+    <string name="user_has_no_mashups">Кажется, пользователь не загружал мэшапы</string>
+
+    <string name="version_outdated">Приложение устарело, пожалуйста установите актуальную версию.\n\nВы можете продолжить пользоваться текущей версией, но ее работоспособность не гарантирована.</string>
+    <string name="proceed_anyway_button">Перейти в приложение</string>
+    <string name="exit_button">Закрыть приложение</string>
+
+    <string name="bottom_bar_main">ГЛАВНАЯ</string>
+    <string name="bottom_bar_search">ПОИСК</string>
+    <string name="bottom_bar_profile">ПРОФИЛЬ</string>
+</resources>
