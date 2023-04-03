@@ -34,6 +34,7 @@ fun MashupItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .height(IntrinsicSize.Min)
             .padding(4.dp)
             .clickable { onBodyClick(mashup) }
     ) {
@@ -41,7 +42,6 @@ fun MashupItem(
             modifier = Modifier
                 .padding(4.dp)
                 .size(56.dp),
-
             contentScale = ContentScale.Crop,
             imageModel = ImageUrlHelper.mashupImageIdToUrl100px(mashup.imageUrl),
             error = ImageVector.vectorResource(id = Placeholder.Napas.resource),
@@ -54,9 +54,9 @@ fun MashupItem(
         )
         Column(
             modifier = Modifier
-                .height(64.dp)
+                .fillMaxHeight()
                 .padding(vertical = 4.dp)
-                .weight(1.0f)
+                .weight(1.0f),
         ) {
             val color = if (isCurrentlyPlaying) {
                 MaterialTheme.colors.primaryVariant
@@ -105,8 +105,8 @@ fun MashupItem(
         }
         IconButton(
             modifier = Modifier
-                .padding(5.dp)
-                .size(54.dp),
+                .fillMaxHeight()
+                .width(48.dp),
             onClick = { onInfoClick(mashup.id) }
         ) {
             Icon(
