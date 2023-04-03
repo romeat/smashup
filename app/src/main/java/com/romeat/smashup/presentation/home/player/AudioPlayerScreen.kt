@@ -1,6 +1,7 @@
 package com.romeat.smashup.presentation.home.player
 
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -53,7 +54,9 @@ fun AudioPlayerContent(
     onNextClick: () -> Unit,
     onPlayPauseClick: () -> Unit
 ) {
-    Surface(modifier = Modifier.fillMaxSize()) {
+    Surface(
+        modifier = Modifier.fillMaxSize()
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

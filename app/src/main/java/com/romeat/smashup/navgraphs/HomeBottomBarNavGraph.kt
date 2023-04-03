@@ -1,5 +1,6 @@
 package com.romeat.smashup.navgraphs
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -9,19 +10,21 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
 import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.profile.ProfileScreen
 import com.romeat.smashup.presentation.home.main.MainScreen
 import com.romeat.smashup.presentation.home.search.SearchScreen
 
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HomeNavGraph(
     navController: NavHostController,
     rootNavController: NavController
 ) {
-    NavHost(
+    AnimatedNavHost(
         navController = navController,
         route = RootGraph.HOME,
         startDestination = BottomBarScreen.Main.route

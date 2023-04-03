@@ -53,16 +53,20 @@ fun StartupScreen(
         color = MaterialTheme.colors.background
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .weight(1.0f)
+            Spacer(modifier = Modifier.weight(1.0f))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
             ) {
                 LinearProgressIndicator()
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
                 Text(
                     modifier = Modifier
                         .padding(vertical = 10.dp),
@@ -71,13 +75,14 @@ fun StartupScreen(
                     fontWeight = FontWeight.Bold
                 )
             }
+            Spacer(modifier = Modifier.weight(1.0f))
             Row(
                 modifier = Modifier
                     .padding(5.dp)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text(text = "V" + BuildConfig.VERSION_NAME)
+                Text(text = "v" + BuildConfig.VERSION_NAME)
             }
 
             if (openDialog.value) {
