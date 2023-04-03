@@ -1,5 +1,6 @@
 package com.romeat.smashup.presentation.home
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -11,15 +12,16 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.romeat.smashup.navgraphs.BottomBarScreen
 import com.romeat.smashup.navgraphs.HomeGraphScreen
 import com.romeat.smashup.navgraphs.HomeNavGraph
 import com.romeat.smashup.presentation.home.common.composables.PlayerSmall
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HomeScreen(
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController = rememberAnimatedNavController(),
     rootNavController: NavController,
     viewModel: HomePlayerViewModel
 ) {

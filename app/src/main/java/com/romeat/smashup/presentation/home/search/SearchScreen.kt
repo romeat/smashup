@@ -1,12 +1,13 @@
 package com.romeat.smashup.presentation.home.search
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.composable
 import androidx.navigation.navArgument
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.romeat.smashup.navgraphs.BottomBarScreen
 import com.romeat.smashup.presentation.home.common.author.AuthorScreen
 import com.romeat.smashup.presentation.home.common.mashup.MashupScreen
@@ -15,11 +16,12 @@ import com.romeat.smashup.presentation.home.common.source.SourceScreen
 import com.romeat.smashup.presentation.home.main.MainTabScreen
 import com.romeat.smashup.util.CommonNavigationConstants
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SearchScreen(
-    navController : NavHostController = rememberNavController()
+    navController : NavHostController = rememberAnimatedNavController()
 ) {
-    NavHost(
+    AnimatedNavHost(
         navController = navController,
         route = BottomBarScreen.Search.route,
         startDestination = SearchTabScreen.SearchBar.route
