@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.romeat.smashup.R
+import com.romeat.smashup.presentation.home.HomePlayerViewModel
 import com.romeat.smashup.presentation.home.PlayerState
 import com.romeat.smashup.util.ImageUrlHelper
 import com.romeat.smashup.util.compose.Marquee
@@ -32,13 +33,19 @@ import com.skydoves.landscapist.glide.GlideImage
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun PlayerSmall(
+    viewModel: HomePlayerViewModel,
+    onExpandClick: () -> Unit
+    /*
     onPlayClick: () -> Unit,
     onPreviousClick: () -> Unit,
     onNextClick: () -> Unit,
-    onExpandClick: () -> Unit,
+
     state: PlayerState,
     currentTimeMs: Long
+
+     */
 ) {
+    val state = viewModel.state
     Column(
         modifier = Modifier
             .background(MaterialTheme.colors.surface)
@@ -96,7 +103,7 @@ fun PlayerSmall(
                         Text(
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth(),
-                            text = currentTimeMs.toDisplayableTimeString(),
+                            text = viewModel.currentTimeMs.toDisplayableTimeString(),
                             fontSize = 10.sp
                         )
             }
@@ -111,7 +118,7 @@ fun PlayerSmall(
                     modifier = Modifier
                         .width(48.dp)
                         .height(48.dp),
-                    onClick = onPreviousClick,
+                    onClick = { viewModel.onPreviousClick() },
                 ) {
                     Icon(
                         modifier = Modifier.fillMaxSize(),
@@ -124,7 +131,7 @@ fun PlayerSmall(
                     modifier = Modifier
                         .width(60.dp)
                         .height(54.dp),
-                    onClick = onPlayClick,
+                    onClick = { viewModel.onPlayPauseClick() },
                 ) {
                     Icon(
                         modifier = Modifier.fillMaxSize(),
@@ -141,7 +148,7 @@ fun PlayerSmall(
                     modifier = Modifier
                         .width(48.dp)
                         .height(48.dp),
-                    onClick = onNextClick,
+                    onClick = { viewModel.onNextClick() },
                 ) {
                     Icon(
                         modifier = Modifier.fillMaxSize(),
@@ -183,12 +190,13 @@ fun PlayerSmall(
         LinearProgressIndicator(
             modifier = Modifier
                 .fillMaxWidth(),
-            progress = currentTimeMs.toFloat()/state.trackDurationMs,
+            progress = viewModel.currentTimeMs.toFloat()/state.trackDurationMs,
             color = MaterialTheme.colors.primaryVariant
         )
     }
 }
 
+/*
 @Preview
 @Composable
 fun PlayerPreview() {
@@ -201,3 +209,4 @@ fun PlayerPreview() {
         currentTimeMs = 11000
     )
 }
+ */

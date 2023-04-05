@@ -22,10 +22,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.romeat.smashup.R
-import com.romeat.smashup.presentation.home.common.composables.CustomCircularProgressIndicator
-import com.romeat.smashup.presentation.home.common.composables.ErrorTextMessage
-import com.romeat.smashup.presentation.home.common.composables.Placeholder
+import com.romeat.smashup.presentation.home.HomePlayerViewModel
+import com.romeat.smashup.presentation.home.common.composables.*
 import com.romeat.smashup.ui.theme.AppGreenColor
 import com.romeat.smashup.util.ImageUrlHelper
 import com.skydoves.landscapist.ShimmerParams
@@ -34,20 +34,43 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun ProfileScreen(
     onLogoutClick: () -> Unit,
+    playerViewModel: HomePlayerViewModel,
+    navHostController: NavHostController,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
 
-    if (state.isLoading) {
-        CustomCircularProgressIndicator()
-    } else {
-        ProfileScreenContent(
-            onLogoutClick = {
-                viewModel.onLogout()
-                onLogoutClick()
-            },
-            state = state
-        )
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colors.background
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1.0f)
+            ) {
+                if (state.isLoading) {
+                    CustomCircularProgressIndicator()
+                } else {
+                    ProfileScreenContent(
+                        onLogoutClick = {
+                            viewModel.onLogout()
+                            onLogoutClick()
+                        },
+                        state = state
+                    )
+                }
+            }
+            PlayerSmall(
+                onExpandClick = { /*TODO*/ },
+                viewModel = playerViewModel
+            )
+            BottomNavBar2(navController = navHostController)
+        }
     }
 }
 
