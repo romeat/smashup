@@ -36,13 +36,23 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
 
         /**
          * Common navigation lambdas
-          */
-        val onMashupInfoClick: (Int) -> Unit = { id -> navController.navigate("${HomeGraphScreen.Mashup.route}/${id}") }
-        val onSourceClick: (Int) -> Unit = { id -> navController.navigate("${HomeGraphScreen.Source.route}/${id}") }
-        val onAuthorClick: (String) -> Unit = { alias -> navController.navigate("${HomeGraphScreen.Author.route}/${alias}") }
-        val onPlaylistClick: (Int) -> Unit = { id -> navController.navigate("${HomeGraphScreen.Playlist.route}/${id}") }
+         */
+        val onMashupInfoClick: (Int) -> Unit =
+            { id -> navController.navigate("${HomeGraphScreen.Mashup.route}/${id}") }
+
+        val onSourceClick: (Int) -> Unit =
+            { id -> navController.navigate("${HomeGraphScreen.Source.route}/${id}") }
+
+        val onAuthorClick: (String) -> Unit =
+            { alias -> navController.navigate("${HomeGraphScreen.Author.route}/${alias}") }
+
+        val onPlaylistClick: (Int) -> Unit =
+            { id -> navController.navigate("${HomeGraphScreen.Playlist.route}/${id}") }
+
         val onBackClicked: () -> Unit = { navController.popBackStack() }
-        val onExpandPlayerClicked: () -> Unit = { navController.navigate(HomeGraphScreen.AudioPlayer.route) }
+
+        val onExpandPlayerClicked: () -> Unit =
+            { navController.navigate(HomeGraphScreen.AudioPlayer.route) }
 
 
         /**
@@ -223,8 +233,6 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
                 viewModel = viewModel
             )
         }
-
-
     }
 }
 
