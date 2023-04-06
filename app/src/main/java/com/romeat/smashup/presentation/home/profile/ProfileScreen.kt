@@ -34,6 +34,7 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun ProfileScreen(
     onLogoutClick: () -> Unit,
+    onExpandPlayerClick: () -> Unit,
     playerViewModel: HomePlayerViewModel,
     navHostController: NavHostController,
     viewModel: ProfileViewModel = hiltViewModel()
@@ -66,10 +67,10 @@ fun ProfileScreen(
                 }
             }
             PlayerSmall(
-                onExpandClick = { /*TODO*/ },
+                onExpandClick = onExpandPlayerClick,
                 viewModel = playerViewModel
             )
-            BottomNavBar2(navController = navHostController)
+            BottomNavBar(navController = navHostController)
         }
     }
 }

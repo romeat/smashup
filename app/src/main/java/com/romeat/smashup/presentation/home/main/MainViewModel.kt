@@ -6,11 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romeat.smashup.domain.playlists.GetCompilationsUseCase
-import com.romeat.smashup.domain.playlists.GetPlaylistUseCase
 import com.romeat.smashup.data.dto.Playlist
 import com.romeat.smashup.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -23,6 +23,7 @@ fun PlaylistScreen(
     onMashupInfoClick: (Int) -> Unit,
     onAuthorClick: (String) -> Unit,
     onBackClicked: () -> Unit,
+    onExpandPlayerClick: () -> Unit,
     playerViewModel: HomePlayerViewModel,
     navHostController: NavHostController,
     viewModel: PlaylistViewModel = hiltViewModel(),
@@ -90,10 +91,10 @@ fun PlaylistScreen(
                 }
             }
             PlayerSmall(
-                onExpandClick = { /*TODO*/ },
+                onExpandClick = onExpandPlayerClick,
                 viewModel = playerViewModel
             )
-            BottomNavBar2(navController = navHostController)
+            BottomNavBar(navController = navHostController)
         }
     }
 }

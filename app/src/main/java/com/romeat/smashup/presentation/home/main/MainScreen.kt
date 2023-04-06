@@ -13,25 +13,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import com.google.accompanist.navigation.animation.composable
-import androidx.navigation.navArgument
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.romeat.smashup.R
-import com.romeat.smashup.navgraphs.BottomBarScreen
 import com.romeat.smashup.presentation.home.HomePlayerViewModel
-import com.romeat.smashup.presentation.home.common.author.AuthorScreen
 import com.romeat.smashup.presentation.home.common.composables.*
-import com.romeat.smashup.presentation.home.common.mashup.MashupScreen
-import com.romeat.smashup.presentation.home.common.playlist.PlaylistScreen
-import com.romeat.smashup.presentation.home.common.source.SourceScreen
-import com.romeat.smashup.util.CommonNavigationConstants
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainScreen(
     onPlaylistClick: (Int) -> Unit,
+    onExpandPlayerClick: () -> Unit,
     navHostController: NavHostController,
     playerViewModel: HomePlayerViewModel,
     viewModel: ChartsViewModel = hiltViewModel()
@@ -71,10 +61,10 @@ fun MainScreen(
                 }
             }
             PlayerSmall(
-                onExpandClick = { /*TODO*/ },
+                onExpandClick = onExpandPlayerClick,
                 viewModel = playerViewModel
             )
-            BottomNavBar2(navController = navHostController)
+            BottomNavBar(navController = navHostController)
         }
     }
 }

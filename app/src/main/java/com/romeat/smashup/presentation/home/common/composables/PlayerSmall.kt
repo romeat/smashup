@@ -35,15 +35,6 @@ import com.skydoves.landscapist.glide.GlideImage
 fun PlayerSmall(
     viewModel: HomePlayerViewModel,
     onExpandClick: () -> Unit
-    /*
-    onPlayClick: () -> Unit,
-    onPreviousClick: () -> Unit,
-    onNextClick: () -> Unit,
-
-    state: PlayerState,
-    currentTimeMs: Long
-
-     */
 ) {
     val state = viewModel.state
     Column(

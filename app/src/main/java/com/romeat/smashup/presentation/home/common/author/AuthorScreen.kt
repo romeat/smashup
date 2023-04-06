@@ -24,6 +24,7 @@ import com.romeat.smashup.util.ImageUrlHelper
 fun AuthorScreen(
     onMashupInfoClick: (Int) -> Unit,
     onBackClicked: () -> Unit,
+    onExpandPlayerClick: () -> Unit,
     playerViewModel: HomePlayerViewModel,
     navHostController: NavHostController,
     viewModel: AuthorViewModel = hiltViewModel(),
@@ -92,10 +93,10 @@ fun AuthorScreen(
                 }
             }
             PlayerSmall(
-                onExpandClick = { /*TODO*/ },
+                onExpandClick = onExpandPlayerClick,
                 viewModel = playerViewModel
             )
-            BottomNavBar2(navController = navHostController)
+            BottomNavBar(navController = navHostController)
         }
     }
 }

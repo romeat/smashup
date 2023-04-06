@@ -3,7 +3,6 @@ package com.romeat.smashup.presentation.home.common.source
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -25,6 +24,7 @@ import com.romeat.smashup.util.ImageUrlHelper
 fun SourceScreen(
     onMashupInfoClick: (Int) -> Unit,
     onBackClicked: () -> Unit,
+    onExpandPlayerClick: () -> Unit,
     playerViewModel: HomePlayerViewModel,
     navHostController: NavHostController,
     viewModel: SourceViewModel = hiltViewModel(),
@@ -99,10 +99,10 @@ fun SourceScreen(
                 }
             }
             PlayerSmall(
-                onExpandClick = { /*TODO*/ },
+                onExpandClick = onExpandPlayerClick,
                 viewModel = playerViewModel
             )
-            BottomNavBar2(navController = navHostController)
+            BottomNavBar(navController = navHostController)
         }
     }
 }

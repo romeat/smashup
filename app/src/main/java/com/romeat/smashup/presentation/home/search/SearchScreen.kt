@@ -27,6 +27,7 @@ fun SearchBarScreen(
     onSourceClick: (Int) -> Unit,
     onAuthorClick: (String) -> Unit,
     onPlaylistClick: (Int) -> Unit,
+    onExpandPlayerClick: () -> Unit,
     playerViewModel: HomePlayerViewModel,
     navHostController: NavHostController,
     viewModel: SearchBarViewModel = hiltViewModel()
@@ -145,10 +146,10 @@ fun SearchBarScreen(
                 }
             }
             PlayerSmall(
-                onExpandClick = { /*TODO*/ },
+                onExpandClick = onExpandPlayerClick,
                 viewModel = playerViewModel
             )
-            BottomNavBar2(navController = navHostController)
+            BottomNavBar(navController = navHostController)
         }
     }
 

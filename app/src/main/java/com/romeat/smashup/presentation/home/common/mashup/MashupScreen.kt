@@ -24,6 +24,7 @@ fun MashupScreen(
     onSourceClick: (Int) -> Unit,
     onAuthorClick: (String) -> Unit,
     onBackClicked: () -> Unit,
+    onExpandPlayerClick: () -> Unit,
     playerViewModel: HomePlayerViewModel,
     navHostController: NavHostController,
     viewModel: MashupViewModel = hiltViewModel(),
@@ -101,10 +102,10 @@ fun MashupScreen(
                 }
             }
             PlayerSmall(
-                onExpandClick = { /*TODO*/ },
+                onExpandClick = onExpandPlayerClick,
                 viewModel = playerViewModel
             )
-            BottomNavBar2(navController = navHostController)
+            BottomNavBar(navController = navHostController)
         }
     }
 }

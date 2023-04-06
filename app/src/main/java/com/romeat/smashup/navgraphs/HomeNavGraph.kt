@@ -42,6 +42,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
         val onAuthorClick: (String) -> Unit = { alias -> navController.navigate("${HomeGraphScreen.Author.route}/${alias}") }
         val onPlaylistClick: (Int) -> Unit = { id -> navController.navigate("${HomeGraphScreen.Playlist.route}/${id}") }
         val onBackClicked: () -> Unit = { navController.popBackStack() }
+        val onExpandPlayerClicked: () -> Unit = { navController.navigate(HomeGraphScreen.AudioPlayer.route) }
 
 
         /**
@@ -59,7 +60,8 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
             MainScreen(
                 navHostController = navController,
                 playerViewModel = playerViewModel,
-                onPlaylistClick = onPlaylistClick
+                onPlaylistClick = onPlaylistClick,
+                onExpandPlayerClick = onExpandPlayerClicked
             )
         }
 
@@ -79,6 +81,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
                 onSourceClick = onSourceClick,
                 onPlaylistClick = onPlaylistClick,
                 onMashupInfoClick = onMashupInfoClick,
+                onExpandPlayerClick = onExpandPlayerClicked
             )
         }
 
@@ -94,6 +97,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
             ProfileScreen(
                 navHostController = navController,
                 playerViewModel = playerViewModel,
+                onExpandPlayerClick = onExpandPlayerClicked,
                 onLogoutClick = {
                     navController.popBackStack()
                     navController.navigate(RootGraph.AUTHENTICATION)
@@ -123,6 +127,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
                 onBackClicked = onBackClicked,
                 onMashupInfoClick = onMashupInfoClick,
                 onAuthorClick = onAuthorClick,
+                onExpandPlayerClick = onExpandPlayerClicked
             )
         }
 
@@ -144,6 +149,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
                 onBackClicked = onBackClicked,
                 onAuthorClick = onAuthorClick,
                 onSourceClick = onSourceClick,
+                onExpandPlayerClick = onExpandPlayerClicked
             )
         }
 
@@ -164,6 +170,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
                 playerViewModel = playerViewModel,
                 onBackClicked = onBackClicked,
                 onMashupInfoClick = onMashupInfoClick,
+                onExpandPlayerClick = onExpandPlayerClicked
             )
         }
 
@@ -184,6 +191,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
                 playerViewModel = playerViewModel,
                 onBackClicked = onBackClicked,
                 onMashupInfoClick = onMashupInfoClick,
+                onExpandPlayerClick = onExpandPlayerClicked
             )
         }
 

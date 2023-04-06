@@ -12,7 +12,7 @@ import com.romeat.smashup.navgraphs.BottomBarScreen
 import com.romeat.smashup.navgraphs.RootGraph
 
 @Composable
-fun BottomNavBar2(
+fun BottomNavBar(
     navController: NavHostController
 ) {
     val screens = listOf(
