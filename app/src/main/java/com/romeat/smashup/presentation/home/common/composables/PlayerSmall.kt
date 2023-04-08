@@ -1,34 +1,32 @@
 package com.romeat.smashup.presentation.home.common.composables
 
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.HomePlayerViewModel
-import com.romeat.smashup.presentation.home.PlayerState
-import com.romeat.smashup.util.ImageUrlHelper
 import com.romeat.smashup.util.compose.Marquee
 import com.romeat.smashup.util.compose.MarqueeParams
 import com.romeat.smashup.util.toDisplayableTimeString
-import com.skydoves.landscapist.ShimmerParams
-import com.skydoves.landscapist.glide.GlideImage
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -36,7 +34,7 @@ fun PlayerSmall(
     viewModel: HomePlayerViewModel,
     onExpandClick: () -> Unit
 ) {
-    val state = viewModel.state
+    val state = viewModel.state.collectAsState().value
     Column(
         modifier = Modifier
             .background(MaterialTheme.colors.surface)
@@ -76,27 +74,13 @@ fun PlayerSmall(
                     .padding(start = 10.dp)
                     .width(48.dp)
             ) {
-                GlideImage(
-                    modifier = Modifier
-                        .width(48.dp)
-                        .height(48.dp),
-                    contentScale = ContentScale.Crop,
-                    imageModel = ImageUrlHelper.mashupImageIdToUrl100px(state.imageId.toString()) ,
-                            contentDescription = "track cover small",
-                            error = ImageVector.vectorResource(id = Placeholder.Track.resource),
-                            shimmerParams = ShimmerParams(
-                                baseColor = MaterialTheme.colors.background,
-                                highlightColor = MaterialTheme.colors.surface,
-                                durationMillis = 700,
-                                tilt = 0f
-                            )
-                        )
-                        Text(
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth(),
-                            text = viewModel.currentTimeMs.toDisplayableTimeString(),
-                            fontSize = 10.sp
-                        )
+                TrackCoverSmall(image = state.coverSmall)
+                Text(
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                    text = viewModel.currentTimeMs.toDisplayableTimeString(),
+                    fontSize = 10.sp
+                )
             }
 
             Row(
@@ -181,23 +165,26 @@ fun PlayerSmall(
         LinearProgressIndicator(
             modifier = Modifier
                 .fillMaxWidth(),
-            progress = viewModel.currentTimeMs.toFloat()/state.trackDurationMs,
+            progress = viewModel.currentTimeMs.toFloat() / state.trackDurationMs,
             color = MaterialTheme.colors.primaryVariant
         )
     }
 }
 
-/*
-@Preview
 @Composable
-fun PlayerPreview() {
-    PlayerSmall(
-        onPlayClick = { /*TODO*/ },
-        onPreviousClick = { /*TODO*/ },
-        onNextClick = { /*TODO*/ },
-        onExpandClick = { /*TODO*/ },
-        state = PlayerState(),
-        currentTimeMs = 11000
-    )
+fun TrackCoverSmall(image: ImageBitmap?) {
+    Box(modifier = Modifier.size(48.dp)) {
+        Icon(
+            modifier = Modifier
+                .fillMaxSize()
+                .alpha(ContentAlpha.disabled),
+            imageVector = ImageVector.vectorResource(id = R.drawable.napas),
+            contentDescription = ""
+        )
+        if (image != null) {
+            Image(
+                modifier = Modifier.fillMaxSize(),
+                bitmap = image, contentDescription = "")
+        }
+    }
 }
- */

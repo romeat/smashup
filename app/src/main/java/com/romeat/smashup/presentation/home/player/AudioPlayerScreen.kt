@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,7 +38,7 @@ fun AudioPlayerScreen(
 ) {
     AudioPlayerContent(
         onBackPressed = { onBackPressed() },
-        state = viewModel.state,
+        state = viewModel.state.collectAsState().value,
         timestamp = viewModel.currentTimeMs,
         onPreviousClick = { viewModel.onPreviousClick() },
         onNextClick = { viewModel.onNextClick() },
