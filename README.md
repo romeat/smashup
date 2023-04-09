@@ -1,6 +1,7 @@
 ## Smashup android-native
 
 (Неофициальное) приложение-плеер для прослушивания мэшапов с ресурса smashup.ru.
+
 Стэк технологий:
 - Jetpack Compose
 - архитектура MVVM & Clean Architecture
