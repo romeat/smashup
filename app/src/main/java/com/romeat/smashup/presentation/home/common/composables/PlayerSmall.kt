@@ -73,7 +73,7 @@ fun PlayerSmallContent(
                 easing = LinearEasing
             ),
             modifier = Modifier
-                .padding(horizontal = 2.dp)
+                .padding(horizontal = 8.dp)
                 .fillMaxWidth()
         ) {
             Text(
