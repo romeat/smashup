@@ -11,7 +11,7 @@
 - Compose Navigation & Accompanist Navigation Animation
 - Retrofit, OKHTTP, Glide
 
-Версия 0.3.1 
+Последняя версия: 0.3.1 ([скачать apk](https://github.com/romeat/smashup/releases/download/0.3.1/smashup-0.3.1.apk))
 
 Общий граф навигации между экранами: 
 ([ссылка на полный размер на figma](https://www.figma.com/file/JfrHRBmR4os6a2KQM0PtTC/Untitled?node-id=0-1&t=eV6tCXHkGY5NT7jf-0))
