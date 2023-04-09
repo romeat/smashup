@@ -23,3 +23,8 @@ fun Int.toStringWithThousands(): String {
         "%.1f".format(this.toDouble()/1000) + "K"
     }
 }
+
+fun ConcatAuthorAndTitle(author: String, title: String): String {
+    if (author.isBlank() && title.isBlank()) return ""
+    return "$author - $title"
+}
