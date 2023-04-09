@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -61,6 +63,11 @@ fun SearchBarScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 5.dp, horizontal = 10.dp),
+                trailingIcon = {
+                    if(searchQueryState.query.isNotEmpty())
+                        ClearInputTrailingIcon(onClick = { viewModel.clearInput() })
+                }
+
             )
             SearchOptionsButtonRow(
                 searchQueryState = searchQueryState,
@@ -156,6 +163,15 @@ fun SearchBarScreen(
 }
 
 @Composable
+fun ClearInputTrailingIcon(
+    onClick: () -> Unit
+) {
+    IconButton(onClick = onClick) {
+        Icon(imageVector = Icons.Filled.Close, contentDescription = "clear field")
+    }
+}
+
+@Composable
 fun SearchOptionsButtonRow(
     searchQueryState: SearchQueryState,
     onButtonClick: (SearchOption) -> Unit
@@ -188,7 +204,7 @@ fun SearchOptionsButtonRow(
                 else
                     MaterialTheme.colors.primaryVariant
             OutlinedButton(
-                onClick = { onButtonClick(searchOptions[index]) },//{ viewModel.onSearchOptionClick(searchOptions[index]) },
+                onClick = { onButtonClick(searchOptions[index]) },
                 border = BorderStroke(1.dp, MaterialTheme.colors.primaryVariant),
                 shape = RoundedCornerShape(50), // = 50% percent
                 colors = ButtonDefaults.outlinedButtonColors(

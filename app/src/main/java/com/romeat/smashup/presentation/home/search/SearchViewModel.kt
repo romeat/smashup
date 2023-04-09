@@ -68,6 +68,12 @@ class SearchBarViewModel @Inject constructor(
         }
     }
 
+    fun clearInput() {
+        _searchQueryState.value = _searchQueryState.value.copy(
+            query = ""
+        )
+    }
+
     fun onSearchOptionClick(option: SearchOption) {
         if (_searchQueryState.value.searchBy != option) {
             _searchQueryState.value = _searchQueryState.value.copy(searchBy = option)
