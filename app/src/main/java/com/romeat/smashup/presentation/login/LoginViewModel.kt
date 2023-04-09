@@ -76,7 +76,6 @@ class LoginViewModel @Inject constructor(
     private fun login() {
         viewModelScope.launch {
             try {
-                //delay(3000)
                 val response = loginUseCase.invoke(state.username, state.password)
                 if (response.isSuccessful) {
                     // no cookies = wrong login/password
