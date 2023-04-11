@@ -10,6 +10,7 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import androidx.media.MediaBrowserServiceCompat
 import com.romeat.smashup.data.dto.Mashup
 import com.romeat.smashup.data.dto.MashupUiData
@@ -38,11 +39,11 @@ class MusicServiceConnection @Inject constructor(
     val controls: MediaControllerCompat.TransportControls
         get() = mediaController.transportControls
 
-    // shows status - playing or not
-    private val _playbackState = MutableStateFlow(EMPTY_PLAYBACK_STATE)
-    val playbackState: StateFlow<PlaybackStateCompat> = _playbackState
+    // shows status - playing or not, shuffle and repeat mode
+    private val _playbackState = MutableStateFlow(SmashupPlaybackState())
+    val playbackState: StateFlow<SmashupPlaybackState> = _playbackState
 
-    // hows what exactly is playing now
+    // shows what exactly is playing now
     private val _nowPlayingMashup = MutableStateFlow<MashupUiData?>(null)
     val nowPlayingMashup: StateFlow<MashupUiData?> = _nowPlayingMashup
 
@@ -53,7 +54,6 @@ class MusicServiceConnection @Inject constructor(
     // tracks song duration
     private val _currentSongDuration = MutableStateFlow(-1L)
     val currentSongDuration: StateFlow<Long> = _currentSongDuration
-
 
     private val serviceComponent = ComponentName(context, MusicService::class.java)
 
@@ -74,7 +74,7 @@ class MusicServiceConnection @Inject constructor(
         mediaBrowser.unsubscribe(parentId, callback)
     }
 
-    fun getTime() : Long {
+    fun getTime(): Long {
         return try {
             mediaController.playbackState.currentPlayBackPosition
         } catch (e: Exception) {
@@ -82,24 +82,48 @@ class MusicServiceConnection @Inject constructor(
         }
     }
 
-    fun playMashupFromPlaylist(mashupToStart: Mashup, playlist: List<Mashup>) {
+    fun playMashupFromPlaylist(
+        mashupToStart: Mashup,
+        playlist: List<Mashup>,
+        shuffle: Boolean = false
+    ) {
         val nowPlaying = nowPlayingMashup.value
         nowPlaying?.id.let { nowPlayingId ->
             if (nowPlayingId == mashupToStart.id) {
                 playbackState.value.let { playbackState ->
                     when {
-                        playbackState.isPlaying ->
+                        playbackState.rawState.isPlaying ->
                             controls.pause()
-                        playbackState.isPlayEnabled -> controls.play()
-                        else -> { }
+                        playbackState.rawState.isPlayEnabled -> controls.play()
+                        else -> {}
                     }
                 }
             } else {
                 val extras = Bundle()
                 extras.putString(MediaConstants.MASHUP_TO_PLAY, Json.encodeToString(mashupToStart))
-                extras.putString(MediaConstants.PLAYLIST_TO_PLAY, Json.encodeToString(playlist) )
+                extras.putString(MediaConstants.PLAYLIST_TO_PLAY, Json.encodeToString(playlist))
                 controls.playFromMediaId(mashupToStart.id.toString(), extras)
             }
+        }
+    }
+
+    fun shuffle() {
+        if (mediaController.shuffleMode == PlaybackStateCompat.SHUFFLE_MODE_NONE) {
+            controls.setShuffleMode(PlaybackStateCompat.SHUFFLE_MODE_ALL)
+        } else {
+            controls.setShuffleMode(PlaybackStateCompat.SHUFFLE_MODE_NONE)
+        }
+    }
+
+    fun nextRepeatMode() {
+        // the cycle: no repeat -> repeat song -> repeat playlist -> no repeat ->...
+        when (mediaController.repeatMode) {
+            PlaybackStateCompat.REPEAT_MODE_ONE ->
+                controls.setRepeatMode(PlaybackStateCompat.REPEAT_MODE_ALL)
+            PlaybackStateCompat.REPEAT_MODE_ALL ->
+                controls.setRepeatMode(PlaybackStateCompat.REPEAT_MODE_NONE)
+            else ->
+                controls.setRepeatMode(PlaybackStateCompat.REPEAT_MODE_ONE)
         }
     }
 
@@ -153,7 +177,20 @@ class MusicServiceConnection @Inject constructor(
     private inner class MediaControllerCallback : MediaControllerCompat.Callback() {
 
         override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-            _playbackState.value = state ?: EMPTY_PLAYBACK_STATE
+            if (state == null) {
+                _playbackState.value = SmashupPlaybackState()
+            } else {
+                _playbackState.value = SmashupPlaybackState(
+                    rawState = state,
+                    isShuffle = mediaController.shuffleMode == PlaybackStateCompat.SHUFFLE_MODE_ALL
+                            || mediaController.shuffleMode == PlaybackStateCompat.SHUFFLE_MODE_GROUP,
+                    repeatMode = when(mediaController.repeatMode) {
+                        PlaybackStateCompat.REPEAT_MODE_ONE -> PlaybackRepeatMode.RepeatOneSong
+                        PlaybackStateCompat.REPEAT_MODE_ALL -> PlaybackRepeatMode.RepeatPlaylist
+                        else -> PlaybackRepeatMode.None
+                    }
+                )
+            }
         }
 
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
@@ -192,6 +229,19 @@ class MusicServiceConnection @Inject constructor(
         }
     }
 }
+
+data class SmashupPlaybackState(
+    val rawState: PlaybackStateCompat = EMPTY_PLAYBACK_STATE,
+    val isShuffle: Boolean = false,
+    val repeatMode: PlaybackRepeatMode = PlaybackRepeatMode.None
+)
+
+sealed class PlaybackRepeatMode {
+    object None : PlaybackRepeatMode()
+    object RepeatOneSong : PlaybackRepeatMode()
+    object RepeatPlaylist : PlaybackRepeatMode()
+}
+
 
 @Suppress("PropertyName")
 val EMPTY_PLAYBACK_STATE: PlaybackStateCompat = PlaybackStateCompat.Builder()

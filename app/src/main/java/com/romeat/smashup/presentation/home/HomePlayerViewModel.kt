@@ -3,7 +3,6 @@ package com.romeat.smashup.presentation.home
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.support.v4.media.session.PlaybackStateCompat
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,6 +15,8 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.romeat.smashup.data.dto.MashupUiData
 import com.romeat.smashup.musicservice.MusicServiceConnection
+import com.romeat.smashup.musicservice.PlaybackRepeatMode
+import com.romeat.smashup.musicservice.SmashupPlaybackState
 import com.romeat.smashup.musicservice.isPlaying
 import com.romeat.smashup.util.ImageUrlHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -50,12 +51,14 @@ class HomePlayerViewModel @Inject constructor(
                 musicService.playbackState,
                 musicService.nowPlayingMashup,
                 musicService.currentSongDuration,
-            ) { playbackState: PlaybackStateCompat,
+            ) { playbackState: SmashupPlaybackState,
                 nowPlaying: MashupUiData?,
                 songDuration: Long ->
                 PlayerState(
-                    isPlaying = playbackState.isPlaying,
+                    isPlaying = playbackState.rawState.isPlaying,
                     imageId = nowPlaying?.id ?: 0,
+                    isShuffle = playbackState.isShuffle,
+                    repeatMode = playbackState.repeatMode,
                     trackDurationMs = songDuration,
                     trackName = nowPlaying?.name ?: "",
                     trackAuthor = nowPlaying?.owner ?: "",
@@ -100,7 +103,7 @@ class HomePlayerViewModel @Inject constructor(
     }
 
     fun onPlayPauseClick() {
-        if (musicService.playbackState.value.isPlaying) {
+        if (musicService.playbackState.value.rawState.isPlaying) {
             musicService.controls.pause()
         } else {
             musicService.controls.play()
@@ -113,6 +116,14 @@ class HomePlayerViewModel @Inject constructor(
 
     fun onPreviousClick() {
         musicService.controls.skipToPrevious()
+    }
+
+    fun onShuffleClick() {
+        musicService.shuffle()
+    }
+
+    fun onRepeatClick() {
+        musicService.nextRepeatMode()
     }
 
     inner class ImageLoaderJob {
@@ -156,6 +167,8 @@ class HomePlayerViewModel @Inject constructor(
 
 data class PlayerState(
     val isPlaying: Boolean = false,
+    val isShuffle: Boolean = false,
+    val repeatMode: PlaybackRepeatMode = PlaybackRepeatMode.None,
     val imageId: Int = 0,
     val trackDurationMs: Long = 148000,
     val trackName: String = "Somebody once AAAAAAAAAA",

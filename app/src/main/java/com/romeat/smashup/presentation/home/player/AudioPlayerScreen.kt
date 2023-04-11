@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.romeat.smashup.R
+import com.romeat.smashup.musicservice.PlaybackRepeatMode
 import com.romeat.smashup.presentation.home.PlayerState
 import com.romeat.smashup.presentation.home.HomePlayerViewModel
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
@@ -42,7 +43,9 @@ fun AudioPlayerScreen(
         timestamp = viewModel.currentTimeMs,
         onPreviousClick = { viewModel.onPreviousClick() },
         onNextClick = { viewModel.onNextClick() },
-        onPlayPauseClick = { viewModel.onPlayPauseClick() }
+        onPlayPauseClick = { viewModel.onPlayPauseClick() },
+        onShuffleClick = { viewModel.onShuffleClick() },
+        onRepeatClick = { viewModel.onRepeatClick() }
     )
 }
 
@@ -53,7 +56,9 @@ fun AudioPlayerContent(
     onBackPressed: () -> Unit,
     onPreviousClick: () -> Unit,
     onNextClick: () -> Unit,
-    onPlayPauseClick: () -> Unit
+    onPlayPauseClick: () -> Unit,
+    onShuffleClick: () -> Unit,
+    onRepeatClick: () -> Unit
 ) {
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -191,7 +196,28 @@ fun AudioPlayerContent(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Spacer(modifier = Modifier.weight(1.0f))
+                IconButton(
+                    modifier = Modifier
+                        .weight(1.0f)
+                        .padding(5.dp)
+                        .aspectRatio(1.0f),
+                    onClick = { onRepeatClick() }
+                ) {
+                    Icon(
+                        modifier = Modifier.fillMaxSize(),
+                        imageVector = ImageVector
+                            .vectorResource(id =
+                                when(state.repeatMode) {
+                                    PlaybackRepeatMode.None -> R.drawable.repeat_off_24
+                                    PlaybackRepeatMode.RepeatOneSong -> R.drawable.repeat_one_on_24
+                                    PlaybackRepeatMode.RepeatPlaylist -> R.drawable.repeat_all_on_24
+
+                                }
+                            ),
+                        contentDescription = "repeat"
+                    )
+                }
+
                 IconButton(
                     modifier = Modifier
                         .weight(1.0f)
@@ -234,7 +260,21 @@ fun AudioPlayerContent(
                         contentDescription = "next track",
                     )
                 }
-                Spacer(modifier = Modifier.weight(1.0f))
+                IconButton(
+                    modifier = Modifier
+                        .weight(1.0f)
+                        .padding(5.dp)
+                        .aspectRatio(1.0f),
+                    onClick = { onShuffleClick() }
+                ) {
+                    val color = LocalContentColor.current
+                    Icon(
+                        modifier = Modifier.fillMaxSize(),
+                        imageVector = ImageVector.vectorResource(id = R.drawable.baseline_shuffle_24),
+                        contentDescription = "shuffle",
+                        tint = if (state.isShuffle) MaterialTheme.colors.primaryVariant else color
+                    )
+                }
             }
 
             Spacer(modifier = Modifier
@@ -253,7 +293,9 @@ fun AudioPlayerBigPreview() {
         timestamp = 12000L,
         onPreviousClick = { /*TODO*/ },
         onNextClick = { /*TODO*/ },
-        onPlayPauseClick = { }
+        onPlayPauseClick = { },
+        onShuffleClick = { },
+        onRepeatClick = { }
     )
 }
 
