@@ -22,10 +22,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.romeat.smashup.R
-import com.romeat.smashup.presentation.home.HomePlayerViewModel
-import com.romeat.smashup.presentation.home.common.composables.*
+import com.romeat.smashup.presentation.home.common.composables.CustomCircularProgressIndicator
+import com.romeat.smashup.presentation.home.common.composables.ErrorTextMessage
+import com.romeat.smashup.presentation.home.common.composables.Placeholder
 import com.romeat.smashup.ui.theme.AppGreenColor
 import com.romeat.smashup.util.ImageUrlHelper
 import com.skydoves.landscapist.ShimmerParams
@@ -34,43 +34,30 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun ProfileScreen(
     onLogoutClick: () -> Unit,
-    onExpandPlayerClick: () -> Unit,
-    playerViewModel: HomePlayerViewModel,
-    navHostController: NavHostController,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
 
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colors.background
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
     ) {
-        Column(
+        Row(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .weight(1.0f)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1.0f)
-            ) {
-                if (state.isLoading) {
-                    CustomCircularProgressIndicator()
-                } else {
-                    ProfileScreenContent(
-                        onLogoutClick = {
-                            viewModel.onLogout()
-                            onLogoutClick()
-                        },
-                        state = state
-                    )
-                }
+            if (state.isLoading) {
+                CustomCircularProgressIndicator()
+            } else {
+                ProfileScreenContent(
+                    onLogoutClick = {
+                        viewModel.onLogout()
+                        onLogoutClick()
+                    },
+                    state = state
+                )
             }
-            PlayerSmall(
-                onExpandClick = onExpandPlayerClick,
-                viewModel = playerViewModel
-            )
-            BottomNavBar(navController = navHostController)
         }
     }
 }
@@ -142,9 +129,11 @@ fun ProfileScreenContent(
             Text(text = "ON")
         }
 
-        Divider(modifier = Modifier
-            .fillMaxWidth()
-            .height(1.dp))
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+        )
 
         OutlinedButton(
             modifier = Modifier
@@ -253,7 +242,7 @@ fun ConfirmationDialog(
                 OutlinedButton(
                     modifier = Modifier
                         .padding(10.dp),
-                    onClick = { dialogState.value = false  },
+                    onClick = { dialogState.value = false },
                     border = null,
                     colors = ButtonDefaults.outlinedButtonColors(
                         contentColor = MaterialTheme.colors.error,
@@ -273,5 +262,8 @@ fun ConfirmationDialog(
 @Composable
 @Preview
 fun ProfileScreenContentPreview() {
-    ProfileScreenContent(onLogoutClick = { /*TODO*/ }, state = ProfileScreenState(isLoading = false, username = "Asdod"))
+    ProfileScreenContent(
+        onLogoutClick = { /*TODO*/ },
+        state = ProfileScreenState(isLoading = false, username = "Asdod")
+    )
 }

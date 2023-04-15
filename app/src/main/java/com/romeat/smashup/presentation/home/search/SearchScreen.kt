@@ -18,148 +18,136 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.romeat.smashup.R
-import com.romeat.smashup.presentation.home.HomePlayerViewModel
 import com.romeat.smashup.presentation.home.common.composables.*
 
 @Composable
-fun SearchBarScreen(
+fun SearchScreen(
     onMashupInfoClick: (Int) -> Unit,
     onSourceClick: (Int) -> Unit,
     onAuthorClick: (String) -> Unit,
     onPlaylistClick: (Int) -> Unit,
-    onExpandPlayerClick: () -> Unit,
-    playerViewModel: HomePlayerViewModel,
-    navHostController: NavHostController,
     viewModel: SearchBarViewModel = hiltViewModel()
 ) {
     val state = viewModel.resultState
     val searchQueryState by viewModel.searchQueryState.collectAsState()
     val currentlyPlayingMashupId = viewModel.currentlyPlaying
 
-    Surface(
+    Column(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colors.background
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
+
+        Text(
+            text = stringResource(id = R.string.search),
+            fontWeight = FontWeight.Bold,
+            fontSize = MaterialTheme.typography.h4.fontSize,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 6.dp)
+        )
+        OutlinedTextField(
+            value = searchQueryState.query,
+            onValueChange = { newValue -> viewModel.onQueryChange(newValue) },
+            placeholder = { Text(text = stringResource(id = R.string.search_hint)) },
+            maxLines = 1,
+            shape = RoundedCornerShape(50),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 5.dp, horizontal = 10.dp),
+            trailingIcon = {
+                if (searchQueryState.query.isNotEmpty())
+                    ClearInputTrailingIcon(onClick = { viewModel.clearInput() })
+            }
+
+        )
+        SearchOptionsButtonRow(
+            searchQueryState = searchQueryState,
+            onButtonClick = { option -> viewModel.onSearchOptionClick(option) },
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1.0f)
         ) {
-
-            Text(
-                text = stringResource(id = R.string.search),
-                fontWeight = FontWeight.Bold,
-                fontSize = MaterialTheme.typography.h4.fontSize,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 6.dp)
-            )
-            OutlinedTextField(
-                value = searchQueryState.query,
-                onValueChange = { newValue -> viewModel.onQueryChange(newValue) },
-                placeholder = { Text(text = stringResource(id = R.string.search_hint)) },
-                maxLines = 1,
-                shape = RoundedCornerShape(50),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 5.dp, horizontal = 10.dp),
-                trailingIcon = {
-                    if(searchQueryState.query.isNotEmpty())
-                        ClearInputTrailingIcon(onClick = { viewModel.clearInput() })
-                }
-
-            )
-            SearchOptionsButtonRow(
-                searchQueryState = searchQueryState,
-                onButtonClick = { option -> viewModel.onSearchOptionClick(option)},
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1.0f)
-            ) {
-                if (state.isLoading) {
-                    CustomCircularProgressIndicator()
-                } else if (state.isError) {
-                    Text(
-                        text = stringResource(id = R.string.error_during_search),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(40.dp),
-                        textAlign = TextAlign.Center
-                    )
-                } else if (state.isResultEmpty) {
-                    Text(
-                        text = stringResource(id = R.string.no_results),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(40.dp),
-                        textAlign = TextAlign.Center
-                    )
-                } else {
-                    when (state.result) {
-                        is SearchResult.Authors -> {
-                            AuthorsGrid(
-                                authors = state.result.list,
-                                onAuthorClick = { name -> onAuthorClick(name) }
-                            )
-                        }
-                        is SearchResult.Mashups -> {
-                            LazyColumn(
-                                modifier = Modifier.fillMaxSize()
-                            ) {
-                                items (state.result.list.size) { i ->
-                                    val mashup = state.result.list[i]
-                                    MashupItem(
-                                        mashup = mashup,
-                                        onBodyClick = { viewModel.onMashupClick(it) },
-                                        onInfoClick = { id -> onMashupInfoClick(id) },
-                                        isCurrentlyPlaying = currentlyPlayingMashupId == mashup.id
-                                    )
-                                    if(i < state.result.list.size) {
-                                        Divider(modifier = Modifier.padding(
-                                            horizontal = 10.dp
-                                        ))
-                                    }
-                                }
-                            }
-                        }
-                        is SearchResult.Sources -> {
-                            LazyColumn(
-                                modifier = Modifier.fillMaxSize()
-                            ) {
-                                items(state.result.list.size) { i ->
-                                    val source = state.result.list[i]
-                                    SourceItem(
-                                        source = state.result.list[i],
-                                        onClick = { id -> onSourceClick(id) }
-                                    )
-                                    if(i < state.result.list.size) {
-                                        Divider(modifier = Modifier.padding(
-                                            horizontal = 10.dp
-                                        ))
-                                    }
-                                }
-                            }
-                        }
-                        is SearchResult.Playlists -> {
-                            PlaylistsGrid(
-                                playlists = state.result.list,
-                                onPlaylistClick = { id -> onPlaylistClick(id) }
-                            )
-                        }
-                        null -> { }
+            if (state.isLoading) {
+                CustomCircularProgressIndicator()
+            } else if (state.isError) {
+                Text(
+                    text = stringResource(id = R.string.error_during_search),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(40.dp),
+                    textAlign = TextAlign.Center
+                )
+            } else if (state.isResultEmpty) {
+                Text(
+                    text = stringResource(id = R.string.no_results),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(40.dp),
+                    textAlign = TextAlign.Center
+                )
+            } else {
+                when (state.result) {
+                    is SearchResult.Authors -> {
+                        AuthorsGrid(
+                            authors = state.result.list,
+                            onAuthorClick = { name -> onAuthorClick(name) }
+                        )
                     }
+                    is SearchResult.Mashups -> {
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            items(state.result.list.size) { i ->
+                                val mashup = state.result.list[i]
+                                MashupItem(
+                                    mashup = mashup,
+                                    onBodyClick = { viewModel.onMashupClick(it) },
+                                    onInfoClick = { id -> onMashupInfoClick(id) },
+                                    isCurrentlyPlaying = currentlyPlayingMashupId == mashup.id
+                                )
+                                if (i < state.result.list.size) {
+                                    Divider(
+                                        modifier = Modifier.padding(
+                                            horizontal = 10.dp
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    is SearchResult.Sources -> {
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            items(state.result.list.size) { i ->
+                                val source = state.result.list[i]
+                                SourceItem(
+                                    source = state.result.list[i],
+                                    onClick = { id -> onSourceClick(id) }
+                                )
+                                if (i < state.result.list.size) {
+                                    Divider(
+                                        modifier = Modifier.padding(
+                                            horizontal = 10.dp
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    is SearchResult.Playlists -> {
+                        PlaylistsGrid(
+                            playlists = state.result.list,
+                            onPlaylistClick = { id -> onPlaylistClick(id) }
+                        )
+                    }
+                    null -> {}
                 }
             }
-            PlayerSmall(
-                onExpandClick = onExpandPlayerClick,
-                viewModel = playerViewModel
-            )
-            BottomNavBar(navController = navHostController)
         }
     }
-
 }
 
 @Composable
@@ -226,7 +214,6 @@ fun SearchOptionsButtonRow(
 fun SuccessfulSearchResult(result: SearchResult?) {
 
 }
-
 
 
 sealed class SearchOption(val stringRes: Int) {
