@@ -60,4 +60,14 @@ interface MainService {
     suspend fun getUsersWithName(@Query("query") query: String
     ): Response<List<AuthorProfile>>
 
+
+    /* Likes */
+    @POST("likes/add")
+    suspend fun addLikeToMashup(@Query("id") id: Int
+    ): Response<Unit>
+
+    @POST("likes/remove")
+    suspend fun removeLikeFromMashup(@Query("id") id: Int
+    ): Response<Unit>
+
 }

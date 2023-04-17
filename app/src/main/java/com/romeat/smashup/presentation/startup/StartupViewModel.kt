@@ -2,19 +2,18 @@ package com.romeat.smashup.presentation.startup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.romeat.smashup.data.CookieProvider
+import com.romeat.smashup.data.LoggedUserRepository
 import com.romeat.smashup.domain.CheckVersionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class StartupViewModel @Inject constructor(
-    val cookieProvider: CookieProvider,
+    val loggedUserRepository: LoggedUserRepository,
     private val checkVersionUseCase: CheckVersionUseCase
 ) : ViewModel() {
 
@@ -26,7 +25,7 @@ class StartupViewModel @Inject constructor(
             val job = async { checkVersionUseCase.isActualVersion() }
 
             if (job.await()) { // true means version is ok
-                checkCookies()
+                checkUserLogged()
             } else {
                 // show dialog that app is outdated and let user decide what to do
                 eventChannel.send(StartupEvent.ShowDialog)
@@ -34,8 +33,8 @@ class StartupViewModel @Inject constructor(
         }
     }
 
-    private suspend fun checkCookies() {
-        if(cookieProvider.getCookiesSet().isEmpty()) {
+    private suspend fun checkUserLogged() {
+        if(loggedUserRepository.isUserLogged()) {
             eventChannel.send(StartupEvent.NavigateToLogin)
         } else {
             eventChannel.send(StartupEvent.NavigateToHome)
@@ -44,7 +43,7 @@ class StartupViewModel @Inject constructor(
 
     fun onProceedDialogButton() {
         viewModelScope.launch {
-            checkCookies()
+            checkUserLogged()
         }
     }
 

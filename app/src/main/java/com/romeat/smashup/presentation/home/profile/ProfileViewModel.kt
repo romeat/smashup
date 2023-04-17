@@ -3,11 +3,10 @@ package com.romeat.smashup.presentation.home.profile
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romeat.smashup.data.CookieProvider
-import com.romeat.smashup.data.LoggedUser
+import com.romeat.smashup.data.LoggedUserRepository
 import com.romeat.smashup.domain.GetUserInfoUseCase
 import com.romeat.smashup.musicservice.MusicServiceConnection
 import com.romeat.smashup.util.MediaConstants
@@ -21,7 +20,7 @@ class ProfileViewModel @Inject constructor(
     private val cookieProvider: CookieProvider,
     private val musicServiceConnection: MusicServiceConnection,
     private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val loggedUser: LoggedUser
+    private val loggedUser: LoggedUserRepository
 ) : ViewModel() {
 
     var state by mutableStateOf(ProfileScreenState())
@@ -68,7 +67,6 @@ class ProfileViewModel @Inject constructor(
 
 
     fun onLogout() {
-        cookieProvider.clearAuthCookies()
         loggedUser.logOut()
         musicServiceConnection.sendCommand(MediaConstants.STOP_PLAYER, null)
     }

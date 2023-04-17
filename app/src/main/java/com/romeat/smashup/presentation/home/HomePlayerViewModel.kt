@@ -13,6 +13,7 @@ import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.romeat.smashup.data.LoggedUserRepository
 import com.romeat.smashup.data.dto.MashupUiData
 import com.romeat.smashup.musicservice.MusicServiceConnection
 import com.romeat.smashup.musicservice.PlaybackRepeatMode
@@ -33,7 +34,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomePlayerViewModel @Inject constructor(
     private val musicService: MusicServiceConnection,
-    @ApplicationContext val context: Context
+    @ApplicationContext val context: Context,
+    val loggedUserRepository: LoggedUserRepository // probably not the best place
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(PlayerState())
@@ -46,6 +48,8 @@ class HomePlayerViewModel @Inject constructor(
     private val imageLoader = ImageLoaderJob()
 
     init {
+        loggedUserRepository.updateUserStat()
+
         viewModelScope.launch {
             combine(
                 musicService.playbackState,

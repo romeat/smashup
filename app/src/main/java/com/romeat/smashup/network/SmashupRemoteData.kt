@@ -28,4 +28,9 @@ class SmashupRemoteData @Inject constructor(
     suspend fun getSourcesWithName(searchQuery: String) = mainService.getSourcesWithName(searchQuery)
 
     suspend fun getUsersWithName(searchQuery: String) = mainService.getUsersWithName(searchQuery)
+
+
+    suspend fun addLikeToMashup(id: Int) = mainService.addLikeToMashup(id)
+
+    suspend fun removeLikeFromMashup(id: Int) = mainService.removeLikeFromMashup(id)
 }

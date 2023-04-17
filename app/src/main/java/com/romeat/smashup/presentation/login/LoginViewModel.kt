@@ -7,12 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romeat.smashup.R
 import com.romeat.smashup.data.CookieProvider
-import com.romeat.smashup.data.LoggedUser
+import com.romeat.smashup.data.LoggedUserRepository
 import com.romeat.smashup.domain.GetUserInfoUseCase
 import com.romeat.smashup.domain.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -23,7 +22,7 @@ class LoginViewModel @Inject constructor(
     private val cookieProvider: CookieProvider,
     private val loginUseCase: LoginUseCase,
     private val dataUseCase: GetUserInfoUseCase,
-    private val loggedUser: LoggedUser
+    private val loggedUser: LoggedUserRepository
 ) : ViewModel() {
 
     var state by mutableStateOf(LoginFormState())
@@ -79,7 +78,7 @@ class LoginViewModel @Inject constructor(
                 val response = loginUseCase.invoke(state.username, state.password)
                 if (response.isSuccessful) {
                     // no cookies = wrong login/password
-                    if (cookieProvider.getCookiesSet().isEmpty()) {
+                    if (!loggedUser.isUserLogged()) {
                         state = state.copy(
                             loginButtonActive = false,
                             isLoading = false,
