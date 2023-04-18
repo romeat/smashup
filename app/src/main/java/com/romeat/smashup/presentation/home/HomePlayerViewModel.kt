@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.romeat.smashup.data.LoggedUserRepository
-import com.romeat.smashup.data.dto.MashupUiData
+import com.romeat.smashup.data.dto.MashupMediaItem
 import com.romeat.smashup.musicservice.MusicServiceConnection
 import com.romeat.smashup.musicservice.PlaybackRepeatMode
 import com.romeat.smashup.musicservice.SmashupPlaybackState
@@ -56,7 +56,7 @@ class HomePlayerViewModel @Inject constructor(
                 musicService.nowPlayingMashup,
                 musicService.currentSongDuration,
             ) { playbackState: SmashupPlaybackState,
-                nowPlaying: MashupUiData?,
+                nowPlaying: MashupMediaItem?,
                 songDuration: Long ->
                 PlayerState(
                     isPlaying = playbackState.rawState.isPlaying,

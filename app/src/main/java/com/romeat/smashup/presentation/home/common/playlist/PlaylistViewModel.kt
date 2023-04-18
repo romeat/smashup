@@ -1,21 +1,22 @@
 package com.romeat.smashup.presentation.home.common.playlist
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.romeat.smashup.data.dto.Mashup
+import com.romeat.smashup.data.dto.MashupListItem
 import com.romeat.smashup.data.dto.Playlist
+import com.romeat.smashup.data.likes.LikesRepository
 import com.romeat.smashup.domain.mashups.GetMashupsListUseCase
 import com.romeat.smashup.domain.playlists.GetPlaylistUseCase
 import com.romeat.smashup.musicservice.MusicServiceConnection
 import com.romeat.smashup.util.CommonNavigationConstants
+import com.romeat.smashup.util.ConvertFromUiListItems
+import com.romeat.smashup.util.ConvertToUiListItems
 import com.romeat.smashup.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,15 +26,15 @@ class PlaylistViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getPlaylistUseCase: GetPlaylistUseCase,
     private val getMashupListUseCase: GetMashupsListUseCase,
-    private val musicServiceConnection: MusicServiceConnection
+    private val musicServiceConnection: MusicServiceConnection,
+    private val likesRepository: LikesRepository
 ) : ViewModel() {
-
-    //var state by mutableStateOf(PlaylistScreenState())
 
     private val _state = MutableStateFlow(PlaylistScreenState())
     val state = _state.asStateFlow()
 
-    private val playlistId: Int = checkNotNull(savedStateHandle[CommonNavigationConstants.PLAYLIST_PARAM])
+    private val playlistId: Int =
+        checkNotNull(savedStateHandle[CommonNavigationConstants.PLAYLIST_PARAM])
 
     init {
         viewModelScope.launch {
@@ -80,14 +81,20 @@ class PlaylistViewModel @Inject constructor(
     }
 
     private suspend fun getMashups(ids: List<Int>) {
-        getMashupListUseCase
-            .invoke(ids)
-            .collect { result ->
-                when(result) {
+        likesRepository
+            .likesState
+            .combine(getMashupListUseCase.invoke(ids)) { likes, mashups ->
+                Pair(likes, mashups)
+            }
+            .collect { pair ->
+                when (pair.second) {
                     is Resource.Success -> {
                         _state.update { it ->
                             it.copy(
-                                mashupList = result.data!!,
+                                mashupList = ConvertToUiListItems(
+                                    pair.second.data!!,
+                                    pair.first.mashupLikes
+                                ),
                                 isMashupListLoading = false,
                                 isMashupListError = false,
                             )
@@ -113,8 +120,19 @@ class PlaylistViewModel @Inject constructor(
             }
     }
 
-    fun onMashupClick(mashup: Mashup) {
-        musicServiceConnection.playMashupFromPlaylist(mashup, state.value.mashupList)
+    fun onMashupClick(mashupId: Int) {
+        musicServiceConnection.playMashupFromPlaylist(
+            mashupId,
+            ConvertFromUiListItems(state.value.mashupList)
+        )
+    }
+
+    fun onLikeClick(mashupId: Int) {
+        if (likesRepository.likesState.value.mashupLikes.contains(mashupId)) {
+            likesRepository.removeLike(mashupId)
+        } else {
+            likesRepository.addLike(mashupId)
+        }
     }
 }
 
@@ -127,5 +145,5 @@ data class PlaylistScreenState(
     val isMashupListLoading: Boolean = true,
     val isMashupListError: Boolean = false,
     val currentlyPlayingMashupId: Int? = null,
-    val mashupList: List<Mashup> = emptyList()
+    val mashupList: List<MashupListItem> = emptyList()
 )

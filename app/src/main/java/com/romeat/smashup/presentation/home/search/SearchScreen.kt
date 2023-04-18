@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.romeat.smashup.R
+import com.romeat.smashup.data.dto.toMashupUListItem
 import com.romeat.smashup.presentation.home.common.composables.*
 
 @Composable
@@ -100,12 +101,13 @@ fun SearchScreen(
                             modifier = Modifier.fillMaxSize()
                         ) {
                             items(state.result.list.size) { i ->
-                                val mashup = state.result.list[i]
+                                val mashup = state.result.list[i].toMashupUListItem()
                                 MashupItem(
                                     mashup = mashup,
-                                    onBodyClick = { viewModel.onMashupClick(it) },
+                                    onBodyClick = { viewModel.onMashupClick(it.id) },
                                     onInfoClick = { id -> onMashupInfoClick(id) },
-                                    isCurrentlyPlaying = currentlyPlayingMashupId == mashup.id
+                                    isCurrentlyPlaying = currentlyPlayingMashupId == mashup.id,
+                                    onLikeClick = { }
                                 )
                                 if (i < state.result.list.size) {
                                     Divider(

@@ -1,6 +1,6 @@
 package com.romeat.smashup.data.dto
 
-data class MashupUiData(
+data class MashupMediaItem(
     val id: Int,
     val name: String,
     val owner: String,

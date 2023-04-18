@@ -5,16 +5,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.romeat.smashup.domain.search.*
 import com.romeat.smashup.data.dto.AuthorProfile
 import com.romeat.smashup.data.dto.Mashup
 import com.romeat.smashup.data.dto.Playlist
 import com.romeat.smashup.data.dto.Source
+import com.romeat.smashup.domain.search.*
 import com.romeat.smashup.musicservice.MusicServiceConnection
 import com.romeat.smashup.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -80,8 +83,11 @@ class SearchBarViewModel @Inject constructor(
         }
     }
 
-    fun onMashupClick(mashup: Mashup) {
-        musicServiceConnection.playMashupFromPlaylist(mashup, (resultState.result as SearchResult.Mashups).list)
+    fun onMashupClick(mashupId: Int) {
+        musicServiceConnection.playMashupFromPlaylist(
+            mashupId,
+            (resultState.result as SearchResult.Mashups).list
+        )
     }
 
     private fun performSearch() {

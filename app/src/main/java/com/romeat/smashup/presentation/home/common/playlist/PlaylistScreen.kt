@@ -73,8 +73,9 @@ fun PlaylistScreen(
                         ) { mashup ->
                             MashupItem(
                                 mashup = mashup,
-                                onBodyClick = { viewModel.onMashupClick(it) },
+                                onBodyClick = { viewModel.onMashupClick(it.id) },
                                 onInfoClick = { id -> onMashupInfoClick(id) },
+                                onLikeClick = { id -> viewModel.onLikeClick(id)},
                                 isCurrentlyPlaying = state.currentlyPlayingMashupId?.equals(mashup.id)
                                     ?: false
                             )

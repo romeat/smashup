@@ -20,15 +20,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.romeat.smashup.R
 import com.romeat.smashup.data.dto.Mashup
+import com.romeat.smashup.data.dto.MashupListItem
 import com.romeat.smashup.util.ImageUrlHelper
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun MashupItem(
-    mashup: Mashup,
-    onBodyClick: (Mashup) -> Unit,
+    mashup: MashupListItem,
+    onBodyClick: (MashupListItem) -> Unit,
     onInfoClick: (Int) -> Unit,
+    onLikeClick: (Int) -> Unit,
     isCurrentlyPlaying: Boolean = false
 ) {
     Row(
@@ -103,6 +105,27 @@ fun MashupItem(
                 )
             }
         }
+
+        IconButton(
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(48.dp),
+            onClick = { onLikeClick(mashup.id) }
+        ) {
+            Icon(
+                modifier = Modifier.fillMaxSize(),
+                imageVector = ImageVector
+                    .vectorResource(
+                        id = if (mashup.isLiked) {
+                            R.drawable.ic_baseline_favorite_24
+                        } else {
+                            R.drawable.ic_baseline_favorite_border_24
+                        }
+                    ),
+                contentDescription = "more"
+            )
+        }
+
         IconButton(
             modifier = Modifier
                 .fillMaxHeight()
@@ -123,7 +146,38 @@ fun MashupItem(
 @Preview
 fun MashupItemPreview() {
     Column() {
-        MashupItem(mashup = Mashup(123, "napas", "The свитер", "", false, 0, 0, 0, listOf(0)), onBodyClick = {}, onInfoClick = {})
-        MashupItem(mashup = Mashup(123, "napas", "The свитер", "", false, 0, 0, 0, listOf(0)), onBodyClick = {}, onInfoClick = {}, isCurrentlyPlaying = true)
+        MashupItem(
+            mashup = MashupListItem(
+                123,
+                "napas",
+                "The свитер",
+                "",
+                false,
+                0,
+                0,
+                listOf(0),
+                true
+            ),
+            onBodyClick = {},
+            onInfoClick = {},
+            onLikeClick = {}
+        )
+        MashupItem(
+            mashup = MashupListItem(
+                123,
+                "napas",
+                "The свитер",
+                "",
+                false,
+                0,
+                0,
+                listOf(0),
+                false
+            ),
+            onBodyClick = {},
+            onInfoClick = {},
+            isCurrentlyPlaying = true,
+            onLikeClick = {}
+        )
     }
 }

@@ -3,7 +3,7 @@ package com.romeat.smashup.musicservice.mapper
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import com.romeat.smashup.data.dto.Mashup
-import com.romeat.smashup.data.dto.MashupUiData
+import com.romeat.smashup.data.dto.MashupMediaItem
 import com.romeat.smashup.musicservice.*
 import com.romeat.smashup.util.ImageUrlHelper
 
@@ -39,8 +39,8 @@ object MediaMetadataMapper {
     }
 
 
-    fun convertFromMedia(media: MediaMetadataCompat) : MashupUiData {
-        return MashupUiData(
+    fun convertFromMedia(media: MediaMetadataCompat) : MashupMediaItem {
+        return MashupMediaItem(
             id = media.id!!.toInt(),
             name = media.title!!,
             //owner = media.artist ?: "",
@@ -49,7 +49,7 @@ object MediaMetadataMapper {
         )
     }
 
-    fun convertFromMediaList(mediaList: List<MediaMetadataCompat>) : List<MashupUiData> {
+    fun convertFromMediaList(mediaList: List<MediaMetadataCompat>) : List<MashupMediaItem> {
         return mediaList.map { convertFromMedia(it) }
     }
 }
