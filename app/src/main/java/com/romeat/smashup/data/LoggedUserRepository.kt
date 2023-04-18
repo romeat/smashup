@@ -30,14 +30,6 @@ class LoggedUserRepository @Inject constructor(
     private val _fullInfo = MutableStateFlow<OwnProfile?>(null)
     val fullInfo = _fullInfo.asStateFlow()
 
-    /*
-    init {
-        _name.value = appContext
-            .getSharedPreferences(USER_PREFS_FILE, Context.MODE_PRIVATE)
-            .getString(USER_PREFS_NAME, null)
-    }
-     */
-
     fun isUserLogged(): Boolean {
         return cookieProvider.getCookiesSet().isNotEmpty()
     }
@@ -51,7 +43,6 @@ class LoggedUserRepository @Inject constructor(
                 user
             )
             .apply()
-        //_name.value = user
         updateUserStat()
     }
 
@@ -59,11 +50,11 @@ class LoggedUserRepository @Inject constructor(
         _name.value = appContext
             .getSharedPreferences(USER_PREFS_FILE, Context.MODE_PRIVATE)
             .getString(USER_PREFS_NAME, null)
-        getData()
+        getUserInfo()
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-    private fun getData() {
+    private fun getUserInfo() {
         GlobalScope.launch {
             getUserInfoUseCase
                 .invoke(_name.value!!)
