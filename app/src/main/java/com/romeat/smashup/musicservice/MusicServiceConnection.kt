@@ -10,10 +10,9 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
 import androidx.media.MediaBrowserServiceCompat
 import com.romeat.smashup.data.dto.Mashup
-import com.romeat.smashup.data.dto.MashupUiData
+import com.romeat.smashup.data.dto.MashupMediaItem
 import com.romeat.smashup.musicservice.mapper.MediaMetadataMapper
 import com.romeat.smashup.util.MediaConstants
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -44,12 +43,12 @@ class MusicServiceConnection @Inject constructor(
     val playbackState: StateFlow<SmashupPlaybackState> = _playbackState
 
     // shows what exactly is playing now
-    private val _nowPlayingMashup = MutableStateFlow<MashupUiData?>(null)
-    val nowPlayingMashup: StateFlow<MashupUiData?> = _nowPlayingMashup
+    private val _nowPlayingMashup = MutableStateFlow<MashupMediaItem?>(null)
+    val nowPlayingMashup: StateFlow<MashupMediaItem?> = _nowPlayingMashup
 
     // currently playing playlist
-    private val _nowPlayingPlaylist = MutableStateFlow(emptyList<MashupUiData>())
-    val nowPlayingPlaylist: StateFlow<List<MashupUiData>> = _nowPlayingPlaylist
+    private val _nowPlayingPlaylist = MutableStateFlow(emptyList<MashupMediaItem>())
+    val nowPlayingPlaylist: StateFlow<List<MashupMediaItem>> = _nowPlayingPlaylist
 
     // tracks song duration
     private val _currentSongDuration = MutableStateFlow(-1L)
@@ -83,13 +82,13 @@ class MusicServiceConnection @Inject constructor(
     }
 
     fun playMashupFromPlaylist(
-        mashupToStart: Mashup,
+        mashupIdToStart: Int,
         playlist: List<Mashup>,
         shuffle: Boolean = false
     ) {
         val nowPlaying = nowPlayingMashup.value
         nowPlaying?.id.let { nowPlayingId ->
-            if (nowPlayingId == mashupToStart.id) {
+            if (nowPlayingId == mashupIdToStart) {
                 playbackState.value.let { playbackState ->
                     when {
                         playbackState.rawState.isPlaying ->
@@ -100,9 +99,8 @@ class MusicServiceConnection @Inject constructor(
                 }
             } else {
                 val extras = Bundle()
-                extras.putString(MediaConstants.MASHUP_TO_PLAY, Json.encodeToString(mashupToStart))
                 extras.putString(MediaConstants.PLAYLIST_TO_PLAY, Json.encodeToString(playlist))
-                controls.playFromMediaId(mashupToStart.id.toString(), extras)
+                controls.playFromMediaId(mashupIdToStart.toString(), extras)
             }
         }
     }

@@ -280,14 +280,11 @@ open class MusicService : MediaBrowserServiceCompat() {
             playWhenReady: Boolean,
             extras: Bundle?
         ) {
-            var mashupToPlay: Mashup? = null
-            extras?.getString(MediaConstants.MASHUP_TO_PLAY)?.let {
-                mashupToPlay = Json.decodeFromString<Mashup>(it)
-            }
+            val id = mediaId.toIntOrNull()
 
             val playlist = Json.decodeFromString<List<Mashup>>(extras?.getString(MediaConstants.PLAYLIST_TO_PLAY)!!)
-            val index = if (mashupToPlay != null) {
-                playlist.indices.find { playlist[it].id == mashupToPlay!!.id } ?: 0
+            val index = if (id != null) {
+                playlist.indices.find { playlist[it].id == id } ?: 0
             } else 0
 
             preparePlaylist(
