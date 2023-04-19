@@ -1,6 +1,7 @@
 package com.romeat.smashup.data
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -11,10 +12,7 @@ import com.romeat.smashup.R
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -46,8 +44,8 @@ class SettingsProvider @Inject constructor(
     private val defaultExplicitAllowed = true
 
     @OptIn(DelicateCoroutinesApi::class)
-    val bitrate: StateFlow<BitrateOption>
-        get() = context.dataStore.data
+    val bitrate: StateFlow<BitrateOption> =
+        context.dataStore.data
             .map { preferences ->
                 if (loggedUserRepository.name.value.isNullOrEmpty())
                     defaultBitrate
@@ -59,8 +57,8 @@ class SettingsProvider @Inject constructor(
             }.stateIn(GlobalScope, SharingStarted.Eagerly, defaultBitrate)
 
     @OptIn(DelicateCoroutinesApi::class)
-    val explicitAllowed: StateFlow<Boolean>
-        get() = context.dataStore.data
+    val explicitAllowed: StateFlow<Boolean> =
+        context.dataStore.data
             .map { preferences ->
                 if (loggedUserRepository.name.value.isNullOrEmpty())
                     defaultExplicitAllowed
