@@ -22,19 +22,26 @@ import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.util.Util.constrainValue
+import com.romeat.smashup.data.SettingsProvider
 import com.romeat.smashup.data.dto.Mashup
 import com.romeat.smashup.musicservice.mapper.MediaMetadataMapper
 import com.romeat.smashup.util.MediaConstants
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import javax.inject.Inject
 
 /**
  * Simplified code from google UAMP app
  */
+@AndroidEntryPoint
 open class MusicService : MediaBrowserServiceCompat() {
+
+    @Inject
+    lateinit var settingsProvider: SettingsProvider
 
     private lateinit var notificationManager: SmashupNotificationManager
 
@@ -288,7 +295,7 @@ open class MusicService : MediaBrowserServiceCompat() {
             } else 0
 
             preparePlaylist(
-                MediaMetadataMapper.convertToMediaList(playlist),
+                MediaMetadataMapper.convertToMediaList(playlist, settingsProvider.bitrate.value.suffix),
                 index
             )
         }

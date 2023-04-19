@@ -1,14 +1,12 @@
 package com.romeat.smashup.presentation.home.profile
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.romeat.smashup.R
+import com.romeat.smashup.data.BitrateOption
 import com.romeat.smashup.presentation.home.common.composables.CustomCircularProgressIndicator
 import com.romeat.smashup.presentation.home.common.composables.ErrorTextMessage
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
@@ -36,7 +35,7 @@ fun ProfileScreen(
     onLogoutClick: () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state
+    val state = viewModel.state.collectAsState().value
 
     Column(
         modifier = Modifier
@@ -55,7 +54,13 @@ fun ProfileScreen(
                         viewModel.onLogout()
                         onLogoutClick()
                     },
-                    state = state
+                    state = state,
+                    onBitrateOption = {
+                        viewModel.onBitrateOptionSelect(it)
+                    },
+                    onExplicitToggle = {
+                        viewModel.onExplicitToggle()
+                    }
                 )
             }
         }
@@ -65,7 +70,9 @@ fun ProfileScreen(
 @Composable
 fun ProfileScreenContent(
     onLogoutClick: () -> Unit,
-    state: ProfileScreenState
+    state: ProfileScreenState,
+    onBitrateOption: (BitrateOption) -> Unit,
+    onExplicitToggle: () -> Unit
 ) {
     val openDialog = remember { mutableStateOf(false) }
 
@@ -117,16 +124,25 @@ fun ProfileScreenContent(
             }
         }
 
-        SettingItem(description = stringResource(id = R.string.bitrate)) {
-            Text(text = "128 кб/с")
-        }
-
         SettingItem(description = stringResource(id = R.string.ui_language)) {
             Text(text = "RUS")
         }
 
+        SettingItem(description = stringResource(id = R.string.bitrate)) {
+            BitrateDropdownItem(
+                selectedOption = state.selectedBitrate,
+                allOptions = state.bitrateOptions,
+                onClick = onBitrateOption
+            )
+        }
+
         SettingItem(description = stringResource(id = R.string.explicit_content)) {
-            Text(text = "ON")
+            Switch(
+                checked = state.explicitAllowed,
+                onCheckedChange = {
+                    onExplicitToggle()
+                }
+            )
         }
 
         Divider(
@@ -159,6 +175,42 @@ fun ProfileScreenContent(
                     onLogoutClick()
                 }
             )
+        }
+    }
+}
+
+@Composable
+fun BitrateDropdownItem(
+    selectedOption: BitrateOption,
+    allOptions: List<BitrateOption>,
+    onClick: (BitrateOption) -> Unit,
+) {
+    val expanded = remember { mutableStateOf(false) }
+
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .wrapContentSize(Alignment.TopStart)) {
+        Text(
+            text = stringResource(id = selectedOption.displayStringRes),
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = { expanded.value = true })
+        )
+        DropdownMenu(
+            expanded = expanded.value,
+            onDismissRequest = { expanded.value = false },
+            modifier = Modifier
+                .defaultMinSize(minWidth = 120.dp)
+        ) {
+            allOptions.forEachIndexed { index, option ->
+                DropdownMenuItem(onClick = {
+                    onClick(option)
+                    expanded.value = false
+                }) {
+                    Text(text = stringResource(id = option.displayStringRes))
+                }
+            }
         }
     }
 }
@@ -264,6 +316,8 @@ fun ConfirmationDialog(
 fun ProfileScreenContentPreview() {
     ProfileScreenContent(
         onLogoutClick = { /*TODO*/ },
-        state = ProfileScreenState(isLoading = false, username = "Asdod")
+        state = ProfileScreenState(isLoading = false, username = "Asdod"),
+        onBitrateOption = { },
+        onExplicitToggle = { }
     )
 }

@@ -10,7 +10,7 @@
 
     <string name="bitrate">Битрейт</string>
     <string name="ui_language">Язык</string>
-    <string name="explicit_content">Контент с пометкой Explicit</string>
+    <string name="explicit_content">Разрешить контент с пометкой Explicit</string>
     <string name="turned_on">ВКЛ</string>
     <string name="turned_off">ВЫКЛ</string>
     <string name="log_out">Выход</string>
@@ -52,4 +52,12 @@
     <string name="bottom_bar_main">ГЛАВНАЯ</string>
     <string name="bottom_bar_search">ПОИСК</string>
     <string name="bottom_bar_profile">ПРОФИЛЬ</string>
+
+    <string name="bitrate_orig">Оригинал</string>
+    <string name="bitrate160">160 кб/с</string>
+    <string name="bitrate128">128 кб/с</string>
+    <string name="bitrate64">64 кб/с</string>
+
+    <string name="lang_EN">EN</string>
+    <string name="lang_RU">RU</string>
 </resources>

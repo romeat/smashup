@@ -1,70 +1,76 @@
 package com.romeat.smashup.presentation.home.profile
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.romeat.smashup.data.CookieProvider
+import com.romeat.smashup.data.BitrateOption
 import com.romeat.smashup.data.LoggedUserRepository
+import com.romeat.smashup.data.SettingsProvider
 import com.romeat.smashup.domain.GetUserInfoUseCase
 import com.romeat.smashup.musicservice.MusicServiceConnection
 import com.romeat.smashup.util.MediaConstants
-import com.romeat.smashup.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val cookieProvider: CookieProvider,
     private val musicServiceConnection: MusicServiceConnection,
-    private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val loggedUser: LoggedUserRepository
+    private val loggedUser: LoggedUserRepository,
+    private val settingsProvider: SettingsProvider
 ) : ViewModel() {
 
-    var state by mutableStateOf(ProfileScreenState())
+    private val _state = MutableStateFlow(ProfileScreenState())
+    val state = _state.asStateFlow()
 
-     init {
+    init {
         viewModelScope.launch {
-
-            // TODO this if statement is workaround because sometimes
-            // login works incorrect and username remains null
-            if (loggedUser.name.value == null) {
-                state = state.copy(
-                    isLoading = false,
-                    isError = true
-                )
-            } else {
-                getUserInfoUseCase
-                    .invoke(loggedUser.name.value!!)
-                    .collect { result ->
-                        when (result) {
-                            is Resource.Success -> {
-                                result.data?.let {
-                                    state = state.copy(
-                                        isLoading = false,
-                                        isError = false,
-                                        username = it.username,
-                                        imageUrl = it.imageUrl
-                                    )
-                                }
-                            }
-                            is Resource.Loading -> {
-                                state = state.copy(isLoading = true)
-                            }
-                            is Resource.Error -> {
-                                state = state.copy(
-                                    isLoading = false,
-                                    isError = true
-                                )
-                            }
-                        }
+            loggedUser.fullInfo.collect{ profile ->
+                profile?.let {
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            isError = false,
+                            username = profile.username,
+                            imageUrl = profile.imageUrl
+                        )
                     }
+                }
+            }
+        }
+        viewModelScope.launch {
+            settingsProvider.bitrate.collect { option ->
+                _state.update {
+                    it.copy(selectedBitrate = option)
+                }
+            }
+        }
+        viewModelScope.launch {
+            settingsProvider.explicitAllowed.collect { value ->
+                _state.update {
+                    it.copy(explicitAllowed = value)
+                }
             }
         }
     }
 
+    fun onBitrateOptionSelect(newOption: BitrateOption) {
+        viewModelScope.launch {
+            settingsProvider.updateBitrate(newOption)
+        }
+    }
+
+    fun onLanguageOptionSelect() {
+
+    }
+
+    fun onExplicitToggle() {
+        viewModelScope.launch {
+            settingsProvider.updateExplicit(!state.value.explicitAllowed)
+        }
+    }
 
     fun onLogout() {
         loggedUser.logOut()
@@ -80,4 +86,13 @@ data class ProfileScreenState(
     val username: String = "",
     val imageUrl: String = "",
 
+    val selectedBitrate: BitrateOption = BitrateOption.OrigQuality,
+    val bitrateOptions: List<BitrateOption> = listOf(
+        BitrateOption.OrigQuality,
+        BitrateOption.KB160,
+        BitrateOption.KB128,
+        BitrateOption.KB64
+    ),
+
+    val explicitAllowed: Boolean = true
 )

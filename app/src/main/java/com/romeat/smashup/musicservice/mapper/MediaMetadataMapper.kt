@@ -16,7 +16,7 @@ object MediaMetadataMapper {
 
     private fun musicIdToUrl(id: Int) = musicBaseUrl + id.toString() + defaultBitrateSuffix
 
-    fun convertToMedia(mashup: Mashup) : MediaMetadataCompat {
+    fun convertToMedia(mashup: Mashup, bitrate: String) : MediaMetadataCompat {
         val builder = MediaMetadataCompat.Builder()
         builder.let {
             it.id = mashup.id.toString()
@@ -34,8 +34,8 @@ object MediaMetadataMapper {
         return builder.build()
     }
 
-    fun convertToMediaList(mashupList: List<Mashup>) : List<MediaMetadataCompat> {
-        return mashupList.map { convertToMedia(it) }
+    fun convertToMediaList(mashupList: List<Mashup>, bitrate: String) : List<MediaMetadataCompat> {
+        return mashupList.map { convertToMedia(it, bitrate) }
     }
 
 

@@ -9,7 +9,7 @@
 
     <string name="bitrate">Bitrate</string>
     <string name="ui_language">Language</string>
-    <string name="explicit_content">Explicit content</string>
+    <string name="explicit_content">Allow explicit content</string>
     <string name="turned_on">ON</string>
     <string name="turned_off">OFF</string>
     <string name="log_out">Log out</string>
@@ -51,4 +51,12 @@
     <string name="bottom_bar_main">MAIN</string>
     <string name="bottom_bar_search">SEARCH</string>
     <string name="bottom_bar_profile">PROFILE</string>
+
+    <string name="bitrate_orig">Original</string>
+    <string name="bitrate160">160 KB/s</string>
+    <string name="bitrate128">128 KB/s</string>
+    <string name="bitrate64">64 KB/s</string>
+
+    <string name="lang_EN">EN</string>
+    <string name="lang_RU">RU</string>
 </resources>
