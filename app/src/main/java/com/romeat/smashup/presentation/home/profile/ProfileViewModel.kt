@@ -3,6 +3,7 @@ package com.romeat.smashup.presentation.home.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romeat.smashup.data.BitrateOption
+import com.romeat.smashup.data.LanguageOption
 import com.romeat.smashup.data.LoggedUserRepository
 import com.romeat.smashup.data.SettingsProvider
 import com.romeat.smashup.domain.GetUserInfoUseCase
@@ -27,7 +28,7 @@ class ProfileViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            loggedUser.fullInfo.collect{ profile ->
+            loggedUser.fullInfo.collect { profile ->
                 profile?.let {
                     _state.update {
                         it.copy(
@@ -54,6 +55,13 @@ class ProfileViewModel @Inject constructor(
                 }
             }
         }
+        viewModelScope.launch {
+            settingsProvider.locale.collect { value ->
+                _state.update {
+                    it.copy(selectedLanguage = value)
+                }
+            }
+        }
     }
 
     fun onBitrateOptionSelect(newOption: BitrateOption) {
@@ -62,8 +70,8 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun onLanguageOptionSelect() {
-
+    fun onLanguageOptionSelect(newLanguageOption: LanguageOption) {
+        settingsProvider.updateLanguage(newLanguageOption)
     }
 
     fun onExplicitToggle() {
@@ -94,5 +102,11 @@ data class ProfileScreenState(
         BitrateOption.KB64
     ),
 
-    val explicitAllowed: Boolean = true
+    val explicitAllowed: Boolean = true,
+
+    val selectedLanguage: LanguageOption = LanguageOption.ENG,
+    val languageOptions: List<LanguageOption> = listOf(
+        LanguageOption.ENG,
+        LanguageOption.RUS
+    )
 )

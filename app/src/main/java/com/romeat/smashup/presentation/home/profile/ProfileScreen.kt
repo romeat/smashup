@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.romeat.smashup.R
 import com.romeat.smashup.data.BitrateOption
+import com.romeat.smashup.data.LanguageOption
+import com.romeat.smashup.data.SettingItemOption
 import com.romeat.smashup.presentation.home.common.composables.CustomCircularProgressIndicator
 import com.romeat.smashup.presentation.home.common.composables.ErrorTextMessage
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
@@ -60,6 +62,9 @@ fun ProfileScreen(
                     },
                     onExplicitToggle = {
                         viewModel.onExplicitToggle()
+                    },
+                    onLanguageOption = {
+                        viewModel.onLanguageOptionSelect(it)
                     }
                 )
             }
@@ -72,6 +77,7 @@ fun ProfileScreenContent(
     onLogoutClick: () -> Unit,
     state: ProfileScreenState,
     onBitrateOption: (BitrateOption) -> Unit,
+    onLanguageOption: (LanguageOption) -> Unit,
     onExplicitToggle: () -> Unit
 ) {
     val openDialog = remember { mutableStateOf(false) }
@@ -125,11 +131,15 @@ fun ProfileScreenContent(
         }
 
         SettingItem(description = stringResource(id = R.string.ui_language)) {
-            Text(text = "RUS")
+            SettingWithDropdownMenu<LanguageOption>(
+                selectedOption = state.selectedLanguage,
+                allOptions = state.languageOptions,
+                onClick = onLanguageOption
+            )
         }
 
         SettingItem(description = stringResource(id = R.string.bitrate)) {
-            BitrateDropdownItem(
+            SettingWithDropdownMenu<BitrateOption>(
                 selectedOption = state.selectedBitrate,
                 allOptions = state.bitrateOptions,
                 onClick = onBitrateOption
@@ -180,18 +190,20 @@ fun ProfileScreenContent(
 }
 
 @Composable
-fun BitrateDropdownItem(
-    selectedOption: BitrateOption,
-    allOptions: List<BitrateOption>,
-    onClick: (BitrateOption) -> Unit,
+fun <T> SettingWithDropdownMenu(
+    selectedOption: SettingItemOption,
+    allOptions: List<SettingItemOption>,
+    onClick: (T) -> Unit,
 ) {
     val expanded = remember { mutableStateOf(false) }
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .wrapContentSize(Alignment.TopStart)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.TopStart)
+    ) {
         Text(
-            text = stringResource(id = selectedOption.displayStringRes),
+            text = stringResource(id = selectedOption.displayResId),
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
@@ -205,10 +217,10 @@ fun BitrateDropdownItem(
         ) {
             allOptions.forEachIndexed { index, option ->
                 DropdownMenuItem(onClick = {
-                    onClick(option)
                     expanded.value = false
+                    onClick(option as T)
                 }) {
-                    Text(text = stringResource(id = option.displayStringRes))
+                    Text(text = stringResource(id = option.displayResId))
                 }
             }
         }
@@ -318,6 +330,7 @@ fun ProfileScreenContentPreview() {
         onLogoutClick = { /*TODO*/ },
         state = ProfileScreenState(isLoading = false, username = "Asdod"),
         onBitrateOption = { },
-        onExplicitToggle = { }
+        onExplicitToggle = { },
+        onLanguageOption = { }
     )
 }

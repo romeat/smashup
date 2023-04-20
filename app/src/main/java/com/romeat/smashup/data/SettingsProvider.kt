@@ -1,7 +1,8 @@
 package com.romeat.smashup.data
 
 import android.content.Context
-import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -11,10 +12,14 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.romeat.smashup.R
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
+
 
 @Singleton
 class SettingsProvider @Inject constructor(
@@ -69,6 +74,20 @@ class SettingsProvider @Inject constructor(
                 }
             }.stateIn(GlobalScope, SharingStarted.Eagerly, defaultExplicitAllowed)
 
+    private val _locale = MutableStateFlow(getCurrentLocale())
+    val locale: StateFlow<LanguageOption> = _locale.asStateFlow()
+
+    private fun getCurrentLocale(): LanguageOption {
+        val locale = AppCompatDelegate.getApplicationLocales()[0]
+
+        // when locale is not set by user explicitly (== null), app uses default system locale
+        val language = locale?.language ?: context.resources.configuration.locales[0].language
+
+        return when (language) {
+            LanguageOption.RUS.languageTag -> LanguageOption.RUS
+            else -> LanguageOption.ENG
+        }
+    }
 
     suspend fun updateBitrate(newBitrate: BitrateOption) {
         context.dataStore.edit { settings ->
@@ -84,22 +103,35 @@ class SettingsProvider @Inject constructor(
         }
     }
 
-    suspend fun updateLanguage() {
+    @OptIn(DelicateCoroutinesApi::class)
+    fun updateLanguage(newLanguageOption: LanguageOption) {
+        _locale.value = newLanguageOption
 
+        val locale = LocaleListCompat.forLanguageTags(newLanguageOption.languageTag)
+        GlobalScope.launch(Dispatchers.Main) {
+            AppCompatDelegate.setApplicationLocales(locale)
+        }
     }
 }
 
+interface SettingItemOption {
+    val displayResId: Int
+}
+
 sealed class BitrateOption(
-    val displayStringRes: Int,
+    override val displayResId: Int,
     val suffix: String,
-) {
+) : SettingItemOption {
     object KB64 : BitrateOption(R.string.bitrate64, "_64000.mp3")
     object KB128 : BitrateOption(R.string.bitrate128, "_128000.mp3")
     object KB160 : BitrateOption(R.string.bitrate160, "_160000.mp3")
     object OrigQuality : BitrateOption(R.string.bitrate_orig, ".mp3")
 }
 
-sealed class LanguageOption(val stringRes: Int) {
-    object RUS : LanguageOption(R.string.lang_RU)
-    object ENG : LanguageOption(R.string.lang_EN)
+sealed class LanguageOption(
+    override val displayResId: Int,
+    val languageTag: String
+) : SettingItemOption {
+    object RUS : LanguageOption(R.string.lang_RU, "ru")
+    object ENG : LanguageOption(R.string.lang_EN, "en")
 }
