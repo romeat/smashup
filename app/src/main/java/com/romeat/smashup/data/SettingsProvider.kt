@@ -51,29 +51,34 @@ class SettingsProvider @Inject constructor(
     @OptIn(DelicateCoroutinesApi::class)
     val bitrate: StateFlow<BitrateOption> =
         context.dataStore.data
-            .map { preferences ->
-                if (loggedUserRepository.name.value.isNullOrEmpty())
+            .combine(loggedUserRepository.name) { datastoreFlow, name ->
+                Pair(datastoreFlow, name)
+            }.map { pair ->
+                if (pair.second.isNullOrEmpty())
                     defaultBitrate
                 else {
                     val BITRATE =
                         stringPreferencesKey(loggedUserRepository.name.value + bitrateSuffix)
-                    datastoreStringToBitrateMap[preferences[BITRATE]] ?: defaultBitrate
+                    datastoreStringToBitrateMap[pair.first[BITRATE]] ?: defaultBitrate
                 }
             }.stateIn(GlobalScope, SharingStarted.Eagerly, defaultBitrate)
 
     @OptIn(DelicateCoroutinesApi::class)
     val explicitAllowed: StateFlow<Boolean> =
         context.dataStore.data
-            .map { preferences ->
+            .combine(loggedUserRepository.name) { datastoreFlow, name ->
+                Pair(datastoreFlow, name)
+            }.map { pair ->
                 if (loggedUserRepository.name.value.isNullOrEmpty())
                     defaultExplicitAllowed
                 else {
                     val EXPLICIT =
                         booleanPreferencesKey(loggedUserRepository.name.value + explicitSuffix)
-                    preferences[EXPLICIT] ?: defaultExplicitAllowed
+                    pair.first[EXPLICIT] ?: defaultExplicitAllowed
                 }
             }.stateIn(GlobalScope, SharingStarted.Eagerly, defaultExplicitAllowed)
 
+    // warning - locale is not tied to any user
     private val _locale = MutableStateFlow(getCurrentLocale())
     val locale: StateFlow<LanguageOption> = _locale.asStateFlow()
 
