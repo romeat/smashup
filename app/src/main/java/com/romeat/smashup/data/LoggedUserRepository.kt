@@ -30,8 +30,12 @@ class LoggedUserRepository @Inject constructor(
     private val _fullInfo = MutableStateFlow<OwnProfile?>(null)
     val fullInfo = _fullInfo.asStateFlow()
 
-    fun isUserLogged(): Boolean {
+    fun isCookieReceived(): Boolean {
         return cookieProvider.getCookiesSet().isNotEmpty()
+    }
+
+    fun invalidateCookie() {
+        cookieProvider.clearAuthCookies()
     }
 
     fun setName(user: String) {
@@ -77,7 +81,7 @@ class LoggedUserRepository @Inject constructor(
     }
 
     fun logOut() {
-        cookieProvider.clearAuthCookies()
+        invalidateCookie()
         appContext
             .getSharedPreferences(USER_PREFS_FILE, Context.MODE_PRIVATE)
             .edit()

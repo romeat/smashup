@@ -6,9 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romeat.smashup.R
-import com.romeat.smashup.data.CookieProvider
 import com.romeat.smashup.data.LoggedUserRepository
-import com.romeat.smashup.domain.GetUserInfoUseCase
 import com.romeat.smashup.domain.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -19,9 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val cookieProvider: CookieProvider,
     private val loginUseCase: LoginUseCase,
-    private val dataUseCase: GetUserInfoUseCase,
     private val loggedUser: LoggedUserRepository
 ) : ViewModel() {
 
@@ -72,13 +68,15 @@ class LoginViewModel @Inject constructor(
         return value.length >= 8
     }
 
+    // weird ass login process
+    // TODO write some documentation to explain this mess
     private fun login() {
         viewModelScope.launch {
             try {
                 val response = loginUseCase.invoke(state.username, state.password)
                 if (response.isSuccessful) {
                     // no cookies = wrong login/password
-                    if (!loggedUser.isUserLogged()) {
+                    if (!loggedUser.isCookieReceived()) {
                         state = state.copy(
                             loginButtonActive = false,
                             isLoading = false,
@@ -88,12 +86,17 @@ class LoginViewModel @Inject constructor(
                         loggedUser.setName(state.username)
                         eventChannel.send(LoginEvent.NavigateToHome)
                     }
-                } else {  // server always returns 200 OK, so this block "is" unreachable
+                } else {  // server always returns 200 OK, so this block "is" unreachable\
+                    // ACTUALLY sometimes server returns 502 error WITH COOKIES (WTF?)
+                    // So we need to clear them manually because they are not valid
+                    loggedUser.invalidateCookie()
+
                     val error = HttpException(response).message()
+
                     state = state.copy(
                         loginButtonActive = true,
                         isLoading = false,
-                        loginErrorMessageResId = R.string.wrong_username_or_password
+                        loginErrorMessageResId = R.string.something_went_wrong_try_later
                     )
                 }
             } catch (e: Exception) {
@@ -105,7 +108,6 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
-
 }
 
 sealed class LoginEvent {
