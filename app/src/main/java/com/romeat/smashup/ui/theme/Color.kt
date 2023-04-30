@@ -8,7 +8,7 @@ val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 
 val AppBlack = Color(0xFF000000)
-val AppDarkGrey = Color(0xFF222222)
+val AppDarkGrey = Color(0xFF1A1A1A)
 val AppGrey = Color(0xFF262626)
 val AppLightGrey = Color(0xFFB9B9B9)
 val AppMainColor = Color(0xFF2A1947)

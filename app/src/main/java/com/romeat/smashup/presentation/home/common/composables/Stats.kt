@@ -39,7 +39,7 @@ fun StatsRow(
         Icon(
             modifier = Modifier.size(24.dp),
             imageVector = ImageVector
-                .vectorResource(id = R.drawable.ic_baseline_favorite_24),
+                .vectorResource(id = R.drawable.ic_heart_border),
             contentDescription = "likes"
         )
         Spacer(

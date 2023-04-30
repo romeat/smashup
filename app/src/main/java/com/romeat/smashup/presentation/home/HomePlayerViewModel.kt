@@ -95,7 +95,7 @@ class HomePlayerViewModel @Inject constructor(
                 } else if (state.value.isPlaybackNull) {
                     currentTimeMs = 0L
                 }
-                delay(500)
+                delay(200)
             }
         }
     }
@@ -119,6 +119,13 @@ class HomePlayerViewModel @Inject constructor(
     }
 
     fun onPreviousClick() {
+
+        // When track have been playing long enough, skipToPrevious does not skip to previous track,
+        // but plays current track from start, so we need to call skipToPrevious twice.
+        // The 3000 ms threshold is tested empirically
+        if (currentTimeMs > 3000) {
+            musicService.controls.skipToPrevious()
+        }
         musicService.controls.skipToPrevious()
     }
 
@@ -175,8 +182,8 @@ data class PlayerState(
     val repeatMode: PlaybackRepeatMode = PlaybackRepeatMode.None,
     val imageId: Int = 0,
     val trackDurationMs: Long = 148000,
-    val trackName: String = "Somebody once AAAAAAAAAA",
-    val trackAuthor: String = "dobobob",
+    val trackName: String = "Лобби под подошвой",
+    val trackAuthor: String = "Утонул в пиве",
     val isPlaybackNull: Boolean = true,
     val coverSmall: ImageBitmap? = null
 )

@@ -117,9 +117,9 @@ fun MashupItem(
                 imageVector = ImageVector
                     .vectorResource(
                         id = if (mashup.isLiked) {
-                            R.drawable.ic_baseline_favorite_24
+                            R.drawable.ic_heart_filled
                         } else {
-                            R.drawable.ic_baseline_favorite_border_24
+                            R.drawable.ic_heart_border
                         }
                     ),
                 contentDescription = "more"
@@ -149,7 +149,7 @@ fun MashupItemPreview() {
         MashupItem(
             mashup = MashupListItem(
                 123,
-                "napas",
+                "Лобби под подошвой",
                 "The свитер",
                 "",
                 false,
