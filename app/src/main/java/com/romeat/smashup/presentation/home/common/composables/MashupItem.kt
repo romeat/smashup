@@ -76,7 +76,7 @@ fun MashupItem(
                     Icon(
                         modifier = Modifier.size(20.dp),
                         imageVector = ImageVector
-                            .vectorResource(id = R.drawable.ic_baseline_play_arrow_24),
+                            .vectorResource(id = R.drawable.ic_play_standard_button),
                         contentDescription = "",
                         tint = color
                     )
@@ -135,7 +135,7 @@ fun MashupItem(
             Icon(
                 modifier = Modifier.fillMaxSize(),
                 imageVector = ImageVector
-                    .vectorResource(id = R.drawable.ic_baseline_more_vert_24),
+                    .vectorResource(id = R.drawable.ic_more_button),
                 contentDescription = "more"
             )
         }

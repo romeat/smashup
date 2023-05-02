@@ -1,14 +1,15 @@
 package com.romeat.smashup.presentation.home.player
 
 import androidx.compose.animation.core.LinearEasing
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -16,13 +17,14 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.romeat.smashup.R
 import com.romeat.smashup.musicservice.PlaybackRepeatMode
-import com.romeat.smashup.presentation.home.PlayerState
 import com.romeat.smashup.presentation.home.HomePlayerViewModel
+import com.romeat.smashup.presentation.home.PlayerState
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
 import com.romeat.smashup.util.ImageUrlHelper
 import com.romeat.smashup.util.compose.Marquee
@@ -61,42 +63,76 @@ fun AudioPlayerContent(
     onRepeatClick: () -> Unit
 ) {
     Surface(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize(),
+        color = MaterialTheme.colors.background
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(ScrollState(0))
         ) {
+            /* Top row */
             Row(
                 modifier = Modifier
-                    .padding(4.dp)
-                    .fillMaxWidth()
-                    .clickable { onBackPressed() },
-                horizontalArrangement = Arrangement.Center
+                    .padding(20.dp)
+                    .height(IntrinsicSize.Min)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = ImageVector
-                        .vectorResource(id = R.drawable.ic_baseline_expand_more_24),
-                    contentDescription = "hide player",
+                IconButton(
                     modifier = Modifier
-                        .width(64.dp)
-                        .height(32.dp)
+                        .size(48.dp),
+                    onClick = onBackPressed
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp)
+                            .rotate(270f),
+                        imageVector = ImageVector
+                            .vectorResource(id = R.drawable.ic_chevron_left_button),
+                        contentDescription = "hide player",
+                    )
+                }
+
+                Text(
+                    text = "[PLAYLIST_NAME]",
+                    style = MaterialTheme.typography.body1,
+                    fontSize = 22.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.SemiBold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .weight(1f)
                 )
+
+                IconButton(
+                    modifier = Modifier
+                        .size(48.dp),
+                    onClick = { }
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp),
+                        imageVector = ImageVector
+                            .vectorResource(id = R.drawable.ic_more_button),
+                        contentDescription = "more",
+                    )
+                }
             }
 
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.1f))
-
+            /* Cover */
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .padding(20.dp)
             ) {
                 GlideImage(
                     imageModel = ImageUrlHelper.mashupImageIdToUrl400px(state.imageId.toString()),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
                         .aspectRatio(1.0f),
                     contentScale = ContentScale.Crop,
                     error = ImageVector.vectorResource(id = Placeholder.Napas.resource),
@@ -109,177 +145,213 @@ fun AudioPlayerContent(
                 )
             }
 
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.01f))
+            Spacer(modifier = Modifier.height(12.dp))
 
-            Marquee(
-                params = MarqueeParams(
-                    period = 7500,
-                    gradientEnabled = false,
-                    gradientEdgeColor = Color.Transparent,
-                    direction = LocalLayoutDirection.current,
-                    easing = LinearEasing),
-                modifier = Modifier
-                    .padding(horizontal = 10.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = state.trackName,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = MaterialTheme.typography.h5.fontSize,
-                    textAlign = TextAlign.Start,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-            }
-
-            Marquee(
-                params = MarqueeParams(
-                    period = 7500,
-                    gradientEnabled = false,
-                    gradientEdgeColor = Color.Transparent,
-                    direction = LocalLayoutDirection.current,
-                    easing = LinearEasing),
-                modifier = Modifier
-                    .padding(horizontal = 10.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = state.trackAuthor,
-                    //maxLines = 1,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = MaterialTheme.typography.h5.fontSize,
-                    textAlign = TextAlign.Start,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-            }
-
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.02f),
-                )
-
-            LinearProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp),
-                progress = timestamp.toFloat()/state.trackDurationMs,
-                color = MaterialTheme.colors.primaryVariant
-            )
-
+            /* Author & track name */
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 10.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = timestamp.toDisplayableTimeString(),
-                    fontSize = 14.sp
-                )
+                Column(
+                    modifier = Modifier
+                        .weight(1f),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Marquee(
+                        params = MarqueeParams(
+                            period = 7500,
+                            gradientEnabled = false,
+                            gradientEdgeColor = Color.Transparent,
+                            direction = LocalLayoutDirection.current,
+                            easing = LinearEasing
+                        ),
+                        modifier = Modifier
+                            .padding(end = 10.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = state.trackName,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 22.sp,
+                            textAlign = TextAlign.Start,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        )
+                    }
 
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = state.trackDurationMs.toDisplayableTimeString(),
-                    fontSize = 14.sp
-                )
+                    Marquee(
+                        params = MarqueeParams(
+                            period = 7500,
+                            gradientEnabled = false,
+                            gradientEdgeColor = Color.Transparent,
+                            direction = LocalLayoutDirection.current,
+                            easing = LinearEasing
+                        ),
+                        modifier = Modifier
+                            .padding(end = 10.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = state.trackAuthor,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = MaterialTheme.typography.body1.fontSize,
+                            textAlign = TextAlign.Start,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        )
+                    }
+                }
+                IconButton(
+                    modifier = Modifier
+                        .size(48.dp),
+                    onClick = { /* TODO */ }
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(4.dp),
+                        imageVector = ImageVector
+                            .vectorResource(id = R.drawable.ic_heart_border),
+                        contentDescription = "like",
+                    )
+                }
             }
 
+            Spacer(modifier = Modifier.height(30.dp))
+
+            /* Progress */
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        progress = timestamp.toFloat() / state.trackDurationMs,
+                        color = MaterialTheme.colors.primaryVariant
+                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            textAlign = TextAlign.Center,
+                            text = timestamp.toDisplayableTimeString(),
+                            fontSize = 14.sp
+                        )
+                        Text(
+                            textAlign = TextAlign.Center,
+                            text = state.trackDurationMs.toDisplayableTimeString(),
+                            fontSize = 14.sp
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            /* Controls */
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(
                     modifier = Modifier
-                        .weight(1.0f)
-                        .padding(5.dp)
+                        .size(50.dp)
                         .aspectRatio(1.0f),
                     onClick = { onRepeatClick() }
                 ) {
                     Icon(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp),
                         imageVector = ImageVector
-                            .vectorResource(id =
-                                when(state.repeatMode) {
-                                    PlaybackRepeatMode.None -> R.drawable.repeat_off_24
-                                    PlaybackRepeatMode.RepeatOneSong -> R.drawable.repeat_one_on_24
-                                    PlaybackRepeatMode.RepeatPlaylist -> R.drawable.repeat_all_on_24
-
+                            .vectorResource(
+                                id =
+                                when (state.repeatMode) {
+                                    PlaybackRepeatMode.None -> R.drawable.ic_repeat_off_button
+                                    PlaybackRepeatMode.RepeatOneSong -> R.drawable.ic_repeat_one_button
+                                    PlaybackRepeatMode.RepeatPlaylist -> R.drawable.ic_repeat_all_button
                                 }
                             ),
                         contentDescription = "repeat"
                     )
                 }
-
                 IconButton(
                     modifier = Modifier
-                        .weight(1.0f)
-                        .padding(5.dp)
+                        .size(50.dp)
                         .aspectRatio(1.0f),
                     onClick = { onPreviousClick() }
                 ) {
                     Icon(
-                        modifier = Modifier.fillMaxSize(),
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_baseline_skip_previous_24),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp),
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_previous_standard_button),
                         contentDescription = "previous track"
                     )
                 }
                 IconButton(
                     modifier = Modifier
-                        .weight(1.2f)
+                        .size(50.dp)
                         .aspectRatio(1.0f),
                     onClick = { onPlayPauseClick() }
                 ) {
                     Icon(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp),
                         imageVector = if (state.isPlaying) {
-                            ImageVector.vectorResource(id = R.drawable.ic_baseline_pause_24)
+                            ImageVector.vectorResource(id = R.drawable.ic_pause_standard_button)
                         } else {
-                            ImageVector.vectorResource(id = R.drawable.ic_baseline_play_arrow_24)
+                            ImageVector.vectorResource(id = R.drawable.ic_play_standard_button)
                         },
                         contentDescription = "play/pause"
                     )
                 }
                 IconButton(
                     modifier = Modifier
-                        .weight(1.0f)
-                        .padding(5.dp)
+                        .size(50.dp)
                         .aspectRatio(1.0f),
                     onClick = { onNextClick() }
                 ) {
                     Icon(
-                        modifier = Modifier.fillMaxSize(),
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_baseline_skip_next_24),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp),
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_next_standard_button),
                         contentDescription = "next track",
                     )
                 }
                 IconButton(
                     modifier = Modifier
-                        .weight(1.0f)
-                        .padding(5.dp)
+                        .size(50.dp)
                         .aspectRatio(1.0f),
                     onClick = { onShuffleClick() }
                 ) {
                     val color = LocalContentColor.current
                     Icon(
-                        modifier = Modifier.fillMaxSize(),
-                        imageVector = ImageVector.vectorResource(id = R.drawable.baseline_shuffle_24),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp),
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_shuffle_button),
                         contentDescription = "shuffle",
                         tint = if (state.isShuffle) MaterialTheme.colors.primaryVariant else color
                     )
                 }
             }
-
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.2f))
         }
     }
 }
