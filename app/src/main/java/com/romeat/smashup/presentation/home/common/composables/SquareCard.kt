@@ -2,10 +2,12 @@ package com.romeat.smashup.presentation.home.common.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
@@ -32,7 +34,8 @@ fun SquareCard(
             imageModel = item.imageUrl,
             modifier = Modifier
                 .weight(1f)
-                .aspectRatio(1.0f),
+                .aspectRatio(1.0f)
+                .clip(RoundedCornerShape(15)),
             contentScale = ContentScale.Crop,
             error = ImageVector.vectorResource(id = Placeholder.Playlist.resource),
             shimmerParams = ShimmerParams(

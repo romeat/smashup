@@ -2,6 +2,7 @@ package com.romeat.smashup.presentation.home.common.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -9,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -37,13 +39,15 @@ fun MashupItem(
         modifier = Modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
-            .padding(4.dp)
-            .clickable { onBodyClick(mashup) }
+            .padding(10.dp)
+            .clickable { onBodyClick(mashup) },
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        Spacer(modifier = Modifier.size(10.dp))
         GlideImage(
             modifier = Modifier
-                .padding(4.dp)
-                .size(56.dp),
+                .size(48.dp)
+                .clip(RoundedCornerShape(25)),
             contentScale = ContentScale.Crop,
             imageModel = ImageUrlHelper.mashupImageIdToUrl100px(mashup.imageUrl),
             error = ImageVector.vectorResource(id = Placeholder.Napas.resource),
@@ -54,6 +58,7 @@ fun MashupItem(
                 tilt = 0f
             )
         )
+        Spacer(modifier = Modifier.size(15.dp))
         Column(
             modifier = Modifier
                 .fillMaxHeight()
@@ -74,7 +79,9 @@ fun MashupItem(
             ) {
                 if (isCurrentlyPlaying) {
                     Icon(
-                        modifier = Modifier.size(20.dp),
+                        modifier = Modifier
+                            .size(15.dp)
+                            .padding(horizontal = 3.dp),
                         imageVector = ImageVector
                             .vectorResource(id = R.drawable.ic_play_standard_button),
                         contentDescription = "",
@@ -85,7 +92,7 @@ fun MashupItem(
                     text = mashup.name,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    fontSize = 16.sp,
+                    fontStyle = MaterialTheme.typography.body1.fontStyle,
                     fontWeight = FontWeight.Bold,
                     color = color
                 )
@@ -100,7 +107,7 @@ fun MashupItem(
                     text = mashup.owner,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    fontSize = 16.sp,
+                    fontStyle = MaterialTheme.typography.body2.fontStyle,
                     color = color
                 )
             }
@@ -108,12 +115,13 @@ fun MashupItem(
 
         IconButton(
             modifier = Modifier
-                .fillMaxHeight()
-                .width(48.dp),
+                .size(48.dp),
             onClick = { onLikeClick(mashup.id) }
         ) {
             Icon(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(12.dp),
                 imageVector = ImageVector
                     .vectorResource(
                         id = if (mashup.isLiked) {
@@ -128,12 +136,13 @@ fun MashupItem(
 
         IconButton(
             modifier = Modifier
-                .fillMaxHeight()
-                .width(48.dp),
+                .size(48.dp),
             onClick = { onInfoClick(mashup.id) }
         ) {
             Icon(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(12.dp),
                 imageVector = ImageVector
                     .vectorResource(id = R.drawable.ic_more_button),
                 contentDescription = "more"
