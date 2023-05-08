@@ -22,7 +22,7 @@ val Typography = Typography(
     body1 = TextStyle(
         fontWeight = FontWeight.SemiBold,
         letterSpacing = 0.25.sp,
-        fontSize = 15.sp
+        fontSize = 16.sp
     ),
     body2 = TextStyle(
         fontWeight = FontWeight.Normal,
