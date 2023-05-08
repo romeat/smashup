@@ -12,7 +12,6 @@ import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -38,6 +37,7 @@ fun PlayerSmall(
         onPreviousClick = { viewModel.onPreviousClick() },
         onPlayPauseClick = { viewModel.onPlayPauseClick() },
         onNextClick = { viewModel.onNextClick() },
+        onLikeClick = viewModel::onLikeClick,
         onExpandClick = onExpandClick
     )
 }
@@ -49,8 +49,11 @@ fun PlayerSmallContent(
     onPreviousClick: () -> Unit,
     onPlayPauseClick: () -> Unit,
     onNextClick: () -> Unit,
-    onExpandClick: () -> Unit
+    onExpandClick: () -> Unit,
+    onLikeClick: () -> Unit
 ) {
+    if (state.isPlaybackNull) return
+
     Column(
         modifier = Modifier
             .background(MaterialTheme.colors.surface)
@@ -64,7 +67,6 @@ fun PlayerSmallContent(
             modifier = Modifier.fillMaxWidth()
         ) {
             IconButton(
-                enabled = !state.isPlaybackNull,
                 modifier = Modifier
                     .padding(start = 8.dp, end = 3.dp)
                     .size(60.dp),
@@ -152,17 +154,20 @@ fun PlayerSmallContent(
             }
 
             IconButton(
-                enabled = !state.isPlaybackNull,
                 modifier = Modifier
                     .padding(start = 4.dp, end = 10.dp)
                     .size(60.dp),
-                onClick = { /* TODO */ },
+                onClick = onLikeClick,
             ) {
                 Icon(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(14.dp),
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_heart_border),
+                    imageVector = if (state.isLiked) {
+                        ImageVector.vectorResource(R.drawable.ic_heart_filled)
+                    } else {
+                        ImageVector.vectorResource(R.drawable.ic_heart_border)
+                    },
                     contentDescription = "like"
                 )
             }
@@ -179,7 +184,8 @@ fun PlayerSmallPreview() {
             onPreviousClick = { /*TODO*/ },
             onPlayPauseClick = { /*TODO*/ },
             onNextClick = { /*TODO*/ },
-            onExpandClick = { }
+            onExpandClick = { },
+            onLikeClick = { },
         )
     }
 }

@@ -15,6 +15,8 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.romeat.smashup.data.LoggedUserRepository
 import com.romeat.smashup.data.dto.MashupMediaItem
+import com.romeat.smashup.data.likes.LikesRepository
+import com.romeat.smashup.data.likes.LikesState
 import com.romeat.smashup.musicservice.MusicServiceConnection
 import com.romeat.smashup.musicservice.PlaybackRepeatMode
 import com.romeat.smashup.musicservice.SmashupPlaybackState
@@ -35,6 +37,7 @@ import javax.inject.Inject
 class HomePlayerViewModel @Inject constructor(
     private val musicService: MusicServiceConnection,
     @ApplicationContext val context: Context,
+    val likesRepository: LikesRepository,
     val loggedUserRepository: LoggedUserRepository // probably not the best place
 ) : ViewModel() {
 
@@ -55,19 +58,22 @@ class HomePlayerViewModel @Inject constructor(
                 musicService.playbackState,
                 musicService.nowPlayingMashup,
                 musicService.currentSongDuration,
+                likesRepository.likesState,
             ) { playbackState: SmashupPlaybackState,
                 nowPlaying: MashupMediaItem?,
-                songDuration: Long ->
+                songDuration: Long,
+                liked: LikesState ->
                 PlayerState(
                     isPlaying = playbackState.rawState.isPlaying,
-                    imageId = nowPlaying?.id ?: 0,
+                    id = nowPlaying?.id ?: 0,
                     isShuffle = playbackState.isShuffle,
                     repeatMode = playbackState.repeatMode,
                     trackDurationMs = songDuration,
                     trackName = nowPlaying?.name ?: "",
                     trackAuthor = nowPlaying?.owner ?: "",
                     isPlaybackNull = nowPlaying == null,
-                    coverSmall = _state.value.coverSmall
+                    coverSmall = _state.value.coverSmall,
+                    isLiked = liked.mashupLikes.contains(nowPlaying?.id)
                 )
             }.collect { value ->
                 _state.update { value }
@@ -81,7 +87,7 @@ class HomePlayerViewModel @Inject constructor(
                 if (value.isPlaybackNull) {
                     imageLoader.cancel()
                 } else {
-                    imageLoader.load(value.imageId)
+                    imageLoader.load(value.id)
                 }
             }
         }
@@ -137,6 +143,17 @@ class HomePlayerViewModel @Inject constructor(
         musicService.nextRepeatMode()
     }
 
+    fun onLikeClick() {
+        val currentlyPlayingId = state.value.id
+
+        if (likesRepository.likesState.value.mashupLikes
+                .contains(currentlyPlayingId)) {
+            likesRepository.removeLike(currentlyPlayingId)
+        } else {
+            likesRepository.addLike(currentlyPlayingId)
+        }
+    }
+
     inner class ImageLoaderJob {
 
         private var job: Job? = null
@@ -154,7 +171,7 @@ class HomePlayerViewModel @Inject constructor(
             job = viewModelScope.launch {
                 Glide.with(context)
                     .asBitmap()
-                    .load(ImageUrlHelper.mashupImageIdToUrl100px(state.value.imageId.toString()))
+                    .load(ImageUrlHelper.mashupImageIdToUrl100px(state.value.id.toString()))
                     .into(object : CustomTarget<Bitmap>(){
                         override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                             _state.update { it.copy(coverSmall = resource.asImageBitmap()) }
@@ -177,13 +194,14 @@ class HomePlayerViewModel @Inject constructor(
 
 
 data class PlayerState(
+    val id: Int = 0,
     val isPlaying: Boolean = false,
     val isShuffle: Boolean = false,
     val repeatMode: PlaybackRepeatMode = PlaybackRepeatMode.None,
-    val imageId: Int = 0,
     val trackDurationMs: Long = 148000,
     val trackName: String = "Лобби под подошвой",
     val trackAuthor: String = "Утонул в пиве",
     val isPlaybackNull: Boolean = true,
-    val coverSmall: ImageBitmap? = null
+    val coverSmall: ImageBitmap? = null,
+    val isLiked: Boolean = false,
 )

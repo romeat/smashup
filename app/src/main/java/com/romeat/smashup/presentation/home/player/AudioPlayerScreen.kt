@@ -3,12 +3,14 @@ package com.romeat.smashup.presentation.home.player
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -47,7 +49,8 @@ fun AudioPlayerScreen(
         onNextClick = { viewModel.onNextClick() },
         onPlayPauseClick = { viewModel.onPlayPauseClick() },
         onShuffleClick = { viewModel.onShuffleClick() },
-        onRepeatClick = { viewModel.onRepeatClick() }
+        onRepeatClick = { viewModel.onRepeatClick() },
+        onLikeClick = { viewModel.onLikeClick() }
     )
 }
 
@@ -60,7 +63,8 @@ fun AudioPlayerContent(
     onNextClick: () -> Unit,
     onPlayPauseClick: () -> Unit,
     onShuffleClick: () -> Unit,
-    onRepeatClick: () -> Unit
+    onRepeatClick: () -> Unit,
+    onLikeClick: () -> Unit,
 ) {
     Surface(
         modifier = Modifier
@@ -130,9 +134,10 @@ fun AudioPlayerContent(
                     .padding(20.dp)
             ) {
                 GlideImage(
-                    imageModel = ImageUrlHelper.mashupImageIdToUrl400px(state.imageId.toString()),
+                    imageModel = ImageUrlHelper.mashupImageIdToUrl400px(state.id.toString()),
                     modifier = Modifier
                         .fillMaxWidth()
+                        .clip(RoundedCornerShape(15))
                         .aspectRatio(1.0f),
                     contentScale = ContentScale.Crop,
                     error = ImageVector.vectorResource(id = Placeholder.Napas.resource),
@@ -206,14 +211,17 @@ fun AudioPlayerContent(
                 IconButton(
                     modifier = Modifier
                         .size(48.dp),
-                    onClick = { /* TODO */ }
+                    onClick = onLikeClick
                 ) {
                     Icon(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(4.dp),
-                        imageVector = ImageVector
-                            .vectorResource(id = R.drawable.ic_heart_border),
+                        imageVector = if (state.isLiked) {
+                            ImageVector.vectorResource(R.drawable.ic_heart_filled)
+                        } else {
+                            ImageVector.vectorResource(R.drawable.ic_heart_border)
+                        },
                         contentDescription = "like",
                     )
                 }
@@ -246,12 +254,12 @@ fun AudioPlayerContent(
                         Text(
                             textAlign = TextAlign.Center,
                             text = timestamp.toDisplayableTimeString(),
-                            fontSize = 14.sp
+                            fontSize = 10.sp
                         )
                         Text(
                             textAlign = TextAlign.Center,
                             text = state.trackDurationMs.toDisplayableTimeString(),
-                            fontSize = 14.sp
+                            fontSize = 10.sp
                         )
                     }
                 }
@@ -271,7 +279,7 @@ fun AudioPlayerContent(
                     modifier = Modifier
                         .size(50.dp)
                         .aspectRatio(1.0f),
-                    onClick = { onRepeatClick() }
+                    onClick = onRepeatClick
                 ) {
                     Icon(
                         modifier = Modifier
@@ -293,7 +301,7 @@ fun AudioPlayerContent(
                     modifier = Modifier
                         .size(50.dp)
                         .aspectRatio(1.0f),
-                    onClick = { onPreviousClick() }
+                    onClick = onPreviousClick
                 ) {
                     Icon(
                         modifier = Modifier
@@ -307,7 +315,7 @@ fun AudioPlayerContent(
                     modifier = Modifier
                         .size(50.dp)
                         .aspectRatio(1.0f),
-                    onClick = { onPlayPauseClick() }
+                    onClick = onPlayPauseClick
                 ) {
                     Icon(
                         modifier = Modifier
@@ -325,7 +333,7 @@ fun AudioPlayerContent(
                     modifier = Modifier
                         .size(50.dp)
                         .aspectRatio(1.0f),
-                    onClick = { onNextClick() }
+                    onClick = onNextClick
                 ) {
                     Icon(
                         modifier = Modifier
@@ -339,7 +347,7 @@ fun AudioPlayerContent(
                     modifier = Modifier
                         .size(50.dp)
                         .aspectRatio(1.0f),
-                    onClick = { onShuffleClick() }
+                    onClick = onShuffleClick
                 ) {
                     val color = LocalContentColor.current
                     Icon(
@@ -367,7 +375,8 @@ fun AudioPlayerBigPreview() {
         onNextClick = { /*TODO*/ },
         onPlayPauseClick = { },
         onShuffleClick = { },
-        onRepeatClick = { }
+        onRepeatClick = { },
+        onLikeClick = { },
     )
 }
 
