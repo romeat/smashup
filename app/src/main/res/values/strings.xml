@@ -59,4 +59,7 @@
 
     <string name="lang_EN">EN</string>
     <string name="lang_RU">RU</string>
+    <string name="home_screen_title">Welcome!</string>
+    <string name="mashups_toggle_button">Mashups</string>
+    <string name="shitpost_toggle_button">Shitpost</string>
 </resources>

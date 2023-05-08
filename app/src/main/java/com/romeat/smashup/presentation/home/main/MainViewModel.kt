@@ -6,8 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romeat.smashup.domain.playlists.GetCompilationsUseCase
-import com.romeat.smashup.data.dto.Playlist
+import com.romeat.smashup.util.PlaylistsToSquareDisplayItems
 import com.romeat.smashup.util.Resource
+import com.romeat.smashup.util.SquareDisplayItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,7 +29,7 @@ class ChartsViewModel @Inject constructor(
                         is Resource.Success -> {
                             result.data?.let {
                                 state = state.copy(
-                                    playlists = result.data,//.sortedByDescending { it.id },
+                                    playlists = PlaylistsToSquareDisplayItems(result.data),
                                     isLoading = false,
                                     isError = false
                                 )
@@ -55,7 +56,8 @@ class ChartsViewModel @Inject constructor(
 }
 
 data class ChartsState(
-    val playlists: List<Playlist> = emptyList(),
+    val playlists: List<SquareDisplayItem> = emptyList(),
+    val liked: List<SquareDisplayItem> = emptyList(),
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val errorMessage: String = ""

@@ -72,6 +72,8 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
                 content = {
                     MainScreen(
                         onPlaylistClick = onPlaylistClick,
+                        onNotificationsClick = { },
+                        onSettingsClick = { navController.navigate(HomeGraphScreen.Profile.route) }
                     )
                 },
                 onExpandPlayerClick = onExpandPlayerClicked,
