@@ -14,12 +14,15 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.HomePlayerViewModel
 import com.romeat.smashup.presentation.home.PlayerState
@@ -61,24 +64,39 @@ fun PlayerSmallContent(
             .fillMaxWidth()
             .clickable { onExpandClick() }
     ) {
-        Spacer(modifier = Modifier.height(1.dp))
+        val gradientColorToTransparent = List(4) {
+            MaterialTheme.colors.surface
+        }.plus(Color.Transparent)
+
+        LinearProgressIndicator(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp),
+            progress = 0f
+        )
 
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
-            IconButton(
+            Box(
                 modifier = Modifier
-                    .padding(start = 8.dp, end = 3.dp)
-                    .size(60.dp),
-                onClick = onPlayPauseClick,
+                    .zIndex(1f)
+                    .background(Brush.horizontalGradient(gradientColorToTransparent)),
             ) {
-                Icon(
+                IconButton(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(12.dp),
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_play_button),
-                    contentDescription = "play"
-                )
+                        .padding(start = 8.dp, end = 3.dp)
+                        .size(60.dp),
+                    onClick = onPlayPauseClick,
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(12.dp),
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_play_button),
+                        contentDescription = "play"
+                    )
+                }
             }
 
             var positionOffset by remember { mutableStateOf(0f) }
@@ -153,23 +171,29 @@ fun PlayerSmallContent(
                 }
             }
 
-            IconButton(
+            Box(
                 modifier = Modifier
-                    .padding(start = 4.dp, end = 10.dp)
-                    .size(60.dp),
-                onClick = onLikeClick,
+                    .zIndex(1f)
+                    .background(Brush.horizontalGradient(gradientColorToTransparent.reversed())),
             ) {
-                Icon(
+                IconButton(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(14.dp),
-                    imageVector = if (state.isLiked) {
-                        ImageVector.vectorResource(R.drawable.ic_heart_filled)
-                    } else {
-                        ImageVector.vectorResource(R.drawable.ic_heart_border)
-                    },
-                    contentDescription = "like"
-                )
+                        .padding(start = 4.dp, end = 10.dp)
+                        .size(60.dp),
+                    onClick = onLikeClick,
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(14.dp),
+                        imageVector = if (state.isLiked) {
+                            ImageVector.vectorResource(R.drawable.ic_heart_filled)
+                        } else {
+                            ImageVector.vectorResource(R.drawable.ic_heart_border)
+                        },
+                        contentDescription = "like"
+                    )
+                }
             }
         }
     }
@@ -180,7 +204,7 @@ fun PlayerSmallContent(
 fun PlayerSmallPreview() {
     SmashupTheme() {
         PlayerSmallContent(
-            state = PlayerState(),
+            state = PlayerState(isPlaybackNull = false),
             onPreviousClick = { /*TODO*/ },
             onPlayPauseClick = { /*TODO*/ },
             onNextClick = { /*TODO*/ },
