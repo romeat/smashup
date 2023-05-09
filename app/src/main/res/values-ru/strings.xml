@@ -49,9 +49,9 @@
     <string name="proceed_anyway_button">Перейти в приложение</string>
     <string name="exit_button">Закрыть приложение</string>
 
-    <string name="bottom_bar_main">ГЛАВНАЯ</string>
-    <string name="bottom_bar_search">ПОИСК</string>
-    <string name="bottom_bar_profile">ПРОФИЛЬ</string>
+    <string name="bottom_bar_main">Главная</string>
+    <string name="bottom_bar_search">Поиск</string>
+    <string name="bottom_bar_playlists">Плейлисты</string>
 
     <string name="bitrate_orig">Оригинал</string>
     <string name="bitrate160">160 кб/с</string>

@@ -48,9 +48,9 @@
     <string name="proceed_anyway_button">Use anyway</string>
     <string name="exit_button">Close app</string>
 
-    <string name="bottom_bar_main">MAIN</string>
-    <string name="bottom_bar_search">SEARCH</string>
-    <string name="bottom_bar_profile">PROFILE</string>
+    <string name="bottom_bar_main">Main</string>
+    <string name="bottom_bar_search">Search</string>
+    <string name="bottom_bar_playlists">Playlists</string>
 
     <string name="bitrate_orig">Original</string>
     <string name="bitrate160">160 KB/s</string>

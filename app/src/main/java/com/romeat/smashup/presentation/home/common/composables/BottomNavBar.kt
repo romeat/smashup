@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
@@ -50,7 +52,7 @@ fun RowScope.AddItem(
         },
         icon = {
             Icon(
-                imageVector = screen.icon,
+                imageVector = ImageVector.vectorResource(screen.iconRes),
                 contentDescription = stringResource(id = screen.titleResource)
             )
         },
@@ -61,7 +63,6 @@ fun RowScope.AddItem(
         unselectedContentColor = LocalContentColor.current.copy(alpha = ContentAlpha.disabled),
         onClick = {
             if (currentDestination?.route != screen.graphScreen.route) {
-                //Log.d("TBAG", "onClick: currentDestination?.route = " + currentDestination?.route + " ___ screen.graphScreen.route = " + screen.graphScreen.route)
 
                 // notOnSameTab means back queue does not contain this tab
                 // (== true when we move from one tab to another, == false when we tap on already selected tab)

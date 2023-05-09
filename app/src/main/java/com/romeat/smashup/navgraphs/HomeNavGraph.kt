@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import com.google.accompanist.navigation.animation.composable
@@ -297,23 +298,23 @@ sealed class HomeGraphScreen(val route: String) {
 sealed class BottomBarScreen(
     val graphScreen: HomeGraphScreen,
     val titleResource: Int,
-    val icon: ImageVector
+    val iconRes: Int
 ) {
     object Main : BottomBarScreen(
         graphScreen = HomeGraphScreen.Main,
         titleResource = R.string.bottom_bar_main,
-        icon = Icons.Default.Home
+        iconRes = R.drawable.ic_bottom_bar_home
     )
 
     object Search : BottomBarScreen(
         graphScreen = HomeGraphScreen.Search,
         titleResource = R.string.bottom_bar_search,
-        icon = Icons.Default.Search
+        iconRes = R.drawable.ic_bottom_bar_search
     )
 
     object Profile : BottomBarScreen(
         graphScreen = HomeGraphScreen.Profile,
-        titleResource = R.string.bottom_bar_profile,
-        icon = Icons.Default.Person
+        titleResource = R.string.bottom_bar_playlists,
+        iconRes = R.drawable.ic_bottom_bar_stub
     )
 }
