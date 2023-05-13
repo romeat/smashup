@@ -93,7 +93,11 @@ fun PlayerSmallContent(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(12.dp),
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_play_button),
+                        imageVector = if (state.isPlaying) {
+                            ImageVector.vectorResource(R.drawable.ic_pause_circle_button)
+                        } else {
+                            ImageVector.vectorResource(R.drawable.ic_play_circle_button)
+                        },
                         contentDescription = "play"
                     )
                 }
