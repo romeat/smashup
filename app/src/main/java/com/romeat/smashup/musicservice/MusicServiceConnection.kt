@@ -10,12 +10,14 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import androidx.media.MediaBrowserServiceCompat
 import com.romeat.smashup.data.dto.Mashup
 import com.romeat.smashup.data.dto.MashupMediaItem
 import com.romeat.smashup.musicservice.mapper.MediaMetadataMapper
 import com.romeat.smashup.util.MediaConstants
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.encodeToString
@@ -27,6 +29,9 @@ import javax.inject.Singleton
 class MusicServiceConnection @Inject constructor(
     @ApplicationContext val context: Context
 ) {
+
+    private val scope = CoroutineScope(Dispatchers.Default)
+    private var job: Job? = null
 
     private val _isConnected = MutableStateFlow(false)
     val isConnected: StateFlow<Boolean> = _isConnected
@@ -49,6 +54,9 @@ class MusicServiceConnection @Inject constructor(
     // currently playing playlist
     private val _nowPlayingPlaylist = MutableStateFlow(emptyList<MashupMediaItem>())
     val nowPlayingPlaylist: StateFlow<List<MashupMediaItem>> = _nowPlayingPlaylist
+
+    private val _nowPlayingQueue = MutableStateFlow(emptyList<MediaSessionCompat.QueueItem>())
+    val nowPlayingQueue: StateFlow<List<MediaSessionCompat.QueueItem>> = _nowPlayingQueue
 
     // tracks song duration
     private val _currentSongDuration = MutableStateFlow(-1L)
@@ -83,8 +91,7 @@ class MusicServiceConnection @Inject constructor(
 
     fun playMashupFromPlaylist(
         mashupIdToStart: Int,
-        playlist: List<Mashup>,
-        shuffle: Boolean = false
+        playlist: List<Mashup>
     ) {
         val nowPlaying = nowPlayingMashup.value
         nowPlaying?.id.let { nowPlayingId ->
@@ -102,6 +109,52 @@ class MusicServiceConnection @Inject constructor(
                 extras.putString(MediaConstants.PLAYLIST_TO_PLAY, Json.encodeToString(playlist))
                 controls.playFromMediaId(mashupIdToStart.toString(), extras)
             }
+        }
+    }
+
+    fun playEntirePlaylist(
+        mashupIdToStart: Int,
+        playlist: List<Mashup>,
+        shuffle: Boolean = false
+    ) {
+        val extras = Bundle()
+        extras.putString(MediaConstants.PLAYLIST_TO_PLAY, Json.encodeToString(playlist))
+
+        controls.setShuffleMode(PlaybackStateCompat.SHUFFLE_MODE_NONE)
+
+        if (!shuffle) {
+            controls.playFromMediaId(mashupIdToStart.toString(), extras)
+        } else {
+            job?.cancel()
+
+            // The problem with shuffle is that we cant just say "shuffle media queue then play from first media item in new queue",
+            // we must always specify song id to start from. But if we call .playFromMediaId() with some id, then shuffle,
+            // playback will start from that id, not from the start of shuffled list. We need to handle it.
+
+            // So, when we click shuffle button, player loads all media items to media queue with normal order
+            // and adds inner queueIds starting from 0.
+            controls.prepareFromMediaId(mashupIdToStart.toString(), extras)
+            // Then we set Shuffle mode:
+            controls.setShuffleMode(PlaybackStateCompat.SHUFFLE_MODE_ALL)
+            // After that player rearranges media items randomly and updates media queue
+            // (so order of queueIds change, for example, from [0, 1, 2] to [2, 0, 1])
+
+            // This coroutine checks media queue for updates from callback,
+            // and when first item of media queue is not the same as first item of playlist parameter,
+            // that means media queue was shuffled, and we need to manually start playback from first item
+            // by calling .skipToQueueItem()
+            job = scope.launch {
+                while (true) {
+                    delay(20)
+                    val list = nowPlayingQueue.value
+
+                    if (list.isNotEmpty() && list.first().description.mediaId != playlist.first().id.toString()) {
+                        controls.skipToQueueItem(list.first().queueId)
+                        return@launch
+                    }
+                }
+            }
+
         }
     }
 
@@ -182,7 +235,7 @@ class MusicServiceConnection @Inject constructor(
                     rawState = state,
                     isShuffle = mediaController.shuffleMode == PlaybackStateCompat.SHUFFLE_MODE_ALL
                             || mediaController.shuffleMode == PlaybackStateCompat.SHUFFLE_MODE_GROUP,
-                    repeatMode = when(mediaController.repeatMode) {
+                    repeatMode = when (mediaController.repeatMode) {
                         PlaybackStateCompat.REPEAT_MODE_ONE -> PlaybackRepeatMode.RepeatOneSong
                         PlaybackStateCompat.REPEAT_MODE_ALL -> PlaybackRepeatMode.RepeatPlaylist
                         else -> PlaybackRepeatMode.None
@@ -206,7 +259,7 @@ class MusicServiceConnection @Inject constructor(
         }
 
         override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {
-            // TODO check if it is actually playlist
+            _nowPlayingQueue.value = queue ?: emptyList()
         }
 
         override fun onSessionEvent(event: String?, extras: Bundle?) {

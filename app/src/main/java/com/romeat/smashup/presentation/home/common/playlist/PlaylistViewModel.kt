@@ -14,10 +14,7 @@ import com.romeat.smashup.util.ConvertFromUiListItems
 import com.romeat.smashup.util.ConvertToUiListItems
 import com.romeat.smashup.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -133,6 +130,22 @@ class PlaylistViewModel @Inject constructor(
         } else {
             likesRepository.addLike(mashupId)
         }
+    }
+
+    fun onPlayClick() {
+        playCurrentPlaylist(mashupIdToStart = state.value.mashupList.first().id)
+    }
+
+    fun onShuffleClick() {
+        playCurrentPlaylist(mashupIdToStart = state.value.mashupList.first().id, shuffle = true)
+    }
+
+    private fun playCurrentPlaylist(mashupIdToStart: Int, shuffle: Boolean = false) {
+        musicServiceConnection.playEntirePlaylist(
+            mashupIdToStart = mashupIdToStart,
+            playlist = ConvertFromUiListItems(state.value.mashupList),
+            shuffle = shuffle
+        )
     }
 }
 
