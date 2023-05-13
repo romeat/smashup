@@ -69,6 +69,7 @@ class PlaylistViewModel @Inject constructor(
         }
         viewModelScope.launch {
             musicServiceConnection.nowPlayingMashup
+                .debounce(100)
                 .collect { mashup ->
                     _state.update { it ->
                         it.copy(currentlyPlayingMashupId = mashup?.id)

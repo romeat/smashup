@@ -26,10 +26,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -56,7 +53,7 @@ class HomePlayerViewModel @Inject constructor(
         viewModelScope.launch {
             combine(
                 musicService.playbackState,
-                musicService.nowPlayingMashup,
+                musicService.nowPlayingMashup.debounce(100),
                 musicService.currentSongDuration,
                 likesRepository.likesState,
             ) { playbackState: SmashupPlaybackState,
