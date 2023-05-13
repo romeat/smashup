@@ -246,9 +246,11 @@ open class MusicService : MediaBrowserServiceCompat() {
     }
      */
 
+    // Set TimelineQueueNavigator maxQueueSize to 500 for correct shuffle behavior.
+    // See: https://github.com/google/ExoPlayer/issues/6658
     private inner class SmashupQueueNavigator(
         mediaSession: MediaSessionCompat
-    ) : TimelineQueueNavigator(mediaSession) {
+    ) : TimelineQueueNavigator(mediaSession, 500) {
         override fun getMediaDescription(player: Player, windowIndex: Int): MediaDescriptionCompat {
             if (windowIndex < currentPlaylistItems.size) {
                 return currentPlaylistItems[windowIndex].description
