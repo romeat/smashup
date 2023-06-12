@@ -46,10 +46,6 @@ class StartupViewModel @Inject constructor(
             checkUserLogged()
         }
     }
-
-    fun onExitDialogButton() {
-
-    }
 }
 
 sealed class StartupEvent {
