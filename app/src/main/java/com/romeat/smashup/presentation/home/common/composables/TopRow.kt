@@ -9,7 +9,10 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import com.romeat.smashup.R
 
 @Composable
 fun TopRow(
@@ -29,7 +32,7 @@ fun TopRow(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = 5.dp),
-                imageVector = Icons.Filled.ArrowBack,
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_chevron_left_button),
                 contentDescription = "back"
             )
         }

@@ -2,6 +2,17 @@
     <string name="app_name_release">Smashup</string>
     <string name="app_name_debug">Smashup D</string>
 
+    <string name="welcome">Welcome to SmashUp!</string>
+    <string name="we_are">We are the first and only\n mashup streaming service.</string>
+
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="register_confirm">Register</string>
+    <string name="login_confirm">Log in</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="confirm">Confirm</string>
+    <string name="send">Send</string>
+
     <string name="notification_channel">notification_channel</string>
     <string name="notification_channel_description">notification_channel_description</string>
     <string name="failed_to_load">Failed to load data</string>
