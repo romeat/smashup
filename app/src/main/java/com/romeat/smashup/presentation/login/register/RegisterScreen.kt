@@ -17,15 +17,37 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.common.composables.*
 import com.romeat.smashup.ui.theme.SmashupTheme
+import com.romeat.smashup.util.collectInLaunchedEffectWithLifecycle
 
 @Composable
 fun RegisterScreen(
-
+    navController: NavController,
+    onLoginClick: () -> Unit
 ) {
+    val viewModel: RegisterViewModel = hiltViewModel()
 
+    viewModel.eventsFlow.collectInLaunchedEffectWithLifecycle { event ->
+        when (event) {
+            is RegisterEvent.NavigateToRegistrationConfirm -> {
+                navController.popBackStack()
+                // todo navigate to
+            }
+        }
+    }
+
+    RegisterScreenContent(
+        state = viewModel.state,
+        onUsernameChange = viewModel::onUsernameChange,
+        onPasswordChange = viewModel::onPasswordChange,
+        onEmailChange = viewModel::onEmailChange,
+        onRegisterClick = viewModel::onRegisterClick,
+        onLoginClick = onLoginClick
+    )
 }
 
 @Composable

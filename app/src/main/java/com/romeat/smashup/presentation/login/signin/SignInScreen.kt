@@ -16,14 +16,40 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.romeat.smashup.R
+import com.romeat.smashup.navgraphs.RootGraph
 import com.romeat.smashup.presentation.home.common.composables.*
+import com.romeat.smashup.presentation.login.LoginEvent
 import com.romeat.smashup.ui.theme.SmashupTheme
+import com.romeat.smashup.util.collectInLaunchedEffectWithLifecycle
 
 @Composable
-fun SignInScreen() {
+fun SignInScreen(
+    navController: NavController,
+    onRegisterClick: () -> Unit,
+    onForgotPasswordClick: () -> Unit
+) {
+    val viewModel: SignInViewModel = hiltViewModel()
 
+    viewModel.eventsFlow.collectInLaunchedEffectWithLifecycle { event ->
+        when (event) {
+            is SignInEvent.NavigateToHomeGraph -> {
+                navController.popBackStack()
+                navController.navigate(RootGraph.HOME)
+            }
+        }
+    }
 
+    SignInScreenContent(
+        state = viewModel.state,
+        onUsernameChange = viewModel::onUsernameChange,
+        onPasswordChange = viewModel::onPasswordChange,
+        onRegisterClick = onRegisterClick,
+        onLoginClick = onForgotPasswordClick,
+        onForgotPasswordClick = viewModel::onLoginClick
+    )
 }
 
 @Composable
@@ -72,7 +98,9 @@ fun SignInScreenContent(
             Row(modifier = Modifier.fillMaxWidth()) {
                 LabelText(
                     textRes = R.string.password_label,
-                    modifier = Modifier.weight(1f).padding(vertical = 6.dp)
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(vertical = 6.dp)
                 )
                 Text(
                     modifier = Modifier
@@ -132,7 +160,8 @@ fun SignInScreenContent(
     }
 }
 
-@Preview
+@Preview(locale = "en")
+@Preview(locale = "ru")
 @Composable
 fun SignInScreenContentPreview() {
     SmashupTheme() {
