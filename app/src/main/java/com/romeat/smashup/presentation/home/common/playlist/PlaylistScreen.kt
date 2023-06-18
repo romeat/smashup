@@ -126,7 +126,7 @@ fun PlaylistScreen(
                         }
                     } else if (state.isMashupListError) {
                         item {
-                            ListLoadingError()
+                            ErrorTextMessage()
                         }
                     } else {
                         items(

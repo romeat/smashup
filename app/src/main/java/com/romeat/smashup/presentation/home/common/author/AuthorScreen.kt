@@ -62,11 +62,11 @@ fun AuthorScreen(
                         }
                     } else if (state.isMashupListError) {
                         item {
-                            ListLoadingError()
+                            ErrorTextMessage()
                         }
                     } else if (state.mashupList.isEmpty()) {
                         item {
-                            ListLoadingError(stringResource(id = R.string.user_has_no_mashups))
+                            ErrorTextMessage(R.string.user_has_no_mashups)
                         }
                     } else {
                         items(

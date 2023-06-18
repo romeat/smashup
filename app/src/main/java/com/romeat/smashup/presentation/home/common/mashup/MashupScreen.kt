@@ -65,7 +65,7 @@ fun MashupScreen(
                         }
                     } else if (state.isSourceListError) {
                         item {
-                            ListLoadingError()
+                            ErrorTextMessage()
                         }
                     } else {
                         item {

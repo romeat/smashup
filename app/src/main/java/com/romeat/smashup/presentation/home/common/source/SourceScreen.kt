@@ -63,7 +63,7 @@ fun SourceScreen(
                         }
                     } else if (state.isMashupListError) {
                         item {
-                            ListLoadingError()
+                            ErrorTextMessage()
                         }
                     } else {
                         item {
