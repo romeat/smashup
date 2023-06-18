@@ -97,4 +97,8 @@
     <string name="register_button_2">Register</string>
     <string name="login_button_1">Login</string>
     <string name="login_button_2">Login</string>
+
+    <string name="send_button">Send</string>
+    <string name="password_recovery">Password recovery</string>
+    <string name="password_recovery_hint">We will send you password\nrecovery instructions</string>
 </resources>
