@@ -11,9 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.romeat.smashup.R
-import com.romeat.smashup.presentation.home.common.composables.Logo
-import com.romeat.smashup.presentation.home.common.composables.NoBackgroundButton
-import com.romeat.smashup.presentation.home.common.composables.PurpleButton
+import com.romeat.smashup.presentation.home.common.composables.*
 import com.romeat.smashup.ui.theme.SmashupTheme
 
 @Composable
@@ -32,25 +30,16 @@ fun GreetingsScreen(
             Spacer(modifier = Modifier.weight(1.0f))
             Logo(modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.weight(0.55f))
-            
-            Text(
+            TextBold22Sp(
+                resId = R.string.welcome,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp),
-                text = stringResource(id = R.string.welcome),
-                textAlign = TextAlign.Center,
-                fontStyle = MaterialTheme.typography.body1.fontStyle,
-                fontSize = 22.sp,
+                    .padding(horizontal = 20.dp)
             )
             Spacer(modifier = Modifier.height(10.dp))
-            Text(
+            TextBody1(
+                resId = R.string.we_are,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp),
-                text = stringResource(id = R.string.we_are),
-                textAlign = TextAlign.Center,
-                fontStyle = MaterialTheme.typography.body1.fontStyle,
-                fontWeight = FontWeight.Normal
+                    .padding(horizontal = 20.dp)
             )
             Spacer(modifier = Modifier.height(40.dp))
             PurpleButton(
@@ -69,8 +58,9 @@ fun GreetingsScreen(
     }
 }
 
+@Preview(locale = "en")
+@Preview(locale = "ru")
 @Composable
-@Preview
 fun GreetingsScreenPreview() {
     SmashupTheme(darkTheme = true) {
         GreetingsScreen(
