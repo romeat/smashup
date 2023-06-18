@@ -41,8 +41,8 @@ val Typography = Typography(
     ),
     overline = TextStyle(
         fontWeight = FontWeight.Normal,
-        fontSize = 10.sp,
-        letterSpacing = 0.5.sp
+        fontSize = 9.sp,
+        letterSpacing = 0.3.sp
     )
 
     /* Other default text styles to override

@@ -87,8 +87,8 @@
     <string name="error_user_exists">User already exists</string>
     <string name="error_already_sent">Register confirmation email already sent</string>
     <string name="error_incorrect_data">Server error: incorrect data</string>
-    <string name="hick_wrong_format">Wrong nickname</string>
-    <string name="password_wrong_format">Wrong password. Should contain only alphanumeric and \"-_=+()*&amp;^%$#@!\"</string>
+    <string name="nick_wrong_format">Nickname should contain alphanumeric symbols, spaces and underscores only</string>
+    <string name="password_wrong_format">Password should contain letters, digits and symbols -_=+()*&amp;^%$#@! only</string>
 
     <string name="login_email_or_nick">Email or nickname</string>
     <string name="forgot_password_label">Forgot password?</string>

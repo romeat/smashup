@@ -3,6 +3,7 @@ package com.romeat.smashup.presentation.home.common.composables
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
@@ -27,9 +28,12 @@ fun StyledInput(
     onTextChange: (String) -> Unit,
     placeholderResId: Int,
     isError: Boolean,
+    enabled: Boolean,
     modifier: Modifier = Modifier,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    keyboardOptions: KeyboardOptions = KeyboardOptions()
+    keyboardOptions: KeyboardOptions = KeyboardOptions(),
+    keyboardActions: KeyboardActions = KeyboardActions(),
+    trailingIcon: (@Composable () -> Unit)? = null
 ) {
     var hasFocus by remember { mutableStateOf(false) }
 
@@ -49,6 +53,7 @@ fun StyledInput(
             .background(color = MaterialTheme.colors.surface, shape = MaterialTheme.shapes.small),
         shape = MaterialTheme.shapes.small,
         value = text,
+        enabled = enabled,
         onValueChange = onTextChange,
         isError = isError,
         placeholder = {
@@ -62,7 +67,9 @@ fun StyledInput(
         textStyle = MaterialTheme.typography.h6,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         colors = TextFieldDefaults.outlinedTextFieldColors(textColor = MaterialTheme.colors.onSurface),
+        trailingIcon = trailingIcon,
         singleLine = true,
     )
 }
@@ -92,7 +99,8 @@ fun ErrorText(
         text = stringResource(textRes).addEmptyLines(emptyLines),
         fontStyle = MaterialTheme.typography.overline.fontStyle,
         fontWeight = FontWeight.W500,
-        color = MaterialTheme.colors.error
+        color = MaterialTheme.colors.error,
+        maxLines = 2
     )
 }
 
@@ -112,6 +120,7 @@ fun StyledInputPreview() {
                 onTextChange = {},
                 placeholderResId = R.string.username_placeholder,
                 isError = false,
+                enabled = true,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
@@ -124,6 +133,7 @@ fun StyledInputPreview() {
                 onTextChange = {},
                 placeholderResId = R.string.username_placeholder,
                 isError = false,
+                enabled = true,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
@@ -136,6 +146,7 @@ fun StyledInputPreview() {
                 onTextChange = {},
                 placeholderResId = R.string.username_placeholder,
                 isError = true,
+                enabled = true,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)

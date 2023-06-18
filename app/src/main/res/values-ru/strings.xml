@@ -88,8 +88,8 @@
     <string name="error_user_exists">Такой пользователь уже существует</string>
     <string name="error_already_sent">Письмо уже отправлено на почту</string>
     <string name="error_incorrect_data">Ошибка сервера: некорректные данные</string>
-    <string name="hick_wrong_format">Такой ник нельзя создать. Ник может содержать только буквы и цифры</string>
-    <string name="password_wrong_format">Недопустимые символы в пароле. Пароль может содержать цифры, латинские буквы и символы \"-_=+()*&amp;^%$#@!\"</string>
+    <string name="nick_wrong_format">Ник может содержать только буквы, цифры, пробелы и подчеркивания</string>
+    <string name="password_wrong_format">Пароль может содержать только цифры, буквы A-Z и символы -_=+()*&amp;^%$#@!</string>
 
     <string name="login_email_or_nick">Почта или ник</string>
     <string name="forgot_password_label">Забыли пароль?</string>

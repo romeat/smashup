@@ -2,13 +2,18 @@ package com.romeat.smashup.presentation.login.signin
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.romeat.smashup.R
@@ -30,6 +35,9 @@ fun SignInScreenContent(
     onLoginClick: () -> Unit,
     onForgotPasswordClick: () -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
+    var passwordVisible: Boolean by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -52,6 +60,7 @@ fun SignInScreenContent(
             )
             StyledInput(
                 text = "",
+                enabled = !state.isLoading,
                 onTextChange = onUsernameChange,
                 placeholderResId = R.string.string_empty,
                 isError = state.isNicknameError,
@@ -67,7 +76,7 @@ fun SignInScreenContent(
                 )
                 Text(
                     modifier = Modifier
-                        .clickable { onForgotPasswordClick() }
+                        .clickable { if (!state.isLoading) onForgotPasswordClick() }
                         .padding(vertical = 6.dp),
                     text = stringResource(R.string.forgot_password),
                     fontStyle = MaterialTheme.typography.body1.fontStyle,
@@ -77,10 +86,30 @@ fun SignInScreenContent(
             }
             StyledInput(
                 text = "",
+                enabled = !state.isLoading,
                 onTextChange = onPasswordChange,
                 placeholderResId = R.string.string_empty,
                 isError = state.isPasswordError,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        focusManager.clearFocus()
+                        if (!state.isLoading) onLoginClick()
+                    }
+                ),
+                trailingIcon = {
+                    val image = if (passwordVisible)
+                        R.drawable.ic_baseline_visibility_off_24
+                    else R.drawable.ic_baseline_visibility_24
+
+                    IconButton(onClick = {passwordVisible = !passwordVisible}){
+                        Icon(imageVector  = ImageVector.vectorResource(id = image), "password visibility")
+                    }
+                }
             )
             ErrorText(textRes = state.passwordErrorResId)
 
@@ -90,12 +119,14 @@ fun SignInScreenContent(
             // Buttons
             PurpleButton(
                 textRes = R.string.login_button_2,
-                onClick = onRegisterClick
+                onClick = onRegisterClick,
+                enabled = !state.isLoading,
             )
             Spacer(modifier = Modifier.height(20.dp))
             NoBackgroundButton(
                 textRes = R.string.register_button_1,
-                onClick = onLoginClick
+                onClick = onLoginClick,
+                enabled = !state.isLoading,
             )
         }
     }
