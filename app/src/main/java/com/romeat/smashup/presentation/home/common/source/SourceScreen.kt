@@ -30,6 +30,7 @@ fun SourceScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopRow(
+            title = "",
             onBackPressed = onBackClicked
         )
         Row(

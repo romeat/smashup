@@ -29,6 +29,7 @@ fun AuthorScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopRow(
+            title = "",
             onBackPressed = onBackClicked
         )
         Row(

@@ -73,4 +73,28 @@
     <string name="home_screen_title">Welcome!</string>
     <string name="mashups_toggle_button">Mashups</string>
     <string name="shitpost_toggle_button">Shitpost</string>
+
+    <string name="register_nickname_label">Nickname</string>
+    <string name="email_label">Email</string>
+    <string name="password_label">Password</string>
+    <string name="register_title">Register</string>
+    <string name="nickname_hint">Minimum 4 symbols</string>
+    <string name="nick_too_short">Nickname too short</string>
+    <string name="password_hint">Minimum 8 symbols </string>
+    <string name="pass_too_short">Password too short</string>
+    <string name="email_hint">somebody@example.com</string>
+    <string name="email_format_error">Wrong email format</string>
+    <string name="error_user_exists">User already exists</string>
+    <string name="error_already_sent">Register confirmation email already sent</string>
+    <string name="error_incorrect_data">Server error: incorrect data</string>
+    <string name="hick_wrong_format">Wrong nickname</string>
+    <string name="password_wrong_format">Wrong password. Should contain only alphanumeric and \"-_=+()*&amp;^%$#@!\"</string>
+
+    <string name="login_email_or_nick">Email or nickname</string>
+    <string name="forgot_password_label">Forgot password?</string>
+
+    <string name="register_button_1">Register</string>
+    <string name="register_button_2">Register</string>
+    <string name="login_button_1">Login</string>
+    <string name="login_button_2">Login</string>
 </resources>

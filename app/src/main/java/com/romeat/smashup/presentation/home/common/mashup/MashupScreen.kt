@@ -28,7 +28,10 @@ fun MashupScreen(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopRow(onBackPressed = onBackClicked)
+        TopRow(
+            title = "",
+            onBackPressed = onBackClicked
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()

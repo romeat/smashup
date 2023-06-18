@@ -19,6 +19,16 @@ val customFont = FontFamily(
 val Typography = Typography(
     defaultFontFamily = customFont,
 
+    h5 = TextStyle(
+        fontWeight = FontWeight.SemiBold,
+        letterSpacing = 0.25.sp,
+        fontSize = 22.sp
+    ),
+    h6 = TextStyle(
+        fontWeight = FontWeight.Medium,
+        letterSpacing = 0.25.sp,
+        fontSize = 19.sp
+    ),
     body1 = TextStyle(
         fontWeight = FontWeight.SemiBold,
         letterSpacing = 0.25.sp,
@@ -26,8 +36,13 @@ val Typography = Typography(
     ),
     body2 = TextStyle(
         fontWeight = FontWeight.Normal,
-        letterSpacing = 0.25.sp,
+        letterSpacing = 0.15.sp,
         fontSize = 13.sp
+    ),
+    overline = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontSize = 10.sp,
+        letterSpacing = 0.5.sp
     )
 
     /* Other default text styles to override

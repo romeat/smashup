@@ -74,4 +74,28 @@
     <string name="home_screen_title">Добро пожаловать!</string>
     <string name="mashups_toggle_button">Mashups</string>
     <string name="shitpost_toggle_button">Shitpost</string>
+
+    <string name="register_nickname_label">Ник</string>
+    <string name="email_label">Email</string>
+    <string name="password_label">Password</string>
+    <string name="register_title">Регистрация</string>
+    <string name="nickname_hint">Минимум 4 символа</string>
+    <string name="nick_too_short">Слишком короткий никнейм</string>
+    <string name="password_hint">Минимум 8 символов</string>
+    <string name="pass_too_short">Слишком короткий пароль</string>
+    <string name="email_hint">somebody@example.com</string>
+    <string name="email_format_error">Некорректный формат почты</string>
+    <string name="error_user_exists">Такой пользователь уже существует</string>
+    <string name="error_already_sent">Письмо уже отправлено на почту</string>
+    <string name="error_incorrect_data">Ошибка сервера: некорректные данные</string>
+    <string name="hick_wrong_format">Такой ник нельзя создать. Ник может содержать только буквы и цифры</string>
+    <string name="password_wrong_format">Недопустимые символы в пароле. Пароль может содержать цифры, латинские буквы и символы \"-_=+()*&amp;^%$#@!\"</string>
+
+    <string name="login_email_or_nick">Почта или ник</string>
+    <string name="forgot_password_label">Забыли пароль?</string>
+
+    <string name="register_button_1">Регистрация</string>
+    <string name="register_button_2">Зарегистрироваться</string>
+    <string name="login_button_1">Вход</string>
+    <string name="login_button_2">Войти</string>
 </resources>

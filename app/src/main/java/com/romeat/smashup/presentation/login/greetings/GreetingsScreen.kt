@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.common.composables.Logo
+import com.romeat.smashup.presentation.home.common.composables.NoBackgroundButton
 import com.romeat.smashup.presentation.home.common.composables.PurpleButton
 import com.romeat.smashup.ui.theme.SmashupTheme
 
@@ -54,27 +55,15 @@ fun GreetingsScreen(
             Spacer(modifier = Modifier.height(40.dp))
             PurpleButton(
                 textRes = R.string.registration,
-                onClick = onRegistrationClick
+                onClick = onRegistrationClick,
+                modifier = Modifier.padding(horizontal = 20.dp)
             )
             Spacer(modifier = Modifier.height(20.dp))
-            OutlinedButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp)
-                    .padding(horizontal = 20.dp),
+            NoBackgroundButton(
+                textRes = R.string.login_button_1,
                 onClick = onLoginClick,
-                colors = ButtonDefaults.buttonColors(
-                    contentColor = MaterialTheme.colors.onSurface,
-                    backgroundColor = MaterialTheme.colors.background,
-                ),
-                border = null
-            ) {
-                Text(
-                    text = stringResource(id = R.string.login),
-                    fontSize = 19.sp,
-                    fontWeight = FontWeight.Bold,
-                )
-            }
+                modifier = Modifier.padding(horizontal = 20.dp)
+            )
             Spacer(modifier = Modifier.height(40.dp))
         }
     }
