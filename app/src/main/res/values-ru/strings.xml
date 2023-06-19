@@ -102,4 +102,13 @@
     <string name="send_button">Отправить</string>
     <string name="password_recovery">Восстановление пароля</string>
     <string name="password_recovery_hint">Мы отправим вам инструкции по\nвосстановлению пароля</string>
+
+    <string name="about_app">О приложении</string>
+    <string name="external_components">Сторонние компоненты</string>
+    <string name="user_agreement">Пользовательское соглашение</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="our_team">Команда</string>
+    <string name="adult_content_warning">Сервис Smashup может содержать информацию,\\nне предназначенную для несовершеннолетних</string>
+    <string name="touch_point">Проект команды TouchPoint</string>
+    <string name="app_version">Версия %s</string>
 </resources>

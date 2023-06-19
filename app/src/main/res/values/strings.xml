@@ -101,4 +101,14 @@
     <string name="send_button">Send</string>
     <string name="password_recovery">Password recovery</string>
     <string name="password_recovery_hint">We will send you password\nrecovery instructions</string>
+
+    <string name="about_app">About</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="user_agreement">End user agreement</string>
+    <string name="external_components">External components</string>
+    <string name="our_team">Our team</string>
+    <string name="adult_content_warning">Smashup service may contain content\\ninappropriate for underage users</string>
+    <string name="touch_point">TouchPoint\'s team project</string>
+    <string name="team_nicknames" translatable="false">LeonidM, warkkaa, romeatek, Sor/oka, milliyndou</string>
+    <string name="app_version">Version %s</string>
 </resources>
