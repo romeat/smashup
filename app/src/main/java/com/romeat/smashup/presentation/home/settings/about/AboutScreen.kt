@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.romeat.smashup.BuildConfig
@@ -90,6 +91,7 @@ fun AboutScreen(
             ) {
                 Text(
                     text = stringResource(id = R.string.adult_content_warning),
+                    textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.body2,
                 )
                 Spacer(modifier = Modifier.height(20.dp))

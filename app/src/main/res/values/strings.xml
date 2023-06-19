@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name_release">Smashup</string>
     <string name="app_name_debug">Smashup D</string>
@@ -107,7 +108,7 @@
     <string name="user_agreement">End user agreement</string>
     <string name="external_components">External components</string>
     <string name="our_team">Our team</string>
-    <string name="adult_content_warning">Smashup service may contain content\\ninappropriate for underage users</string>
+    <string name="adult_content_warning">Smashup service may contain content\ninappropriate for underage users</string>
     <string name="touch_point">TouchPoint\'s team project</string>
     <string name="team_nicknames" translatable="false">LeonidM, warkkaa, romeatek, Sor/oka, milliyndou</string>
     <string name="app_version">Version %s</string>
