@@ -83,7 +83,7 @@ fun LabelText(
     Text(
         modifier = modifier,
         text = stringResource(textRes),
-        fontStyle = MaterialTheme.typography.body1.fontStyle,
+        style = MaterialTheme.typography.body1,
         fontWeight = FontWeight.W500,
     )
 }
@@ -95,9 +95,9 @@ fun ErrorText(
     emptyLines: Int = 1,
 ) {
     Text(
-        modifier = modifier,
+        modifier = modifier.padding(vertical = 3.dp),
         text = stringResource(textRes).addEmptyLines(emptyLines),
-        fontStyle = MaterialTheme.typography.overline.fontStyle,
+        style = MaterialTheme.typography.overline,
         fontWeight = FontWeight.W500,
         color = MaterialTheme.colors.error,
         maxLines = 2
