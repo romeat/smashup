@@ -35,8 +35,7 @@ fun TextBold22Sp(
             .fillMaxWidth(),
         text = stringResource(id = resId),
         textAlign = TextAlign.Center,
-        fontStyle = MaterialTheme.typography.body1.fontStyle,
-        fontSize = 22.sp,
+        style = MaterialTheme.typography.h5
     )
 }
 
@@ -50,8 +49,7 @@ fun TextBody1(
             .fillMaxWidth(),
         text = stringResource(id = resId),
         textAlign = TextAlign.Center,
-        fontStyle = MaterialTheme.typography.body1.fontStyle,
-        fontWeight = FontWeight.Normal
+        style = MaterialTheme.typography.body1,
     )
 }
 

@@ -102,10 +102,9 @@ fun AudioPlayerContent(
 
                 Text(
                     text = "[PLAYLIST_NAME]",
-                    style = MaterialTheme.typography.body1,
+                    style = MaterialTheme.typography.h5,
                     fontSize = 22.sp,
                     textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.SemiBold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
@@ -200,8 +199,7 @@ fun AudioPlayerContent(
                     ) {
                         Text(
                             text = state.trackAuthor,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = MaterialTheme.typography.body1.fontSize,
+                            style = MaterialTheme.typography.body1,
                             textAlign = TextAlign.Start,
                             modifier = Modifier
                                 .fillMaxWidth()

@@ -84,7 +84,6 @@ fun LabelText(
         modifier = modifier,
         text = stringResource(textRes),
         style = MaterialTheme.typography.body1,
-        fontWeight = FontWeight.W500,
     )
 }
 

@@ -25,12 +25,12 @@ val Typography = Typography(
         fontSize = 22.sp
     ),
     h6 = TextStyle(
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.SemiBold,
         letterSpacing = 0.25.sp,
         fontSize = 19.sp
     ),
     body1 = TextStyle(
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Medium,
         letterSpacing = 0.25.sp,
         fontSize = 16.sp
     ),

@@ -65,8 +65,10 @@
     <string name="bottom_bar_playlists">Плейлисты</string>
 
     <string name="bitrate_orig">Оригинал</string>
+    <string name="bitrate320">320 кб/с</string>
     <string name="bitrate160">160 кб/с</string>
     <string name="bitrate128">128 кб/с</string>
+    <string name="bitrate96">96 кб/с</string>
     <string name="bitrate64">64 кб/с</string>
 
     <string name="lang_EN">EN</string>
@@ -111,4 +113,13 @@
     <string name="adult_content_warning">Сервис Smashup может содержать информацию,\nне предназначенную для несовершеннолетних</string>
     <string name="touch_point">Проект команды TouchPoint</string>
     <string name="app_version">Версия %s</string>
+    <string name="settings">Настройки</string>
+    <string name="push_notif">Push-уведомления</string>
+    <string name="news_notif">Новостные</string>
+    <string name="system_notif">Системные</string>
+    <string name="account_settings">Настройки аккаунта</string>
+    <string name="allow_multisessions">Разрешить мультисессии</string>
+    <string name="allow_explicit">Показывать Explicit-контент</string>
+    <string name="edit_profile">Редактирование профиля</string>
+    <string name="other_settings">Прочие настройки</string>
 </resources>

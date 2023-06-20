@@ -76,7 +76,6 @@ fun AboutScreen(
                 Text(
                     text = stringResource(R.string.our_team),
                     style = MaterialTheme.typography.h6,
-                    fontWeight = FontWeight.SemiBold,
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
@@ -119,7 +118,6 @@ fun TextTitleWithLink(
             modifier = Modifier.weight(1f),
             text = stringResource(id = titleRes),
             style = MaterialTheme.typography.h6,
-            fontWeight = FontWeight.SemiBold,
         )
         Icon(
             modifier = Modifier.size(20.dp),
