@@ -65,11 +65,11 @@
     <string name="bottom_bar_playlists">Playlists</string>
 
     <string name="bitrate_orig">Original</string>
-    <string name="bitrate320">320 KB/s</string>
-    <string name="bitrate160">160 KB/s</string>
-    <string name="bitrate128">128 KB/s</string>
-    <string name="bitrate96">96 KB/s</string>
-    <string name="bitrate64">64 KB/s</string>
+    <string name="bitrate320">320 KB</string>
+    <string name="bitrate160">160 KB</string>
+    <string name="bitrate128">128 KB</string>
+    <string name="bitrate96">96 KB</string>
+    <string name="bitrate64">64 KB</string>
 
     <string name="lang_EN">EN</string>
     <string name="lang_RU">RU</string>

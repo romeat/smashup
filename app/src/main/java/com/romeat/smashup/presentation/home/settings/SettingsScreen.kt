@@ -29,6 +29,7 @@ import com.romeat.smashup.R
 import com.romeat.smashup.data.BitrateOption
 import com.romeat.smashup.data.LanguageOption
 import com.romeat.smashup.data.SettingItemOption
+import com.romeat.smashup.presentation.home.common.composables.CustomBitrateSlider
 import com.romeat.smashup.presentation.home.common.composables.CustomSwitch
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
 import com.romeat.smashup.presentation.home.common.composables.TopRow
@@ -166,7 +167,12 @@ fun SettingsScreenContent(
                 text = stringResource(id = R.string.bitrate),
                 style = MaterialTheme.typography.h6,
             )
-
+            Spacer(Modifier.height(20.dp))
+            CustomBitrateSlider(
+                selected = state.selectedBitrate,
+                bitrates = state.bitrateOptions,
+                onBitrateChange = onBitrateOption
+            )
 
             // Language
             Spacer(Modifier.height(25.dp))

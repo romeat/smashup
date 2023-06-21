@@ -29,20 +29,24 @@ class SettingsProvider @Inject constructor(
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "smashup_settings")
 
     private val bitrateSuffix = "_bitrate_setting"
-    private val defaultBitrate = BitrateOption.OrigQuality
+    private val defaultBitrate = BitrateOption.KB320
 
     // TODO create BiMap for this data
     private val bitrateToDatastoreStringMap = hashMapOf(
         BitrateOption.KB64 to "KB64",
+        BitrateOption.KB96 to "KB96",
         BitrateOption.KB128 to "KB128",
         BitrateOption.KB160 to "KB160",
-        BitrateOption.OrigQuality to "OrigQuality",
+        BitrateOption.KB320 to "KB320",
+        //BitrateOption.OrigQuality to "OrigQuality",
     )
     private val datastoreStringToBitrateMap = hashMapOf(
         "KB64" to BitrateOption.KB64,
+        "KB96" to BitrateOption.KB96,
         "KB128" to BitrateOption.KB128,
         "KB160" to BitrateOption.KB160,
-        "OrigQuality" to BitrateOption.OrigQuality,
+        "KB320" to BitrateOption.KB320,
+        //"OrigQuality" to BitrateOption.OrigQuality,
     )
 
     private val explicitSuffix = "_explicit_content_setting"
@@ -128,9 +132,11 @@ sealed class BitrateOption(
     val suffix: String,
 ) : SettingItemOption {
     object KB64 : BitrateOption(R.string.bitrate64, "_64000.mp3")
+    object KB96 : BitrateOption(R.string.bitrate96, "_96000.mp3")
     object KB128 : BitrateOption(R.string.bitrate128, "_128000.mp3")
     object KB160 : BitrateOption(R.string.bitrate160, "_160000.mp3")
-    object OrigQuality : BitrateOption(R.string.bitrate_orig, ".mp3")
+    object KB320 : BitrateOption(R.string.bitrate320, ".mp3")
+    //object OrigQuality : BitrateOption(R.string.bitrate_orig, ".mp3")
 }
 
 sealed class LanguageOption(
