@@ -4,12 +4,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.common.composables.*
 import com.romeat.smashup.ui.theme.SmashupTheme
@@ -42,7 +38,7 @@ fun GreetingsScreen(
                     .padding(horizontal = 20.dp)
             )
             Spacer(modifier = Modifier.height(40.dp))
-            PurpleButton(
+            PurpleButtonWithProgress(
                 textRes = R.string.registration,
                 onClick = onRegistrationClick,
                 modifier = Modifier.padding(horizontal = 20.dp)

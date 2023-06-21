@@ -81,9 +81,9 @@
     <string name="email_label">Email</string>
     <string name="password_label">Password</string>
     <string name="register_title">Register</string>
-    <string name="nickname_hint">Minimum 4 symbols</string>
+    <string name="nickname_hint">minimum 4 symbols</string>
     <string name="nick_too_short">Nickname too short</string>
-    <string name="password_hint">Minimum 8 symbols </string>
+    <string name="password_hint">minimum 8 symbols </string>
     <string name="pass_too_short">Password too short</string>
     <string name="email_hint">somebody@example.com</string>
     <string name="email_format_error">Wrong email format</string>

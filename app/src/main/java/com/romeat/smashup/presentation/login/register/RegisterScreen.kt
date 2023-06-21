@@ -15,6 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -39,15 +41,23 @@ fun RegisterScreen(
             }
         }
     }
+    SmashupTheme() {
+        Surface(
+            modifier = Modifier
+                .fillMaxSize(),
+            color = (MaterialTheme.colors.background)
+        ) {
+            RegisterScreenContent(
+                state = viewModel.state,
+                onUsernameChange = viewModel::onUsernameChange,
+                onPasswordChange = viewModel::onPasswordChange,
+                onEmailChange = viewModel::onEmailChange,
+                onRegisterClick = viewModel::onRegisterClick,
+                onLoginClick = onLoginClick
+            )
+        }
+    }
 
-    RegisterScreenContent(
-        state = viewModel.state,
-        onUsernameChange = viewModel::onUsernameChange,
-        onPasswordChange = viewModel::onPasswordChange,
-        onEmailChange = viewModel::onEmailChange,
-        onRegisterClick = viewModel::onRegisterClick,
-        onLoginClick = onLoginClick
-    )
 }
 
 @Composable
@@ -83,14 +93,14 @@ fun RegisterScreenContent(
                 modifier = Modifier.padding(vertical = 6.dp)
             )
             StyledInput(
-                text = "",
-                enabled = !state.isLoading,
+                text = state.nickname,
+                enabled = state.inputsEnabled,
                 onTextChange = onUsernameChange,
-                placeholderResId = R.string.string_empty,
+                placeholderResId = R.string.nickname_hint,
                 isError = state.isNicknameError,
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next
+                    imeAction = ImeAction.Next,
                 )
             )
             ErrorText(textRes = state.nicknameErrorResId)
@@ -101,10 +111,10 @@ fun RegisterScreenContent(
                 modifier = Modifier.padding(vertical = 6.dp)
             )
             StyledInput(
-                text = "",
-                enabled = !state.isLoading,
+                text = state.email,
+                enabled = state.inputsEnabled,
                 onTextChange = onEmailChange,
-                placeholderResId = R.string.string_empty,
+                placeholderResId = R.string.email_hint,
                 isError = state.isEmailFormatError,
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(
@@ -122,16 +132,17 @@ fun RegisterScreenContent(
                 modifier = Modifier.padding(vertical = 6.dp)
             )
             StyledInput(
-                text = "",
-                enabled = !state.isLoading,
+                text = state.password,
+                enabled = state.inputsEnabled,
                 onTextChange = onPasswordChange,
-                placeholderResId = R.string.string_empty,
+                placeholderResId = R.string.password_hint,
                 isError = state.isPasswordError,
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
                 ),
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardActions = KeyboardActions(
                     onDone = {
                         focusManager.clearFocus()
@@ -143,8 +154,11 @@ fun RegisterScreenContent(
                         R.drawable.ic_baseline_visibility_off_24
                     else R.drawable.ic_baseline_visibility_24
 
-                    IconButton(onClick = {passwordVisible = !passwordVisible}){
-                        Icon(imageVector  = ImageVector.vectorResource(id = image), "password visibility")
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = image),
+                            "password visibility"
+                        )
                     }
                 }
             )
@@ -154,10 +168,14 @@ fun RegisterScreenContent(
             ErrorText(textRes = state.generalErrorResId, emptyLines = 0)
 
             // Buttons
-            PurpleButton(
+            PurpleButtonWithProgress(
                 textRes = R.string.register_button_2,
-                onClick = onRegisterClick,
-                enabled = !state.isLoading,
+                onClick = {
+                    focusManager.clearFocus()
+                    onRegisterClick()
+                },
+                enabled = state.registerButtonEnabled,
+                inProgress = state.isLoading
             )
             Spacer(modifier = Modifier.height(20.dp))
             NoBackgroundButton(

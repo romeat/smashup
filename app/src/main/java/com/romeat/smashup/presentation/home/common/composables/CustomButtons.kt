@@ -2,11 +2,9 @@ package com.romeat.smashup.presentation.home.common.composables
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -15,11 +13,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun PurpleButton(
+fun PurpleButtonWithProgress(
     textRes: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    inProgress: Boolean = false
 ) {
     OutlinedButton(
         modifier = modifier
@@ -35,11 +34,19 @@ fun PurpleButton(
         ),
         shape = RoundedCornerShape(12.dp),
     ) {
-        Text(
-            text = stringResource(id = textRes),
-            fontSize = 19.sp,
-            fontWeight = FontWeight.Bold,
-        )
+        if (inProgress) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .size(30.dp),
+                color = MaterialTheme.colors.surface
+            )
+        } else {
+            Text(
+                text = stringResource(id = textRes),
+                fontSize = 19.sp,
+                fontWeight = FontWeight.Bold,
+            )
+        }
     }
 }
 
@@ -59,6 +66,7 @@ fun NoBackgroundButton(
         colors = ButtonDefaults.buttonColors(
             contentColor = MaterialTheme.colors.onSurface,
             backgroundColor = MaterialTheme.colors.background,
+            disabledBackgroundColor = MaterialTheme.colors.background
         ),
         border = null
     ) {

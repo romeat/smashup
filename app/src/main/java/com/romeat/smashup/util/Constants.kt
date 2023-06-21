@@ -25,3 +25,14 @@ object CommonNavigationConstants {
     const val SOURCE_ROUTE = "SOURCE"
     const val SOURCE_PARAM = "sourceId"
 }
+
+object LoginFlow {
+    const val MinUsernameLength = 4
+    const val MaxUsernameLength = 32
+
+    const val MinPasswordLength = 8
+    const val MaxPasswordLength = 32
+
+    val UsernameRegex = "(?=^[а-яА-ЯёЁa-zA-Z0-9_ ]{4,32}\$)(?!^\\d+\$)^.+\$".toRegex()
+    val PasswordRegex = "[a-zA-Z0-9-_=+()*&^%\$#@!]{8,32}".toRegex()
+}

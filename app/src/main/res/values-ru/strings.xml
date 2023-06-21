@@ -81,9 +81,9 @@
     <string name="email_label">Почта</string>
     <string name="password_label">Пароль</string>
     <string name="register_title">Регистрация</string>
-    <string name="nickname_hint">Минимум 4 символа</string>
+    <string name="nickname_hint">минимум 4 символа</string>
     <string name="nick_too_short">Слишком короткий никнейм</string>
-    <string name="password_hint">Минимум 8 символов</string>
+    <string name="password_hint">минимум 8 символов</string>
     <string name="pass_too_short">Слишком короткий пароль</string>
     <string name="email_hint">somebody@example.com</string>
     <string name="email_format_error">Некорректный формат почты</string>

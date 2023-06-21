@@ -21,7 +21,6 @@ import androidx.navigation.NavController
 import com.romeat.smashup.R
 import com.romeat.smashup.navgraphs.RootGraph
 import com.romeat.smashup.presentation.home.common.composables.*
-import com.romeat.smashup.presentation.login.LoginEvent
 import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.collectInLaunchedEffectWithLifecycle
 
@@ -145,10 +144,11 @@ fun SignInScreenContent(
             ErrorText(textRes = state.generalErrorResId, emptyLines = 0)
 
             // Buttons
-            PurpleButton(
+            PurpleButtonWithProgress(
                 textRes = R.string.login_button_2,
                 onClick = onRegisterClick,
                 enabled = !state.isLoading,
+                inProgress = state.isLoading
             )
             Spacer(modifier = Modifier.height(20.dp))
             NoBackgroundButton(

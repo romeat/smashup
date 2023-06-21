@@ -103,7 +103,7 @@ fun ForgotPasswordScreenContent(
             ErrorText(textRes = state.generalErrorResId)
 
             // Buttons
-            PurpleButton(
+            PurpleButtonWithProgress(
                 textRes = R.string.send_button,
                 onClick = onSendClick,
                 enabled = !state.isLoading,
