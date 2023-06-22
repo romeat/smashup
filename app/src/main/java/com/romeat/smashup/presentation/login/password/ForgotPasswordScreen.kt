@@ -14,7 +14,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.common.composables.*
 import com.romeat.smashup.ui.theme.SmashupTheme
@@ -22,26 +21,31 @@ import com.romeat.smashup.util.collectInLaunchedEffectWithLifecycle
 
 @Composable
 fun ForgotPasswordScreen(
-    navController: NavController,
+    onBackClick: () -> Unit,
+    toSuccessScreen: (String) -> Unit
 ) {
     val viewModel: ForgotPasswordViewModel = hiltViewModel()
 
     viewModel.eventsFlow.collectInLaunchedEffectWithLifecycle { event ->
         when (event) {
             is ForgotPasswordEvent.NavigateToSuccessScreen -> {
-                // todo navigate
+                toSuccessScreen(event.email)
             }
         }
     }
 
-    ForgotPasswordScreenContent(
-        state = viewModel.state,
-        onEmailChange = viewModel::onEmailChange,
-        onSendClick = viewModel::onSendClick,
-        onBackClick = {
-            navController.popBackStack()
-        }
-    )
+    Surface(
+        modifier = Modifier
+            .fillMaxSize(),
+        color = (MaterialTheme.colors.background)
+    ) {
+        ForgotPasswordScreenContent(
+            state = viewModel.state,
+            onEmailChange = viewModel::onEmailChange,
+            onSendClick = viewModel::onSendClick,
+            onBackClick = onBackClick
+        )
+    }
 }
 
 @Composable

@@ -21,11 +21,42 @@ class ForgotPasswordViewModel @Inject constructor(
     val eventsFlow = eventChannel.receiveAsFlow()
 
     fun onEmailChange(value: String) {
-
+        state = state.copy(email = value).andClearErrors()
     }
 
     fun onSendClick() {
+        state = state.copy(
+            isLoading = true,
+            inputsEnabled = false,
+            sendButtonEnabled = false,
+        )
+        if (isInputValid()) {
+            sendRequest()
+        } else {
+            state = state.copy(
+                isLoading = false,
+                inputsEnabled = true,
+            )
+        }
+    }
 
+    private fun ForgotPasswordState.andClearErrors() = this.copy(
+        isEmailFormatError = false,
+        generalErrorResId = R.string.string_empty,
+        sendButtonEnabled = true,
+    )
+
+    private fun sendRequest() {
+
+    }
+
+    private fun isInputValid(): Boolean {
+        // validate email
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(state.email).matches()) {
+            state = state.copy(isEmailFormatError = true)
+            return false
+        }
+        return true
     }
 }
 
@@ -38,5 +69,8 @@ data class ForgotPasswordState(
     val isEmailFormatError: Boolean = false,
 
     val generalErrorResId: Int = R.string.string_empty,
+
+    val inputsEnabled: Boolean = true,
     val isLoading: Boolean = false,
+    val sendButtonEnabled: Boolean = true,
 )
