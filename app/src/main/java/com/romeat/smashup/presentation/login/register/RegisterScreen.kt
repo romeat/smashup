@@ -20,7 +20,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.common.composables.*
 import com.romeat.smashup.ui.theme.SmashupTheme
@@ -40,21 +39,19 @@ fun RegisterScreen(
             }
         }
     }
-    SmashupTheme() {
-        Surface(
-            modifier = Modifier
-                .fillMaxSize(),
-            color = (MaterialTheme.colors.background)
-        ) {
-            RegisterScreenContent(
-                state = viewModel.state,
-                onUsernameChange = viewModel::onUsernameChange,
-                onPasswordChange = viewModel::onPasswordChange,
-                onEmailChange = viewModel::onEmailChange,
-                onRegisterClick = viewModel::onRegisterClick,
-                onLoginClick = toSignInScreen
-            )
-        }
+    Surface(
+        modifier = Modifier
+            .fillMaxSize(),
+        color = (MaterialTheme.colors.background)
+    ) {
+        RegisterScreenContent(
+            state = viewModel.state,
+            onUsernameChange = viewModel::onUsernameChange,
+            onPasswordChange = viewModel::onPasswordChange,
+            onEmailChange = viewModel::onEmailChange,
+            onRegisterClick = viewModel::onRegisterClick,
+            onLoginClick = toSignInScreen
+        )
     }
 }
 

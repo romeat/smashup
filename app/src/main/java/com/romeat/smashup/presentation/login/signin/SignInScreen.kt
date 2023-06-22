@@ -17,9 +17,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.romeat.smashup.R
-import com.romeat.smashup.navgraphs.RootGraph
 import com.romeat.smashup.presentation.home.common.composables.*
 import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.collectInLaunchedEffectWithLifecycle
@@ -40,21 +38,19 @@ fun SignInScreen(
         }
     }
 
-    SmashupTheme() {
-        Surface(
-            modifier = Modifier
-                .fillMaxSize(),
-            color = (MaterialTheme.colors.background)
-        ) {
-            SignInScreenContent(
-                state = viewModel.state,
-                onUsernameChange = viewModel::onUsernameChange,
-                onPasswordChange = viewModel::onPasswordChange,
-                onRegisterClick = toRegister,
-                onLoginClick = viewModel::onLoginClick,
-                onForgotPasswordClick = toForgotPassword,
-            )
-        }
+    Surface(
+        modifier = Modifier
+            .fillMaxSize(),
+        color = (MaterialTheme.colors.background)
+    ) {
+        SignInScreenContent(
+            state = viewModel.state,
+            onUsernameChange = viewModel::onUsernameChange,
+            onPasswordChange = viewModel::onPasswordChange,
+            onRegisterClick = toRegister,
+            onLoginClick = viewModel::onLoginClick,
+            onForgotPasswordClick = toForgotPassword,
+        )
     }
 }
 
@@ -140,8 +136,11 @@ fun SignInScreenContent(
                         R.drawable.ic_baseline_visibility_off_24
                     else R.drawable.ic_baseline_visibility_24
 
-                    IconButton(onClick = {passwordVisible = !passwordVisible}){
-                        Icon(imageVector  = ImageVector.vectorResource(id = image), "password visibility")
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = image),
+                            "password visibility"
+                        )
                     }
                 }
             )
