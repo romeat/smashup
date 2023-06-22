@@ -26,29 +26,36 @@ import com.romeat.smashup.util.collectInLaunchedEffectWithLifecycle
 
 @Composable
 fun SignInScreen(
-    navController: NavController,
-    onRegisterClick: () -> Unit,
-    onForgotPasswordClick: () -> Unit
+    toRegister: () -> Unit,
+    toHomeScreen: () -> Unit,
+    toForgotPassword: () -> Unit
 ) {
     val viewModel: SignInViewModel = hiltViewModel()
 
     viewModel.eventsFlow.collectInLaunchedEffectWithLifecycle { event ->
         when (event) {
             is SignInEvent.NavigateToHomeGraph -> {
-                navController.popBackStack()
-                navController.navigate(RootGraph.HOME)
+                toHomeScreen()
             }
         }
     }
 
-    SignInScreenContent(
-        state = viewModel.state,
-        onUsernameChange = viewModel::onUsernameChange,
-        onPasswordChange = viewModel::onPasswordChange,
-        onRegisterClick = onRegisterClick,
-        onLoginClick = onForgotPasswordClick,
-        onForgotPasswordClick = viewModel::onLoginClick
-    )
+    SmashupTheme() {
+        Surface(
+            modifier = Modifier
+                .fillMaxSize(),
+            color = (MaterialTheme.colors.background)
+        ) {
+            SignInScreenContent(
+                state = viewModel.state,
+                onUsernameChange = viewModel::onUsernameChange,
+                onPasswordChange = viewModel::onPasswordChange,
+                onRegisterClick = toRegister,
+                onLoginClick = viewModel::onLoginClick,
+                onForgotPasswordClick = toForgotPassword,
+            )
+        }
+    }
 }
 
 @Composable

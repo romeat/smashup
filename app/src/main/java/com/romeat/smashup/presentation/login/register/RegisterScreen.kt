@@ -28,16 +28,15 @@ import com.romeat.smashup.util.collectInLaunchedEffectWithLifecycle
 
 @Composable
 fun RegisterScreen(
-    navController: NavController,
-    onLoginClick: () -> Unit
+    toSignInScreen: () -> Unit,
+    toRegisterConfirm: (String) -> Unit,
 ) {
     val viewModel: RegisterViewModel = hiltViewModel()
 
     viewModel.eventsFlow.collectInLaunchedEffectWithLifecycle { event ->
         when (event) {
             is RegisterEvent.NavigateToRegistrationConfirm -> {
-                navController.popBackStack()
-                // todo navigate to
+                toRegisterConfirm(event.email)
             }
         }
     }
@@ -53,11 +52,10 @@ fun RegisterScreen(
                 onPasswordChange = viewModel::onPasswordChange,
                 onEmailChange = viewModel::onEmailChange,
                 onRegisterClick = viewModel::onRegisterClick,
-                onLoginClick = onLoginClick
+                onLoginClick = toSignInScreen
             )
         }
     }
-
 }
 
 @Composable

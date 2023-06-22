@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -25,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.romeat.smashup.R
 import com.romeat.smashup.data.BitrateOption
 import com.romeat.smashup.data.LanguageOption
@@ -41,12 +43,30 @@ import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun SettingsScreen(
-    onProfileClick: () -> Unit,
-    onAboutAppClick: () -> Unit,
+    toProfile: () -> Unit,
+    toAboutApp: () -> Unit,
     onBackClick: () -> Unit,
 ) {
+    val viewModel: SettingsViewModel = hiltViewModel()
 
-
+    SmashupTheme() {
+        Surface(
+            modifier = Modifier
+                .fillMaxSize(),
+            color = (MaterialTheme.colors.background)
+        ) {
+            SettingsScreenContent(
+                state = viewModel.state.collectAsState().value,
+                onProfileClick = toProfile,
+                onBackClick = onBackClick,
+                onAboutAppClick = toAboutApp,
+                onMultisessionToggle = { /*TODO*/ },
+                onExplicitToggle = viewModel::onExplicitToggle,
+                onBitrateOption = viewModel::onBitrateOptionSelect,
+                onLanguageOption = viewModel::onLanguageOptionSelect,
+            )
+        }
+    }
 }
 
 @Composable
@@ -60,8 +80,7 @@ fun SettingsScreenContent(
     onExplicitToggle: () -> Unit,
     onBitrateOption: (BitrateOption) -> Unit,
     onLanguageOption: (LanguageOption) -> Unit,
-
-    ) {
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
