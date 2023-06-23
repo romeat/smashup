@@ -113,6 +113,7 @@
     <string name="adult_content_warning">Сервис Smashup может содержать информацию,\nне предназначенную для несовершеннолетних</string>
     <string name="touch_point">Проект команды TouchPoint</string>
     <string name="app_version">Версия %s</string>
+
     <string name="settings">Настройки</string>
     <string name="push_notif">Push-уведомления</string>
     <string name="news_notif">Новостные</string>
@@ -122,4 +123,7 @@
     <string name="allow_explicit">Показывать Explicit-контент</string>
     <string name="edit_profile">Редактирование профиля</string>
     <string name="other_settings">Прочие настройки</string>
+
+    <string name="profile">Профиль</string>
+    <string name="displaying_nickname">Отображаемый ник</string>
 </resources>

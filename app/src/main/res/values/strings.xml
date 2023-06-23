@@ -124,4 +124,7 @@
     <string name="allow_explicit">Allow Explicit content</string>
     <string name="edit_profile">Edit profile</string>
     <string name="other_settings">Other settings</string>
+
+    <string name="profile">Profile</string>
+    <string name="displaying_nickname">Displaying nickname</string>
 </resources>
