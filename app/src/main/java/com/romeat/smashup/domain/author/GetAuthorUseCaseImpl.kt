@@ -18,7 +18,7 @@ class GetAuthorUseCaseImpl @Inject constructor(
             action = suspend {
                 val response = remoteData.getAuthorInfo(name)
                 if (response.isSuccessful) {
-                    response.body()!!
+                    response.body()!!.response!!
                 } else {
                     throw HttpException(response)
                 }

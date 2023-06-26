@@ -96,7 +96,7 @@ fun ErrorText(
     Text(
         modifier = modifier.padding(vertical = 3.dp),
         text = stringResource(textRes).addEmptyLines(emptyLines),
-        style = MaterialTheme.typography.overline,
+        style = MaterialTheme.typography.body2,
         fontWeight = FontWeight.W500,
         color = MaterialTheme.colors.error,
         maxLines = 2

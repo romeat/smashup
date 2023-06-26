@@ -18,7 +18,7 @@ class SearchPlaylistsUseCase @Inject constructor(
             action = suspend {
                 val response = remoteData.getPlaylistsWithName(searchQuery)
                 if (response.isSuccessful) {
-                    SearchResult.Playlists(response.body()!!)
+                    SearchResult.Playlists(response.body()!!.response!!)
                 } else {
                     throw HttpException(response)
                 }

@@ -18,7 +18,7 @@ class SearchMashupsUseCase @Inject constructor(
             action = suspend {
                 val response = remoteData.getMashupsWithName(searchQuery)
                 if (response.isSuccessful) {
-                    SearchResult.Mashups(response.body()!!)
+                    SearchResult.Mashups(response.body()!!.response!!)
                 } else {
                     throw HttpException(response)
                 }

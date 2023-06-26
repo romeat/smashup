@@ -4,13 +4,22 @@ package com.romeat.smashup.data.dto
 data class Mashup(
     val id: Int,
     val name: String,
-    val owner: String,
+    val authors: List<String>,
+    val genres: List<String>,
+    val tracks: List<Int>,
     val imageUrl: String,
-    val explicit: Boolean,
-    val streams: Int,
+    val statuses: Int,
+    val albumId: Int,
     val likes: Int,
-    val tracks: List<Int>
-)
+    val streams: Int,
+    val bitrate: Int,
+    val duration: Long,
+) {
+    fun isExplicit(): Boolean = false
+
+    val owner: String
+        get() = authors.joinToString(", ")
+}
 
 fun Mashup.toMashupUListItem(): MashupListItem {
     return MashupListItem(
@@ -18,7 +27,7 @@ fun Mashup.toMashupUListItem(): MashupListItem {
         name = this.name,
         owner = this.owner,
         imageUrl = this.imageUrl,
-        explicit = this.explicit,
+        explicit = false, // todo this.statuses == something?
         streams = this.streams,
         likes = this.likes,
         tracks = this.tracks,

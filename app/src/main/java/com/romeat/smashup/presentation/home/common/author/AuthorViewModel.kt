@@ -6,11 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.romeat.smashup.domain.author.GetAuthorUseCase
 import com.romeat.smashup.domain.mashups.GetMashupsListUseCase
 import com.romeat.smashup.data.dto.AuthorProfile
+import com.romeat.smashup.data.dto.Mashup
 import com.romeat.smashup.data.dto.MashupListItem
 import com.romeat.smashup.data.likes.LikesRepository
 import com.romeat.smashup.musicservice.MusicServiceConnection
 import com.romeat.smashup.util.CommonNavigationConstants
-import com.romeat.smashup.util.ConvertFromUiListItems
 import com.romeat.smashup.util.ConvertToUiListItems
 import com.romeat.smashup.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,6 +36,8 @@ class AuthorViewModel @Inject constructor(
     private val authorAlias: String =
         checkNotNull(savedStateHandle[CommonNavigationConstants.AUTHOR_PARAM])
 
+    private var originalMashupList: List<Mashup> = emptyList()
+
     init {
         viewModelScope.launch {
             getAuthorUseCase
@@ -49,13 +51,17 @@ class AuthorViewModel @Inject constructor(
                                         isLoading = false,
                                         authorInfo = profile,
                                         errorMessage = "",
-                                        isMashupListLoading = profile.mashups.isNotEmpty()
+                                        
+                                        //todo restore when ready
+                                        //isMashupListLoading = profile.mashups.isNotEmpty()
                                     )
                                 }
 
+                                /* todo restore when ready
                                 if (profile.mashups.isNotEmpty()) {
                                     getMashups(profile.mashups)
                                 }
+                                 */
                             }
                         }
                         is Resource.Loading -> {
@@ -94,6 +100,7 @@ class AuthorViewModel @Inject constructor(
                 when (pair.second) {
                     is Resource.Success -> {
                         _state.update { it ->
+                            originalMashupList = pair.second.data!!
                             it.copy(
                                 mashupList = ConvertToUiListItems(
                                     pair.second.data!!,
@@ -127,7 +134,7 @@ class AuthorViewModel @Inject constructor(
     fun onMashupClick(mashupId: Int) {
         musicServiceConnection.playMashupFromPlaylist(
             mashupId,
-            ConvertFromUiListItems(state.value.mashupList)
+            originalMashupList
         )
     }
 

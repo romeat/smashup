@@ -3,6 +3,7 @@ package com.romeat.smashup.presentation.home.common.source
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.romeat.smashup.data.dto.Mashup
 import com.romeat.smashup.data.dto.MashupListItem
 import com.romeat.smashup.data.dto.Source
 import com.romeat.smashup.data.likes.LikesRepository
@@ -10,7 +11,6 @@ import com.romeat.smashup.domain.mashups.GetMashupsWithSourceUseCase
 import com.romeat.smashup.domain.mashups.GetSourceUseCase
 import com.romeat.smashup.musicservice.MusicServiceConnection
 import com.romeat.smashup.util.CommonNavigationConstants
-import com.romeat.smashup.util.ConvertFromUiListItems
 import com.romeat.smashup.util.ConvertToUiListItems
 import com.romeat.smashup.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,6 +35,8 @@ class SourceViewModel @Inject constructor(
 
     private val sourceId: Int =
         checkNotNull(savedStateHandle[CommonNavigationConstants.SOURCE_PARAM])
+
+    private var originalMashupList: List<Mashup> = emptyList()
 
     init {
         viewModelScope.launch {
@@ -90,6 +92,7 @@ class SourceViewModel @Inject constructor(
                 when (pair.second) {
                     is Resource.Success -> {
                         _state.update { it ->
+                            originalMashupList = pair.second.data!!
                             it.copy(
                                 mashupList = ConvertToUiListItems(
                                     pair.second.data!!,
@@ -123,7 +126,7 @@ class SourceViewModel @Inject constructor(
     fun onMashupClick(mashupId: Int) {
         musicServiceConnection.playMashupFromPlaylist(
             mashupId,
-            ConvertFromUiListItems(state.value.mashupList)
+            originalMashupList//ConvertFromUiListItems(state.value.mashupList)
         )
     }
 

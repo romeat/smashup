@@ -34,7 +34,7 @@ class StartupViewModel @Inject constructor(
     }
 
     private suspend fun checkUserLogged() {
-        if(loggedUserRepository.isCookieReceived()) {
+        if(loggedUserRepository.userInfoFlow.value != null) {
             eventChannel.send(StartupEvent.NavigateToHome)
         } else {
             eventChannel.send(StartupEvent.NavigateToLogin)

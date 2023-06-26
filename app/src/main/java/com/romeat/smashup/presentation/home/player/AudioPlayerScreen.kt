@@ -28,6 +28,7 @@ import com.romeat.smashup.musicservice.PlaybackRepeatMode
 import com.romeat.smashup.presentation.home.HomePlayerViewModel
 import com.romeat.smashup.presentation.home.PlayerState
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
+import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.ImageUrlHelper
 import com.romeat.smashup.util.compose.Marquee
 import com.romeat.smashup.util.compose.MarqueeParams
@@ -365,16 +366,19 @@ fun AudioPlayerContent(
 @Preview
 @Composable
 fun AudioPlayerBigPreview() {
-    AudioPlayerContent(
-        onBackPressed = { /*TODO*/ },
-        state = PlayerState(),
-        timestamp = 12000L,
-        onPreviousClick = { /*TODO*/ },
-        onNextClick = { /*TODO*/ },
-        onPlayPauseClick = { },
-        onShuffleClick = { },
-        onRepeatClick = { },
-        onLikeClick = { },
-    )
+    SmashupTheme() {
+        AudioPlayerContent(
+            onBackPressed = { /*TODO*/ },
+            state = PlayerState(),
+            timestamp = 12000L,
+            onPreviousClick = { /*TODO*/ },
+            onNextClick = { /*TODO*/ },
+            onPlayPauseClick = { },
+            onShuffleClick = { },
+            onRepeatClick = { },
+            onLikeClick = { },
+        )
+
+    }
 }
 

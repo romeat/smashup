@@ -5,6 +5,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/*
 @Singleton // TODO test if it works as singleton
 class CookieProvider @Inject constructor(
     @ApplicationContext private val appContext: Context
@@ -40,3 +41,5 @@ class CookieProvider @Inject constructor(
             .apply()
     }
 }
+
+ */

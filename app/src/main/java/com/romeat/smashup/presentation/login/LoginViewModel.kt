@@ -50,7 +50,7 @@ class LoginViewModel @Inject constructor(
             isLoading = true,
             loginErrorMessageResId = R.string.string_empty
         )
-        login()
+        //login()
     }
 
     private fun validateFieldsMinLength(
@@ -68,6 +68,7 @@ class LoginViewModel @Inject constructor(
         return value.length >= 8
     }
 
+    /*
     // weird ass login process
     // TODO write some documentation to explain this mess
     private fun login() {
@@ -108,6 +109,8 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
+
+     */
 }
 
 sealed class LoginEvent {

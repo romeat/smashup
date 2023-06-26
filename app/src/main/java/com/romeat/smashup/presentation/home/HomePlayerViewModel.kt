@@ -48,7 +48,7 @@ class HomePlayerViewModel @Inject constructor(
     private val imageLoader = ImageLoaderJob()
 
     init {
-        loggedUserRepository.updateUserStat()
+        //loggedUserRepository.updateUserStat()
 
         viewModelScope.launch {
             combine(

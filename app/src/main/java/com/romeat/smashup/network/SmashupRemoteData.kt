@@ -6,7 +6,7 @@ class SmashupRemoteData @Inject constructor(
     private val mainService : MainService
 ) {
 
-    suspend fun getUserInfo(username: String) = mainService.getCurrentUser(username)
+    //suspend fun getUserInfo(username: String) = mainService.getCurrentUser(username)
 
     suspend fun getAuthorInfo(name: String) = mainService.getAuthorProfile(name)
 
@@ -16,7 +16,7 @@ class SmashupRemoteData @Inject constructor(
 
     suspend fun getMashupsWithSource(id: Int) = mainService.getMashupsWithSource(id)
 
-    suspend fun getCompilationsIds() = mainService.getCompilationsIds()
+    //suspend fun getCompilationsIds() = mainService.getCompilationsIds()
 
     suspend fun getPlaylists(ids: List<Int>) = mainService.getPlaylists(ids.joinToString(","))
 

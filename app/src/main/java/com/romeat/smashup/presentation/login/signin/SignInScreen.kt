@@ -87,7 +87,7 @@ fun SignInScreenContent(
                 modifier = Modifier.padding(vertical = 6.dp)
             )
             StyledInput(
-                text = "",
+                text = state.nickname,
                 enabled = !state.isLoading,
                 onTextChange = onUsernameChange,
                 placeholderResId = R.string.string_empty,
@@ -115,7 +115,7 @@ fun SignInScreenContent(
                 )
             }
             StyledInput(
-                text = "",
+                text = state.password,
                 enabled = !state.isLoading,
                 onTextChange = onPasswordChange,
                 placeholderResId = R.string.string_empty,
@@ -152,14 +152,17 @@ fun SignInScreenContent(
             // Buttons
             PurpleButtonWithProgress(
                 textRes = R.string.login_button_2,
-                onClick = onRegisterClick,
+                onClick = {
+                    focusManager.clearFocus()
+                    onLoginClick()
+                },
                 enabled = !state.isLoading,
                 inProgress = state.isLoading
             )
             Spacer(modifier = Modifier.height(20.dp))
             NoBackgroundButton(
                 textRes = R.string.register_button_1,
-                onClick = onLoginClick,
+                onClick = onRegisterClick,
                 enabled = !state.isLoading,
             )
         }

@@ -1,6 +1,7 @@
 package com.romeat.smashup.util
 
 import android.util.Log
+import com.romeat.smashup.network.ApiWrap
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -19,11 +20,11 @@ suspend fun <T> getResourceWithExceptionLogging(
         } catch (e: HttpException) {
             Log.e(Constants.LOG_TAG, e.message())
             Log.e(Constants.LOG_TAG, e.stackTraceToString())
-            emit(Resource.Error(e, "Http exception"))
+            emit(Resource.Error(e,  e.code(),"Http exception: ${e.message}",))
         } catch (e: Exception) {
             Log.e(Constants.LOG_TAG, e.message ?: "No message")
             Log.e(Constants.LOG_TAG, e.stackTraceToString())
-            emit(Resource.Error(e, "Unknown exception"))
+            emit(Resource.Error(e, 999,"Unknown exception"))
         }
     }.flowOn(dispatcher)
 }

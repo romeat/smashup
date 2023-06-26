@@ -18,7 +18,7 @@ class SearchAuthorsUseCase @Inject constructor(
             action = suspend {
                 val response = remoteData.getUsersWithName(searchQuery)
                 if (response.isSuccessful) {
-                    SearchResult.Authors(response.body()!!)
+                    SearchResult.Authors(response.body()!!.response!!)
                 } else {
                     throw HttpException(response)
                 }

@@ -27,7 +27,7 @@ class SettingsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            loggedUser.fullInfo.collect { profile ->
+            loggedUser.userInfoFlow.collect { profile ->
                 profile?.let {
                     _state.update {
                         it.copy(

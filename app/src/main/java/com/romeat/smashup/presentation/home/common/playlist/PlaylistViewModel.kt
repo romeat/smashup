@@ -3,6 +3,7 @@ package com.romeat.smashup.presentation.home.common.playlist
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.romeat.smashup.data.dto.Mashup
 import com.romeat.smashup.data.dto.MashupListItem
 import com.romeat.smashup.data.dto.Playlist
 import com.romeat.smashup.data.likes.LikesRepository
@@ -10,7 +11,6 @@ import com.romeat.smashup.domain.mashups.GetMashupsListUseCase
 import com.romeat.smashup.domain.playlists.GetPlaylistUseCase
 import com.romeat.smashup.musicservice.MusicServiceConnection
 import com.romeat.smashup.util.CommonNavigationConstants
-import com.romeat.smashup.util.ConvertFromUiListItems
 import com.romeat.smashup.util.ConvertToUiListItems
 import com.romeat.smashup.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,6 +32,8 @@ class PlaylistViewModel @Inject constructor(
 
     private val playlistId: Int =
         checkNotNull(savedStateHandle[CommonNavigationConstants.PLAYLIST_PARAM])
+
+    private var originalMashupList: List<Mashup> = emptyList()
 
     init {
         viewModelScope.launch {
@@ -121,7 +123,7 @@ class PlaylistViewModel @Inject constructor(
     fun onMashupClick(mashupId: Int) {
         musicServiceConnection.playMashupFromPlaylist(
             mashupId,
-            ConvertFromUiListItems(state.value.mashupList)
+            originalMashupList
         )
     }
 
@@ -144,7 +146,7 @@ class PlaylistViewModel @Inject constructor(
     private fun playCurrentPlaylist(mashupIdToStart: Int, shuffle: Boolean = false) {
         musicServiceConnection.playEntirePlaylist(
             mashupIdToStart = mashupIdToStart,
-            playlist = ConvertFromUiListItems(state.value.mashupList),
+            playlist = originalMashupList,
             shuffle = shuffle
         )
     }

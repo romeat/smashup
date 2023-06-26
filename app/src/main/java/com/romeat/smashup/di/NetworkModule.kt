@@ -1,11 +1,7 @@
 package com.romeat.smashup.di
 
-import com.romeat.smashup.network.AuthService
-import com.romeat.smashup.network.MainService
-import com.romeat.smashup.network.SmashupAuthData
-import com.romeat.smashup.network.SmashupRemoteData
-import com.romeat.smashup.network.cookieinterceptors.RequestCookieInterceptor
-import com.romeat.smashup.network.cookieinterceptors.ResponseCookieInterceptor
+import com.romeat.smashup.BuildConfig
+import com.romeat.smashup.network.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,15 +29,14 @@ object NetworkModule {
     @Provides
     @Singleton
     @AuthInterceptorRetrofitClient
-    fun provideAuthNetwork(interceptor: ResponseCookieInterceptor) : Retrofit = Retrofit.Builder()
-        .addConverterFactory(ScalarsConverterFactory.create())
-        .baseUrl("https://smashup.ru/")
+    fun provideAuthNetwork() : Retrofit = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl(BuildConfig.API_URL)
         .client(
             OkHttpClient
                 .Builder()
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
-                .addNetworkInterceptor(interceptor)
                 .build()
         )
         .build()
@@ -50,9 +45,9 @@ object NetworkModule {
     @Provides
     @Singleton
     @MainRetrofitClient
-    fun provideMainNetwork(interceptor: RequestCookieInterceptor) : Retrofit = Retrofit.Builder()
+    fun provideMainNetwork(interceptor: RequestInterceptor) : Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("https://smashup.ru/")
+        .baseUrl(BuildConfig.API_URL)
         .client(
             OkHttpClient
                 .Builder()

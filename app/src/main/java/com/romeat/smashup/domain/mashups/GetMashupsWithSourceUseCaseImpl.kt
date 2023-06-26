@@ -21,9 +21,9 @@ class GetMashupsWithSourceUseCaseImpl @Inject constructor(
             action = suspend {
                 val response = remoteData.getMashupsWithSource(sourceId)
                 if (response.isSuccessful) {
-                    response.body()!!.filter { mashup ->
+                    response.body()!!.response!!.filter { mashup ->
                         settingsProvider.explicitAllowed.value ||
-                                !mashup.explicit
+                                !mashup.isExplicit()
                     }.toList()
                 } else {
                     throw HttpException(response)

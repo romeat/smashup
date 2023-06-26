@@ -6,7 +6,6 @@ import com.romeat.smashup.data.BitrateOption
 import com.romeat.smashup.data.LanguageOption
 import com.romeat.smashup.data.LoggedUserRepository
 import com.romeat.smashup.data.SettingsProvider
-import com.romeat.smashup.domain.GetUserInfoUseCase
 import com.romeat.smashup.musicservice.MusicServiceConnection
 import com.romeat.smashup.util.MediaConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +27,7 @@ class ProfileViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            loggedUser.fullInfo.collect { profile ->
+            loggedUser.userInfoFlow.collect { profile ->
                 profile?.let {
                     _state.update {
                         it.copy(
@@ -81,7 +80,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onLogout() {
-        loggedUser.logOut()
+        loggedUser.logout()
         musicServiceConnection.sendCommand(MediaConstants.STOP_PLAYER, null)
     }
 }
@@ -94,9 +93,9 @@ data class ProfileScreenState(
     val username: String = "",
     val imageUrl: String = "",
 
-    val selectedBitrate: BitrateOption = BitrateOption.OrigQuality,
+    val selectedBitrate: BitrateOption = BitrateOption.KB128,
     val bitrateOptions: List<BitrateOption> = listOf(
-        BitrateOption.OrigQuality,
+        //BitrateOption.OrigQuality,
         BitrateOption.KB160,
         BitrateOption.KB128,
         BitrateOption.KB64

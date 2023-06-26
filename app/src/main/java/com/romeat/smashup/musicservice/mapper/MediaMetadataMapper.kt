@@ -2,6 +2,7 @@ package com.romeat.smashup.musicservice.mapper
 
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
+import com.romeat.smashup.BuildConfig
 import com.romeat.smashup.data.dto.Mashup
 import com.romeat.smashup.data.dto.MashupMediaItem
 import com.romeat.smashup.musicservice.*
@@ -10,8 +11,8 @@ import com.romeat.smashup.util.ImageUrlHelper
 object MediaMetadataMapper {
 
     // TODO replace with DI provided values
-    private const val musicBaseUrl = "https://smashup.ru/stream/mashup/"
-    private const val defaultBitrateSuffix = "_128000.mp3"
+    private const val musicBaseUrl = "${BuildConfig.API_URL}/uploads/mashup/"
+    private const val defaultBitrateSuffix = ".mp3"
 
 
     private fun musicIdToUrl(id: Int) = musicBaseUrl + id.toString() + defaultBitrateSuffix

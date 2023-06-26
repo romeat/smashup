@@ -50,6 +50,7 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
+            buildConfigField "String", 'API_URL', '"https://api.smashup.ru"'
             resValue "string", "app_name", "@string/app_name_debug"
         }
         release {
@@ -58,6 +59,7 @@ android {
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            buildConfigField "String", 'API_URL', '"https://api.smashup.ru"'
             resValue "string", "app_name", "@string/app_name_release"
         }
     }

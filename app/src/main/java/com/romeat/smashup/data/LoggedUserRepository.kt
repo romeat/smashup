@@ -1,43 +1,60 @@
 package com.romeat.smashup.data
 
 import android.content.Context
-import com.romeat.smashup.data.dto.OwnProfile
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import com.google.gson.Gson
+import com.romeat.smashup.data.dto.LoginResponse
 import com.romeat.smashup.data.likes.UserLikesHolder
-import com.romeat.smashup.domain.GetUserInfoUseCase
-import com.romeat.smashup.util.Resource
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class LoggedUserRepository @Inject constructor(
     @ApplicationContext val appContext: Context,
-    val cookieProvider: CookieProvider,
-    val getUserInfoUseCase: GetUserInfoUseCase,
-    val userLikes: UserLikesHolder
 ) {
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "smashup_user")
+
+    private val USER_KEY = stringPreferencesKey("user_data")
+
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
     private val USER_PREFS_FILE = "UserPrefsFile"
     private val USER_PREFS_NAME = "UserName"
 
-    private val _name = MutableStateFlow<String?>(null)
-    val name = _name.asStateFlow()
+    val userInfoFlow: StateFlow<LoginResponse?> = appContext.dataStore.data
+        .map { pref ->
+            Gson().fromJson(pref[USER_KEY], LoginResponse::class.java)
+        }.stateIn(scope, SharingStarted.Eagerly, null)
 
-    private val _fullInfo = MutableStateFlow<OwnProfile?>(null)
-    val fullInfo = _fullInfo.asStateFlow()
-
-    fun isCookieReceived(): Boolean {
-        return cookieProvider.getCookiesSet().isNotEmpty()
+    suspend fun updateUserStat(user: LoginResponse?) {
+        appContext.dataStore.edit { pref ->
+            pref[USER_KEY] = Gson().toJson(user)
+        }
     }
 
-    fun invalidateCookie() {
-        cookieProvider.clearAuthCookies()
+    fun logout() = scope.launch {
+        updateUserStat(null)
     }
 
+    /*
+    fun updateUserStat(user: LoginResponse) {
+        _name.value = appContext
+            .getSharedPreferences(USER_PREFS_FILE, Context.MODE_PRIVATE)
+            .getString(USER_PREFS_NAME, null)
+        //getUserInfo()
+    }
+     */
+
+
+
+    /*
     fun setName(user: String) {
         appContext
             .getSharedPreferences(USER_PREFS_FILE, Context.MODE_PRIVATE)
@@ -47,16 +64,13 @@ class LoggedUserRepository @Inject constructor(
                 user
             )
             .apply()
-        updateUserStat()
     }
 
-    fun updateUserStat() {
-        _name.value = appContext
-            .getSharedPreferences(USER_PREFS_FILE, Context.MODE_PRIVATE)
-            .getString(USER_PREFS_NAME, null)
-        getUserInfo()
-    }
+     */
 
+
+
+    /*
     @OptIn(DelicateCoroutinesApi::class)
     private fun getUserInfo() {
         GlobalScope.launch {
@@ -79,9 +93,10 @@ class LoggedUserRepository @Inject constructor(
                 }
         }
     }
+     */
 
+    /*
     fun logOut() {
-        invalidateCookie()
         appContext
             .getSharedPreferences(USER_PREFS_FILE, Context.MODE_PRIVATE)
             .edit()
@@ -90,4 +105,8 @@ class LoggedUserRepository @Inject constructor(
         _name.value = null
         _fullInfo.value = null
     }
+
+     */
 }
+
+

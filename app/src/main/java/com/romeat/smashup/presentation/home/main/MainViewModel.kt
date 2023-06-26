@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.romeat.smashup.domain.playlists.GetCompilationsUseCase
+import com.romeat.smashup.domain.playlists.GetPlaylistUseCase
 import com.romeat.smashup.util.PlaylistsToSquareDisplayItems
 import com.romeat.smashup.util.Resource
 import com.romeat.smashup.util.SquareDisplayItem
@@ -14,16 +14,19 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ChartsViewModel @Inject constructor(
-    private val compilationsUseCase: GetCompilationsUseCase
+class MainViewModel @Inject constructor(
+    //private val compilationsUseCase: GetCompilationsUseCase
+    private val getPlaylistUseCase: GetPlaylistUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf(ChartsState())
 
     init {
         viewModelScope.launch {
-            compilationsUseCase
-                .invoke()
+            //compilationsUseCase
+            //    .invoke()
+            getPlaylistUseCase
+                .invoke(listOf(1, 2))
                 .collect { result ->
                     when(result) {
                         is Resource.Success -> {

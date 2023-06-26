@@ -11,11 +11,8 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.romeat.smashup.R
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,6 +24,8 @@ class SettingsProvider @Inject constructor(
     val loggedUserRepository: LoggedUserRepository
 ) {
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "smashup_settings")
+
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     private val bitrateSuffix = "_bitrate_setting"
     private val defaultBitrate = BitrateOption.KB320
@@ -52,35 +51,33 @@ class SettingsProvider @Inject constructor(
     private val explicitSuffix = "_explicit_content_setting"
     private val defaultExplicitAllowed = true
 
-    @OptIn(DelicateCoroutinesApi::class)
     val bitrate: StateFlow<BitrateOption> =
         context.dataStore.data
-            .combine(loggedUserRepository.name) { datastoreFlow, name ->
-                Pair(datastoreFlow, name)
+            .combine(loggedUserRepository.userInfoFlow) { datastoreFlow, userInfo ->
+                Pair(datastoreFlow, userInfo)
             }.map { pair ->
-                if (pair.second.isNullOrEmpty())
+                if (pair.second == null)
                     defaultBitrate
                 else {
                     val BITRATE =
-                        stringPreferencesKey(loggedUserRepository.name.value + bitrateSuffix)
+                        stringPreferencesKey(pair.second!!.username + bitrateSuffix)
                     datastoreStringToBitrateMap[pair.first[BITRATE]] ?: defaultBitrate
                 }
-            }.stateIn(GlobalScope, SharingStarted.Eagerly, defaultBitrate)
+            }.stateIn(scope, SharingStarted.Eagerly, defaultBitrate)
 
-    @OptIn(DelicateCoroutinesApi::class)
     val explicitAllowed: StateFlow<Boolean> =
         context.dataStore.data
-            .combine(loggedUserRepository.name) { datastoreFlow, name ->
-                Pair(datastoreFlow, name)
+            .combine(loggedUserRepository.userInfoFlow) { datastoreFlow, userInfo ->
+                Pair(datastoreFlow, userInfo)
             }.map { pair ->
-                if (loggedUserRepository.name.value.isNullOrEmpty())
+                if (pair.second == null)
                     defaultExplicitAllowed
                 else {
                     val EXPLICIT =
-                        booleanPreferencesKey(loggedUserRepository.name.value + explicitSuffix)
+                        booleanPreferencesKey(pair.second!!.username + explicitSuffix)
                     pair.first[EXPLICIT] ?: defaultExplicitAllowed
                 }
-            }.stateIn(GlobalScope, SharingStarted.Eagerly, defaultExplicitAllowed)
+            }.stateIn(scope, SharingStarted.Eagerly, defaultExplicitAllowed)
 
     // warning - locale is not tied to any user
     private val _locale = MutableStateFlow(getCurrentLocale())
@@ -100,14 +97,14 @@ class SettingsProvider @Inject constructor(
 
     suspend fun updateBitrate(newBitrate: BitrateOption) {
         context.dataStore.edit { settings ->
-            val BITRATE = stringPreferencesKey(loggedUserRepository.name.value + bitrateSuffix)
+            val BITRATE = stringPreferencesKey(loggedUserRepository.userInfoFlow.value!!.username + bitrateSuffix)
             settings[BITRATE] = bitrateToDatastoreStringMap[newBitrate]!!
         }
     }
 
     suspend fun updateExplicit(allowExplicit: Boolean) {
         context.dataStore.edit { settings ->
-            val EXPLICIT = booleanPreferencesKey(loggedUserRepository.name.value + explicitSuffix)
+            val EXPLICIT = booleanPreferencesKey(loggedUserRepository.userInfoFlow.value!!.username + explicitSuffix)
             settings[EXPLICIT] = allowExplicit
         }
     }

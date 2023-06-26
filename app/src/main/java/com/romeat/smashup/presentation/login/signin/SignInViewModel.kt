@@ -1,16 +1,22 @@
 package com.romeat.smashup.presentation.login.signin
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.romeat.smashup.R
 import com.romeat.smashup.data.LoggedUserRepository
 import com.romeat.smashup.domain.LoginUseCase
 import com.romeat.smashup.util.LoginFlow
+import com.romeat.smashup.util.LoginFlow.MaxPasswordLength
+import com.romeat.smashup.util.LoginFlow.MaxUsernameLength
+import com.romeat.smashup.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,11 +31,11 @@ class SignInViewModel @Inject constructor(
     val eventsFlow = eventChannel.receiveAsFlow()
 
     fun onUsernameChange(value: String) {
-        state = state.copy(nickname = value.take(LoginFlow.MaxUsernameLength)).andClearErrors()
+        state = state.copy(nickname = value.take(MaxUsernameLength)).andClearErrors()
     }
 
     fun onPasswordChange(value: String) {
-        state = state.copy(password = value.take(LoginFlow.MaxPasswordLength)).andClearErrors()
+        state = state.copy(password = value.take(MaxPasswordLength)).andClearErrors()
     }
 
     fun onLoginClick() {
@@ -49,7 +55,47 @@ class SignInViewModel @Inject constructor(
     }
 
     private fun login() {
-        // todo
+        viewModelScope.launch {
+            try {
+                val response = loginUseCase.invoke(state.nickname, state.password)
+                if (response is Resource.Success) {
+                    loggedUser.updateUserStat(response.data)
+                    eventChannel.send(SignInEvent.NavigateToHomeGraph)
+                } else if (response is Resource.Error) {
+                    when (response.code) {
+                        400 -> {
+                            state = state.copy(
+                                isLoading = false,
+                                inputsEnabled = true,
+                                generalErrorResId = R.string.wrong_username_or_password
+                            )
+                        }
+                        404 -> {
+                            state = state.copy(
+                                isLoading = false,
+                                inputsEnabled = true,
+                                generalErrorResId = R.string.no_such_user
+                            )
+                        }
+                        else -> {
+                            state = state.copy(
+                                isLoading = false,
+                                inputsEnabled = true,
+                                loginButtonEnabled = true,
+                                generalErrorResId = R.string.something_went_wrong_try_later
+                            )
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                state = state.copy(
+                    isLoading = false,
+                    inputsEnabled = true,
+                    loginButtonEnabled = true,
+                    generalErrorResId = R.string.something_went_wrong_try_later
+                )
+            }
+        }
     }
 
     private fun isInputValid(): Boolean {

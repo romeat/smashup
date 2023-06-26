@@ -85,5 +85,5 @@ fun SourceItem(
 @Composable
 @Preview
 fun SourceItemPreview() {
-    SourceItem(source = Source(123, "napas", "The свитер", ""), onClick = {})
+    SourceItem(source = Source(123, "napas", listOf("The свитер"), ""), onClick = {})
 }

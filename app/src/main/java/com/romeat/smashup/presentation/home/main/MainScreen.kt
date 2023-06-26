@@ -24,7 +24,7 @@ fun MainScreen(
     onPlaylistClick: (Int) -> Unit,
     onSettingsClick: () -> Unit,
     onNotificationsClick: () -> Unit,
-    viewModel: ChartsViewModel = hiltViewModel()
+    viewModel: MainViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
     Column(

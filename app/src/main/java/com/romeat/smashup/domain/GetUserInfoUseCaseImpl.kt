@@ -10,6 +10,7 @@ import retrofit2.HttpException
 import retrofit2.Response
 import javax.inject.Inject
 
+/*
 class GetUserInfoUseCaseImpl  @Inject constructor(
     private val remoteData: SmashupRemoteData
 ) : GetUserInfoUseCase {
@@ -26,3 +27,5 @@ class GetUserInfoUseCaseImpl  @Inject constructor(
             }
         )
 }
+
+ */

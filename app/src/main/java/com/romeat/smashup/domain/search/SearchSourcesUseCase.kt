@@ -18,7 +18,7 @@ class SearchSourcesUseCase @Inject constructor(
             action = suspend {
                 val response = remoteData.getSourcesWithName(searchQuery)
                 if (response.isSuccessful) {
-                    SearchResult.Sources(response.body()!!)
+                    SearchResult.Sources(response.body()!!.response!!)
                 } else {
                     throw HttpException(response)
                 }
