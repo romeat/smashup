@@ -1,10 +1,13 @@
 package com.romeat.smashup.presentation.login.register
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.romeat.smashup.R
+import com.romeat.smashup.util.CommonNavigationConstants
 import com.romeat.smashup.util.LoginFlow.MaxPasswordLength
 import com.romeat.smashup.util.LoginFlow.MaxUsernameLength
 import com.romeat.smashup.util.LoginFlow.MinPasswordLength
@@ -18,13 +21,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+
+    private val someId: String =
+        checkNotNull(savedStateHandle["id"])
 
     var state by mutableStateOf(RegisterState())
 
     private val eventChannel = Channel<RegisterEvent>(Channel.BUFFERED)
     val eventsFlow = eventChannel.receiveAsFlow()
+
+    init {
+        Log.d("RegisterViewModel", "RegisterViewModel someId: $someId")
+    }
 
     fun onUsernameChange(value: String) {
         state = state.copy(nickname = value.take(MaxUsernameLength)).andClearErrors()

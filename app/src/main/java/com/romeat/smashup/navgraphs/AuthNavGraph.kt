@@ -3,6 +3,7 @@ package com.romeat.smashup.navgraphs
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.navDeepLink
 import com.google.accompanist.navigation.animation.composable
 import androidx.navigation.navigation
 import com.romeat.smashup.presentation.login.LoginScreen
@@ -36,7 +37,10 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
                 }
             )
         }
-        composable(route = AuthScreen.Register.route) {
+        composable(
+            route = AuthScreen.Register.route,
+            deepLinks = listOf(navDeepLink { uriPattern = "https://smashup.ru/register_confirm?id={id}" })
+        ) { backStackEntry ->
             RegisterScreen(
                 toSignInScreen = {
                     navController.navigate(AuthScreen.SignIn.route) {
