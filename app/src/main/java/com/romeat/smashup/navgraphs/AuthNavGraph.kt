@@ -6,7 +6,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navDeepLink
 import com.google.accompanist.navigation.animation.composable
 import androidx.navigation.navigation
-import com.romeat.smashup.presentation.login.LoginScreen
 import com.romeat.smashup.presentation.login.greetings.GreetingsScreen
 import com.romeat.smashup.presentation.login.register.RegisterScreen
 import com.romeat.smashup.presentation.login.signin.SignInScreen
@@ -17,12 +16,6 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
         startDestination = AuthScreen.Greetings.route,
         route = RootGraph.AUTHENTICATION
     ) {
-        /*
-        composable(route = AuthScreen.Login.route) {
-            //LoginScreen(navController = navController)
-        }
-        */
-
         composable(route = AuthScreen.Greetings.route) {
             GreetingsScreen(
                 onRegistrationClick = {
@@ -70,11 +63,9 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
 }
 
 sealed class AuthScreen(val route: String) {
-    object Login : AuthScreen(route = "LOGIN")
 
     object Greetings : AuthScreen(route = "GREETINGS")
     object SignIn : AuthScreen(route = "SIGN_IN")
     object Register : AuthScreen(route = "REGISTER")
     object ForgotPassword : AuthScreen(route = "FORGOT_PASSWORD")
-
 }
