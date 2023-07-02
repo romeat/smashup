@@ -1,4 +1,4 @@
-package com.romeat.smashup.network
+package com.romeat.smashup.network.util
 
 
 class ApiWrap<T>(

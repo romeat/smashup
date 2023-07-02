@@ -2,6 +2,7 @@ package com.romeat.smashup.di
 
 import com.romeat.smashup.BuildConfig
 import com.romeat.smashup.network.*
+import com.romeat.smashup.network.util.RequestInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -9,7 +10,6 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton

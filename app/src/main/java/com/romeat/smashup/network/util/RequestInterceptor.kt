@@ -1,4 +1,4 @@
-package com.romeat.smashup.network
+package com.romeat.smashup.network.util
 
 import com.romeat.smashup.data.LoggedUserRepository
 import okhttp3.Interceptor
