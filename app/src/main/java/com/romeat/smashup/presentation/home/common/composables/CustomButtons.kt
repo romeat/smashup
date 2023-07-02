@@ -43,8 +43,7 @@ fun PurpleButtonWithProgress(
         } else {
             Text(
                 text = stringResource(id = textRes),
-                fontSize = 19.sp,
-                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.h6
             )
         }
     }
@@ -72,8 +71,7 @@ fun NoBackgroundButton(
     ) {
         Text(
             text = stringResource(textRes),
-            fontSize = 19.sp,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.h6,
         )
     }
 }
