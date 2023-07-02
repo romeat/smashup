@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.romeat.smashup.R
 import com.romeat.smashup.data.BitrateOption
@@ -46,26 +47,26 @@ fun SettingsScreen(
     toProfile: () -> Unit,
     toAboutApp: () -> Unit,
     onBackClick: () -> Unit,
+    toAuthScreen: () -> Unit,
 ) {
     val viewModel: SettingsViewModel = hiltViewModel()
 
-    SmashupTheme() {
-        Surface(
-            modifier = Modifier
-                .fillMaxSize(),
-            color = (MaterialTheme.colors.background)
-        ) {
-            SettingsScreenContent(
-                state = viewModel.state.collectAsState().value,
-                onProfileClick = toProfile,
-                onBackClick = onBackClick,
-                onAboutAppClick = toAboutApp,
-                onMultisessionToggle = { /*TODO*/ },
-                onExplicitToggle = viewModel::onExplicitToggle,
-                onBitrateOption = viewModel::onBitrateOptionSelect,
-                onLanguageOption = viewModel::onLanguageOptionSelect,
-            )
-        }
+    Surface(
+        modifier = Modifier
+            .fillMaxSize(),
+        color = (MaterialTheme.colors.background)
+    ) {
+        SettingsScreenContent(
+            state = viewModel.state.collectAsState().value,
+            onProfileClick = toProfile,
+            onBackClick = onBackClick,
+            onAboutAppClick = toAboutApp,
+            onMultisessionToggle = { /*TODO*/ },
+            onExplicitToggle = viewModel::onExplicitToggle,
+            onBitrateOption = viewModel::onBitrateOptionSelect,
+            onLanguageOption = viewModel::onLanguageOptionSelect,
+            onLogoutClick = toAuthScreen,
+        )
     }
 }
 
@@ -80,6 +81,7 @@ fun SettingsScreenContent(
     onExplicitToggle: () -> Unit,
     onBitrateOption: (BitrateOption) -> Unit,
     onLanguageOption: (LanguageOption) -> Unit,
+    onLogoutClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -239,6 +241,27 @@ fun SettingsScreenContent(
                     contentDescription = "about app"
                 )
             }
+
+            // Log out
+            OutlinedButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                onClick = onLogoutClick,
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = MaterialTheme.colors.error,
+                    backgroundColor = MaterialTheme.colors.background,
+                    disabledBackgroundColor = MaterialTheme.colors.background
+                ),
+                border = null
+            ) {
+                Text(
+                    text = stringResource(R.string.log_out),
+                    fontSize = 19.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
+            Spacer(Modifier.height(30.dp))
         }
     }
 
@@ -327,7 +350,8 @@ fun SettingsScreenContentPreview() {
                 onExplicitToggle = { /*TODO*/ },
                 onBitrateOption = {},
                 onLanguageOption = {},
-                onAboutAppClick = {}
+                onAboutAppClick = {},
+                onLogoutClick = {},
             )
         }
     }
