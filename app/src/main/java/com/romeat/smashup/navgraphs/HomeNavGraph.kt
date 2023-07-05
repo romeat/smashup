@@ -130,6 +130,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
          */
         settingsNavGraph(navController = navController)
 
+
         /**
          * Inner destinations
          */
@@ -314,6 +315,6 @@ sealed class BottomBarScreen(
     object Profile : BottomBarScreen(
         graphScreen = HomeGraphScreen.Collection,
         titleResource = R.string.bottom_bar_collection,
-        iconRes = R.drawable.ic_bottom_bar_stub
+        iconRes = R.drawable.ic_bottom_bar_collection
     )
 }
