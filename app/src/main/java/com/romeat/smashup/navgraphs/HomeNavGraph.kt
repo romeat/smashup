@@ -3,13 +3,7 @@ package com.romeat.smashup.navgraphs
 import android.annotation.SuppressLint
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import com.google.accompanist.navigation.animation.composable
@@ -74,7 +68,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
                     MainScreen(
                         onPlaylistClick = onPlaylistClick,
                         onNotificationsClick = { },
-                        onSettingsClick = { navController.navigate(HomeGraphScreen.Profile.route) }
+                        onSettingsClick = { navController.navigate(HomeGraphScreen.Settings.route) }
                     )
                 },
                 onExpandPlayerClick = onExpandPlayerClicked,
@@ -108,7 +102,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
         }
 
         composable(
-            route = HomeGraphScreen.Profile.route,
+            route = HomeGraphScreen.Collection.route,
             enterTransition = { EnterTransition.None },
             exitTransition = { ExitTransition.None },
             popEnterTransition = { EnterTransition.None },
@@ -131,6 +125,10 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
             )
         }
 
+        /**
+         * Settings sub-graph
+         */
+        settingsNavGraph(navController = navController)
 
         /**
          * Inner destinations
@@ -287,7 +285,8 @@ sealed class HomeGraphScreen(val route: String) {
 
     object Main : HomeGraphScreen(route = "MAIN")
     object Search : HomeGraphScreen(route = "SEARCH")
-    object Profile : HomeGraphScreen(route = "PROFILE")
+    object Collection : HomeGraphScreen(route = "COLLECTION")
+    object Settings : HomeGraphScreen(route = "SETTINGS")
 
     object Playlist : HomeGraphScreen(route = CommonNavigationConstants.PLAYLIST_ROUTE)
     object Mashup : HomeGraphScreen(route = CommonNavigationConstants.MASHUP_ROUTE)
@@ -313,8 +312,8 @@ sealed class BottomBarScreen(
     )
 
     object Profile : BottomBarScreen(
-        graphScreen = HomeGraphScreen.Profile,
-        titleResource = R.string.bottom_bar_playlists,
+        graphScreen = HomeGraphScreen.Collection,
+        titleResource = R.string.bottom_bar_collection,
         iconRes = R.drawable.ic_bottom_bar_stub
     )
 }
