@@ -29,75 +29,81 @@ fun AboutScreen(
 ) {
     val uriHandler = LocalUriHandler.current
 
-    Column(
+    Surface(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
+        color = (MaterialTheme.colors.background)
     ) {
-        TopRow(
-            title = stringResource(R.string.about_app),
-            onBackPressed = onBackClick,
-        )
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Logo()
-            Text(
-                text = stringResource(R.string.app_version, BuildConfig.VERSION_NAME),
-                style = MaterialTheme.typography.body2,
-                fontWeight = FontWeight.Normal,
+            TopRow(
+                title = stringResource(R.string.about_app),
+                onBackPressed = onBackClick,
             )
-
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceEvenly
             ) {
-                TextTitleWithLink(
-                    titleRes = R.string.privacy_policy,
-                    onClick = { uriHandler.openUri("https://smashup.ru/privacy") }
+                Logo()
+                Text(
+                    text = stringResource(R.string.app_version, BuildConfig.VERSION_NAME),
+                    style = MaterialTheme.typography.body2,
+                    fontWeight = FontWeight.Normal,
                 )
-                Spacer(modifier = Modifier.height(20.dp))
-                TextTitleWithLink(
-                    titleRes = R.string.user_agreement,
-                    onClick = { uriHandler.openUri("https://smashup.ru/rules") }
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-                TextTitleWithLink(
-                    titleRes = R.string.external_components,
-                    onClick = { uriHandler.openUri("https://github.com/romeat/smashup") } // todo change
-                )
-            }
 
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = stringResource(R.string.our_team),
-                    style = MaterialTheme.typography.h6,
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    text = stringResource(id = R.string.team_nicknames),
-                    style = MaterialTheme.typography.body2,
-                )
-            }
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    TextTitleWithLink(
+                        titleRes = R.string.privacy_policy,
+                        onClick = { uriHandler.openUri("https://smashup.ru/privacy") }
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
+                    TextTitleWithLink(
+                        titleRes = R.string.user_agreement,
+                        onClick = { uriHandler.openUri("https://smashup.ru/rules") }
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
+                    TextTitleWithLink(
+                        titleRes = R.string.external_components,
+                        onClick = { uriHandler.openUri("https://github.com/romeat/smashup") } // todo change
+                    )
+                }
 
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = stringResource(id = R.string.adult_content_warning),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.body2,
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-                Text(
-                    text = stringResource(id = R.string.touch_point),
-                    style = MaterialTheme.typography.body2,
-                )
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = stringResource(R.string.our_team),
+                        style = MaterialTheme.typography.h6,
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = stringResource(id = R.string.team_nicknames),
+                        style = MaterialTheme.typography.body2,
+                    )
+                }
+
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.adult_content_warning),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.body2,
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Text(
+                        text = stringResource(id = R.string.touch_point),
+                        style = MaterialTheme.typography.body2,
+                    )
+                }
             }
         }
     }

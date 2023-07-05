@@ -62,7 +62,7 @@
 
     <string name="bottom_bar_main">Main</string>
     <string name="bottom_bar_search">Search</string>
-    <string name="bottom_bar_playlists">Playlists</string>
+    <string name="bottom_bar_collection">Collection</string>
 
     <string name="bitrate_orig">Original</string>
     <string name="bitrate320">320 KB</string>

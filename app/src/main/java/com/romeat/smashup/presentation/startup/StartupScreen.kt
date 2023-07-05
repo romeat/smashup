@@ -22,7 +22,6 @@ import com.romeat.smashup.BuildConfig
 import com.romeat.smashup.R
 import com.romeat.smashup.navgraphs.RootGraph
 import com.romeat.smashup.presentation.home.common.composables.Logo
-import com.romeat.smashup.presentation.login.LoginScreenContent
 import com.romeat.smashup.ui.theme.AppGreenColor
 import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.collectInLaunchedEffectWithLifecycle

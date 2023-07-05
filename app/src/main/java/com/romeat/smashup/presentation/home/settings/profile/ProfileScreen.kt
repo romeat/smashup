@@ -119,7 +119,7 @@ fun ProfileScreenContent(
             )
             Spacer(modifier = Modifier.height(25.dp))
             ProfileDataItem(
-                titleRes = R.string.password_hint,
+                titleRes = R.string.password_label,
                 text = state.passwordDots,
                 modifier = Modifier.clickable {
                     onEditPasswordClick()
@@ -127,11 +127,6 @@ fun ProfileScreenContent(
                 showEditIcon = true
             )
             Spacer(modifier = Modifier.height(25.dp))
-
-            NoBackgroundButton(
-                textRes = R.string.log_out,
-                onClick = { /*TODO*/ }
-            )
         }
     }
 }
