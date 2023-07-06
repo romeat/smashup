@@ -36,3 +36,7 @@ object LoginFlow {
     val UsernameRegex = "(?=^[а-яА-ЯёЁa-zA-Z0-9_ ]{4,32}\$)(?!^\\d+\$)^.+\$".toRegex()
     val PasswordRegex = "[a-zA-Z0-9-_=+()*&^%\$#@!]{8,32}".toRegex()
 }
+
+object AuthNavigationConstants {
+    const val EMAIL_PARAM = "email"
+}

@@ -31,27 +31,34 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+<!--                <data-->
+<!--                    android:scheme="https"-->
+<!--                    android:host="smashup.ru"-->
+<!--                    android:pathPrefix="/change_pass"/>-->
+<!--            </intent-filter>-->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:scheme="https"
-                    android:host="smashup.ru"
-                    android:pathPrefix="/change_pass"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
+                    android:host="@string/deeplink_host"
+                    android:pathPrefix="@string/deeplink_path_register_confirm"/>
                 <data
                     android:scheme="https"
-                    android:host="smashup.ru"
-                    android:pathPrefix="/register_confirm"/>
+                    android:host="@string/deeplink_host"
+                    android:pathPrefix="@string/deeplink_path_password_recover_confirm"/>
+                <data
+                    android:scheme="https"
+                    android:host="@string/deeplink_host"
+                    android:pathPrefix="@string/deeplink_path_change_email_confirm"/>
+
             </intent-filter>
 
         </activity>

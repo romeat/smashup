@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name_release">Smashup</string>
     <string name="app_name_debug">Smashup D</string>
+
+    <!-- deeplink stuff -->
+    <string name="deeplink_host" translatable="false">smashup.ru</string>
+    <string name="deeplink_path_register_confirm" translatable="false">/register/confirm</string>
+    <string name="deeplink_path_password_recover_confirm" translatable="false">/user/recover_password/confirm</string>
+    <string name="deeplink_path_change_email_confirm" translatable="false">/change_email/confirm</string>
 
     <string name="welcome">Welcome to SmashUp!</string>
     <string name="we_are">We are the first and only\n mashup streaming service.</string>
@@ -128,4 +134,16 @@
     <string name="profile">Profile</string>
     <string name="displaying_nickname">Displaying nickname</string>
     <string name="no_such_user">User not found</string>
+    <string name="button_yay">Yayyy!</string>
+    <string name="new_password_creation">New password creation</string>
+    <string name="type_new_password">Type new password below</string>
+    <string name="password_updated_succesfully">Password updated successfully!</string>
+    <string name="password_updated_info">Password updated. Now you can use it to log into your account.</string>
+    <string name="instructions_sent">Instructions sent</string>
+    <string name="instructions_sent_details">%s, instructions sent to your email. Check it and return back to the app.</string>
+    <string name="wrong_username_or_email_format">Wrong username or email format</string>
+    <string name="error_500_server_problems">Server side problems :( Try again later.</string>
+    <string name="error_general">No response from server. Try again later</string>
+    <string name="error_404_user_not_found">No user with such name or email</string>
+    <string name="error_404_request_unknown">No such request. Try creating new one</string>
 </resources>
