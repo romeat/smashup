@@ -159,7 +159,7 @@ fun SignInScreenContent(
                     focusManager.clearFocus()
                     onLoginClick()
                 },
-                enabled = !state.isLoading,
+                enabled = state.loginButtonEnabled,
                 inProgress = state.isLoading
             )
             Spacer(modifier = Modifier.height(20.dp))
