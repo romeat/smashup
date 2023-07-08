@@ -18,6 +18,6 @@ class MainViewModel @Inject constructor(
     val state: StateFlow<LoginResponse?> = loggedUserRepository.userInfoFlow
 
     fun isUserLogged(): Boolean {
-        return loggedUserRepository.userInfoFlow.value == null
+        return loggedUserRepository.userInfoFlow.value != null
     }
 }

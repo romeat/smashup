@@ -40,7 +40,7 @@ fun RegisterConfirmScreen(
             topRowTitleResId = R.string.register_title,
             iconResId = R.drawable.ic_close_red,
             titleResId = R.string.registration_confirm_error,
-            subtitle = stringResource(id = R.string.error_500_server_problems),//,viewmodel.state.errorResId),
+            subtitle = stringResource(id = viewModel.state.errorResId),
             confirmButtonTextId = R.string.close,
             onConfirmClick = onCloseClick,
             onBackClick = { /* Not used */ },

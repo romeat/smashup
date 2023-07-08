@@ -35,7 +35,7 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onEmailChange(value: String) {
-        state = state.copy(email = value).andClearErrors()
+        state = state.copy(email = value.trim()).andClearErrors()
     }
 
     fun onPasswordChange(value: String) {
@@ -148,7 +148,7 @@ class RegisterViewModel @Inject constructor(
             "register.email_exists",
             "register.username_exists" -> R.string.error_400_user_exists
 
-            "register.email_was_sent" -> R.string.error_400_email_already_sent
+            "register.already_sent" -> R.string.error_400_email_already_sent
 
             else -> R.string.error_500_server_problems
         }

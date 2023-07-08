@@ -22,6 +22,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
         val regConfirmDeepLink = "https://smashup.ru/register/confirm?id={id}"
         val recoverPasswordDeepLink = "https://smashup.ru/user/recover_password/confirm?id={id}"
 
+        /** Greetings */
         composable(route = AuthScreen.Greetings.route) {
             GreetingsScreen(
                 onRegistrationClick = {
@@ -36,6 +37,8 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
                 }
             )
         }
+
+        /** Register */
         composable(route = AuthScreen.Register.route) { backStackEntry ->
             RegisterScreen(
                 toSignInScreen = {
@@ -51,6 +54,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
             )
         }
 
+        /** Register Confirmation Sent to mail */
         composable(
             route = "${AuthScreen.RegisterConfirmSent.route}/{${AuthNavigationConstants.EMAIL_PARAM}}",
             arguments = listOf(navArgument(AuthNavigationConstants.EMAIL_PARAM) {
@@ -67,6 +71,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
             )
         }
 
+        /** Register Confirmed */
         composable(
             route = AuthScreen.RegisterConfirmed.route,
             deepLinks = listOf(navDeepLink { uriPattern = regConfirmDeepLink })
@@ -85,6 +90,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
             )
         }
 
+        /** Sign In */
         composable(route = AuthScreen.SignIn.route) {
             SignInScreen(
                 toHomeScreen = {
@@ -102,6 +108,8 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
                 },
             )
         }
+
+        /** Forgot Password */
         composable(route = AuthScreen.ForgotPassword.route) {
             ForgotPasswordScreen(
                 onBackClick = {
@@ -114,6 +122,8 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
                 }
             )
         }
+
+        /** Recovery Email Sent */
         composable(
             route = "${AuthScreen.EmailRecoverySent.route}/{${AuthNavigationConstants.EMAIL_PARAM}}",
             arguments = listOf(navArgument(AuthNavigationConstants.EMAIL_PARAM) {
@@ -129,6 +139,8 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
                 }
             )
         }
+
+        /** Set New Password */
         composable(
             route = AuthScreen.SetNewPassword.route,
             deepLinks = listOf(navDeepLink { uriPattern = recoverPasswordDeepLink })
@@ -146,6 +158,8 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
                 }
             )
         }
+
+        /** Password Updated */
         composable(
             route = AuthScreen.PasswordUpdated.route,
         ) {

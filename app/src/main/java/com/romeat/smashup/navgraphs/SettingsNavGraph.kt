@@ -43,8 +43,9 @@ fun NavGraphBuilder.settingsNavGraph(navController: NavHostController) {
                         toAboutApp = { navController.navigate(SettingsGraphScreens.About.route) },
                         onBackClick = { navController.popBackStack() },
                         toAuthScreen = {
-                            navController.popBackStack()
-                            navController.navigate(RootGraph.AUTHENTICATION)
+                            navController.navigate(RootGraph.AUTHENTICATION) {
+                                popUpTo(RootGraph.ROOT)
+                            }
                         }
                     )
                 },
