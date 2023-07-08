@@ -146,4 +146,14 @@
     <string name="error_general">No response from server. Try again later</string>
     <string name="error_404_user_not_found">No user with such name or email</string>
     <string name="error_404_request_unknown">No such request. Try creating new one</string>
+    <string name="error_400_user_exists">User with this name or email already exists</string>
+    <string name="register_confirm_sent_details">Register confirmation link is sent to your email %s. Check it and return back to the app.</string>
+    <string name="error_400_bad_register_parameters">Incorrect username, email or password</string>
+    <string name="error_400_email_already_sent">Confirmation email already sent</string>
+    <string name="error_404_no_reg_confirm_found">Unable to find registration request that matches your link</string>
+    <string name="error_500_registartion_server_error">Error happened during user creation</string>
+    <string name="registration_confirm_error">Register confirmation error</string>
+    <string name="register_confirm_title">Register confirm</string>
+    <string name="close">Close</string>
+    <string name="confirming_registration">Confirming registration...</string>
 </resources>

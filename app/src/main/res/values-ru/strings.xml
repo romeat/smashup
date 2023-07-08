@@ -139,4 +139,14 @@
     <string name="error_500_server_problems">Проблемы на стороне сервера :( Попробуйте позже</string>
     <string name="error_404_user_not_found">"Пользователь с указанным ником или почтой не был найден "</string>
     <string name="error_404_request_unknown">Запрос не найден. Попробуйте создать новый</string>
+    <string name="error_400_user_exists">Пользователь с таким никнеймом или почтой уже зарегистрирован</string>
+    <string name="register_confirm_sent_details">Письмо для подтверждения регистрации отправлено на почту %s. Проверьте ее и возвращайтесь в приложение.</string>
+    <string name="error_400_bad_register_parameters">Отправлена некорректная почта, никнейм или пароль</string>
+    <string name="error_400_email_already_sent">Письмо для подтверждения регистрации уже было отправлено</string>
+    <string name="error_404_no_reg_confirm_found">Не удалось найти запрос регистрации, соответствующий ссылке</string>
+    <string name="error_500_registartion_server_error">При создании пользователя произошла ошибка</string>
+    <string name="registration_confirm_error">Ошибка подтверждения регистрации</string>
+    <string name="register_confirm_title">Подтверждение регистрации</string>
+    <string name="close">Закрыть</string>
+    <string name="confirming_registration">Регистрация подтверждается...</string>
 </resources>

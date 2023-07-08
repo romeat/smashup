@@ -34,7 +34,7 @@ fun RegisterScreen(
 
     viewModel.eventsFlow.collectInLaunchedEffectWithLifecycle { event ->
         when (event) {
-            is RegisterEvent.NavigateToRegistrationConfirm -> {
+            is RegisterEvent.NavigateToSuccessScreen -> {
                 toRegisterConfirm(event.email)
             }
         }

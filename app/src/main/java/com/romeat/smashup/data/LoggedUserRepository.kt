@@ -9,6 +9,8 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
 import com.romeat.smashup.data.dto.LoginResponse
 import com.romeat.smashup.data.likes.UserLikesHolder
+import com.romeat.smashup.network.SmashupAuthData
+import com.romeat.smashup.network.SmashupRemoteData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -18,6 +20,7 @@ import javax.inject.Singleton
 @Singleton
 class LoggedUserRepository @Inject constructor(
     @ApplicationContext val appContext: Context,
+    //private val remoteData: SmashupRemoteData,
 ) {
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "smashup_user")
 
@@ -33,14 +36,23 @@ class LoggedUserRepository @Inject constructor(
             Gson().fromJson(pref[USER_KEY], LoginResponse::class.java)
         }.stateIn(scope, SharingStarted.Eagerly, null)
 
-    suspend fun updateUserStat(user: LoginResponse?) {
+    suspend fun updateUserStat(user: LoginResponse) {
         appContext.dataStore.edit { pref ->
             pref[USER_KEY] = Gson().toJson(user)
+        }
+        scope.launch {
+            delay(1000)
+            // todo send fcm token update request
+
         }
     }
 
     fun logout() = scope.launch {
-        updateUserStat(null)
+        // todo send fcm token remove request
+
+        appContext.dataStore.edit { pref ->
+            pref.remove(USER_KEY)
+        }
     }
 
     /*

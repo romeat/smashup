@@ -59,7 +59,7 @@ class SignInViewModel @Inject constructor(
             try {
                 val response = loginUseCase.invoke(state.nickname, state.password)
                 if (response is Resource.Success) {
-                    loggedUser.updateUserStat(response.data)
+                    loggedUser.updateUserStat(response.data!!)
                     eventChannel.send(SignInEvent.NavigateToHomeGraph)
                 } else if (response is Resource.Error) {
                     when (response.code) {
@@ -82,7 +82,7 @@ class SignInViewModel @Inject constructor(
                                 isLoading = false,
                                 inputsEnabled = true,
                                 loginButtonEnabled = true,
-                                generalErrorResId = R.string.something_went_wrong_try_later
+                                generalErrorResId = R.string.error_general
                             )
                         }
                     }
@@ -92,7 +92,7 @@ class SignInViewModel @Inject constructor(
                     isLoading = false,
                     inputsEnabled = true,
                     loginButtonEnabled = true,
-                    generalErrorResId = R.string.something_went_wrong_try_later
+                    generalErrorResId = R.string.error_general
                 )
             }
         }

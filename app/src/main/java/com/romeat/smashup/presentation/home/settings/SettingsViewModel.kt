@@ -76,6 +76,10 @@ class SettingsViewModel @Inject constructor(
             settingsProvider.updateExplicit(!state.value.explicitAllowed)
         }
     }
+
+    fun onLogout() {
+        loggedUser.logout()
+    }
 }
 
 data class SettingsState(

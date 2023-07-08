@@ -53,8 +53,33 @@ class MainActivity : AppCompatActivity() {
             val eae = intent.data?.pathSegments
             Log.d(TAG, "checkIntent: action: $action data: $data scheme: $eae")
             Log.d(TAG, "checkIntent: ${viewModel.state.value == null}")
+            /*
             if (viewModel.state.value == null) {
                 navController.handleDeepLink(intent)
+            }
+             */
+
+            val authDeeplinkPaths = listOf(
+                getString(R.string.deeplink_path_register_confirm),
+                getString(R.string.deeplink_path_password_recover_confirm),
+            )
+
+            val homeDeeplinkPaths = listOf(
+                getString(R.string.deeplink_path_change_email_confirm),
+            )
+
+            if (viewModel.isUserLogged()) {
+                // todo handle deeplinks for logged users
+                return
+            } else {
+                // Auth navgraph deeplinks
+                intent.data?.path?.let { incomingDeeplinkPath ->
+                    if (authDeeplinkPaths.any { authPath ->
+                            incomingDeeplinkPath.contains(authPath) }
+                    ) {
+                        navController.handleDeepLink(intent)
+                    }
+                }
             }
         }
     }

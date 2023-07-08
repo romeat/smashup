@@ -60,3 +60,32 @@ fun PasswordUpdatedScreenPreview() {
         PasswordUpdatedScreen { }
     }
 }
+
+
+@Composable
+fun RegisterConfirmEmailSentScreen(
+    email: String,
+    onConfirmClick: () -> Unit,
+) {
+    InfoScreen(
+        topRowTitleResId = R.string.register_title,
+        iconResId = R.drawable.ic_mail_stack,
+        titleResId = R.string.instructions_sent,
+        subtitle = stringResource(R.string.register_confirm_sent_details, email),
+        confirmButtonTextId = R.string.confirm,
+        onConfirmClick = onConfirmClick,
+        onBackClick = { /* Not used */ },
+        showBackButton = false
+    )
+}
+
+@Preview(locale = "en")
+@Preview(locale = "ru")
+@Composable
+fun RegisterConfirmEmailSentScreenPreview() {
+    SmashupTheme {
+        RegisterConfirmEmailSentScreen(
+            "3dwarka@gmail.com"
+        ) { }
+    }
+}

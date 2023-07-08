@@ -5,10 +5,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.*
 import com.google.accompanist.navigation.animation.composable
 import com.romeat.smashup.presentation.login.greetings.GreetingsScreen
-import com.romeat.smashup.presentation.login.password.EmailRecoverySentScreen
-import com.romeat.smashup.presentation.login.password.ForgotPasswordScreen
-import com.romeat.smashup.presentation.login.password.PasswordUpdatedScreen
-import com.romeat.smashup.presentation.login.password.SetNewPasswordScreen
+import com.romeat.smashup.presentation.login.password.*
+import com.romeat.smashup.presentation.login.register.RegisterConfirmScreen
 import com.romeat.smashup.presentation.login.register.RegisterScreen
 import com.romeat.smashup.presentation.login.signin.SignInScreen
 import com.romeat.smashup.util.AuthNavigationConstants
@@ -38,26 +36,61 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
                 }
             )
         }
-        composable(
-            route = AuthScreen.Register.route,
-            deepLinks = listOf(navDeepLink { uriPattern = "https://smashup.ru/register_confirm?id={id}" })
-        ) { backStackEntry ->
+        composable(route = AuthScreen.Register.route) { backStackEntry ->
             RegisterScreen(
                 toSignInScreen = {
                     navController.navigate(AuthScreen.SignIn.route) {
                         popUpTo(RootGraph.AUTHENTICATION)
                     }
                 },
-                toRegisterConfirm = {
-                    // todo
+                toRegisterConfirm = { email ->
+                    navController.navigate("${AuthScreen.RegisterConfirmSent.route}/${email}") {
+                        popUpTo(RootGraph.AUTHENTICATION)
+                    }
                 }
             )
         }
+
+        composable(
+            route = "${AuthScreen.RegisterConfirmSent.route}/{${AuthNavigationConstants.EMAIL_PARAM}}",
+            arguments = listOf(navArgument(AuthNavigationConstants.EMAIL_PARAM) {
+                type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            RegisterConfirmEmailSentScreen(
+                email = backStackEntry.arguments?.getString(AuthNavigationConstants.EMAIL_PARAM)!!,
+                onConfirmClick = {
+                    navController.navigate(AuthScreen.Greetings.route) {
+                        popUpTo(RootGraph.AUTHENTICATION)
+                    }
+                }
+            )
+        }
+
+        composable(
+            route = AuthScreen.RegisterConfirmed.route,
+            deepLinks = listOf(navDeepLink { uriPattern = regConfirmDeepLink })
+        ) {
+            RegisterConfirmScreen(
+                onCloseClick = {
+                    navController.navigate(AuthScreen.Greetings.route) {
+                        popUpTo(RootGraph.AUTHENTICATION)
+                    }
+                },
+                toHomeGraph = {
+                    navController.navigate(RootGraph.HOME) {
+                        popUpTo(RootGraph.ROOT)
+                    }
+                }
+            )
+        }
+
         composable(route = AuthScreen.SignIn.route) {
             SignInScreen(
                 toHomeScreen = {
-                    navController.popBackStack()
-                    navController.navigate(RootGraph.HOME)
+                    navController.navigate(RootGraph.HOME) {
+                        popUpTo(RootGraph.ROOT)
+                    }
                 },
                 toRegister = {
                     navController.navigate(AuthScreen.Register.route) {
@@ -132,6 +165,8 @@ sealed class AuthScreen(val route: String) {
     object Greetings : AuthScreen(route = "GREETINGS")
     object SignIn : AuthScreen(route = "SIGN_IN")
     object Register : AuthScreen(route = "REGISTER")
+    object RegisterConfirmSent : AuthScreen(route = "REGISTER_CONFIRM_SENT")
+    object RegisterConfirmed : AuthScreen(route = "REGISTER_SUCCESSFUL")
     object ForgotPassword : AuthScreen(route = "FORGOT_PASSWORD")
     object EmailRecoverySent : AuthScreen(route = "EMAIL_RECOVERY_SENT")
     object SetNewPassword : AuthScreen(route = "SET_NEW_PASSWORD")

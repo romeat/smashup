@@ -65,7 +65,10 @@ fun SettingsScreen(
             onExplicitToggle = viewModel::onExplicitToggle,
             onBitrateOption = viewModel::onBitrateOptionSelect,
             onLanguageOption = viewModel::onLanguageOptionSelect,
-            onLogoutClick = toAuthScreen,
+            onLogoutClick = {
+                viewModel.onLogout()
+                toAuthScreen()
+            },
         )
     }
 }
