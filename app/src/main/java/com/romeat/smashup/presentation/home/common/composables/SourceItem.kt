@@ -2,11 +2,16 @@ package com.romeat.smashup.presentation.home.common.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
@@ -15,6 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.romeat.smashup.R
 import com.romeat.smashup.data.dto.Source
 import com.romeat.smashup.util.ImageUrlHelper
 import com.skydoves.landscapist.ShimmerParams
@@ -28,16 +34,18 @@ fun SourceItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(4.dp)
-            .clickable { onClick(source.id) }
+            .height(IntrinsicSize.Min)
+            .padding(vertical = 10.dp, horizontal = 20.dp)
+            .clickable { onClick(source.id) },
+        verticalAlignment = Alignment.CenterVertically
     ) {
         GlideImage(
             modifier = Modifier
-                .padding(4.dp)
-                .size(56.dp),
+                .size(48.dp)
+                .clip(RoundedCornerShape(12.dp)),
             contentScale = ContentScale.Crop,
             imageModel = ImageUrlHelper.sourceImageIdToUrl400px(source.imageUrl),
-            error = ImageVector.vectorResource(id = Placeholder.Source.resource),
+            error = ImageVector.vectorResource(id = Placeholder.Napas.resource),
             shimmerParams = ShimmerParams(
                 baseColor = MaterialTheme.colors.background,
                 highlightColor = MaterialTheme.colors.surface,
@@ -45,11 +53,12 @@ fun SourceItem(
                 tilt = 0f
             )
         )
+        Spacer(modifier = Modifier.size(15.dp))
         Column(
             modifier = Modifier
-                .height(64.dp)
+                .fillMaxHeight()
                 .padding(vertical = 4.dp)
-                .weight(1.0f)
+                .weight(1.0f),
         ) {
             Row(
                 modifier = Modifier
@@ -61,8 +70,8 @@ fun SourceItem(
                     text = source.name,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
+                    fontStyle = MaterialTheme.typography.body1.fontStyle,
+                    fontWeight = FontWeight.Bold,
                 )
             }
             Row(
@@ -75,10 +84,11 @@ fun SourceItem(
                     text = source.owner,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    fontSize = 16.sp
+                    fontStyle = MaterialTheme.typography.body2.fontStyle,
                 )
             }
         }
+
     }
 }
 

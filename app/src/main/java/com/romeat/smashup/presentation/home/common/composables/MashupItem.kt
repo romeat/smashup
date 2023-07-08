@@ -142,7 +142,7 @@ fun MashupItem(
             Icon(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(12.dp),
+                    .padding(10.dp),
                 imageVector = ImageVector
                     .vectorResource(id = R.drawable.ic_more_button),
                 contentDescription = "more"

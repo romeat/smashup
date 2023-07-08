@@ -22,4 +22,6 @@ object ImageUrlHelper {
     fun authorImageIdToUrl400px(imageId: String) = authorImageBaseUrl + imageId + imageSuffix400px
 
     fun sourceImageIdToUrl400px(imageId: String) = sourceImageBaseUrl + imageId + imageSuffix400px
+
+    fun sourceImageIdToUrl100px(imageId: String) = sourceImageBaseUrl + imageId + imageSuffix100px
 }
