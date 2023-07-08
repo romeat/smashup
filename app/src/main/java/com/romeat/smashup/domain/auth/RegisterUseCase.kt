@@ -13,21 +13,7 @@ import javax.inject.Inject
 class RegisterUseCase @Inject constructor(
     private val remoteData: SmashupAuthData
 ) {
-    suspend operator fun invoke(username: String, email: String, password: String): Flow<Resource<Boolean>>
-//    {
-//        val response = remoteData.register(username, email, password)
-//        return if (response.isSuccessful) {
-//            Resource.Success(true)
-//        } else {
-//            val errorResponse = Gson().fromJson(response.errorBody()!!.charStream(), ApiWrap::class.java)
-//            Resource.Error(
-//                exception = HttpException(response),
-//                message = errorResponse?.message ?: "unknown error",
-//                code = response.code()
-//            )
-//        }
-//    }
-    =
+    suspend operator fun invoke(username: String, email: String, password: String): Flow<Resource<Boolean>> =
         getResourceWithExceptionLogging(
             dispatcher = Dispatchers.IO,
             action = suspend {
@@ -39,9 +25,6 @@ class RegisterUseCase @Inject constructor(
                         response.toApiWrap(),
                         response.code()
                     )
-                    //val resp2 = Gson().fromJson(response.errorBody()!!.charStream(), ApiWrap::class.java)
-                    //Log.e(Constants.LOG_TAG, resp2.message ?: "fuck")
-                    //throw HttpException(response)
                 }
             }
         )

@@ -16,23 +16,7 @@ import javax.inject.Inject
 class ConfirmRegisterUseCase @Inject constructor(
     private val remoteData: SmashupAuthData
 ) {
-    suspend operator fun invoke(token: String): Flow<Resource<LoginResponse>>
-    /*{
-        val response = remoteData.registerConfirm(token)
-        return if (response.isSuccessful) {
-            Resource.Success(response.body()!!.response)
-        } else {
-            val errorResponse = Gson().fromJson(response.errorBody()!!.charStream(), ApiWrap::class.java)
-            Resource.Error(
-                exception = HttpException(response),
-                message = errorResponse?.message ?: "unknown error",
-                code = response.code()
-            )
-        }
-    }
-
-     */
-    =
+    suspend operator fun invoke(token: String): Flow<Resource<LoginResponse>> =
         getResourceWithExceptionLogging(
             dispatcher = Dispatchers.IO,
             action = suspend {
@@ -40,9 +24,7 @@ class ConfirmRegisterUseCase @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()!!.response!!
                 } else {
-                    //val resp2 = Gson().fromJson(response.errorBody()!!.charStream(), ApiWrap::class.java)
                     throw SmashupApiException(response.toApiWrap(), response.code())
-                    //throw HttpException(response)
                 }
             }
         )
