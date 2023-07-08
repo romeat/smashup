@@ -160,15 +160,15 @@ sealed class RegisterEvent {
 }
 
 data class RegisterState(
-    val nickname: String = "romeat",
+    val nickname: String = "",
     val nicknameErrorResId: Int = R.string.string_empty,
     val isNicknameError: Boolean = false,
 
-    val password: String = "Ktcyfz69",
+    val password: String = "",
     val passwordErrorResId: Int = R.string.string_empty,
     val isPasswordError: Boolean = false,
 
-    val email: String = "romeat@yandex.ru",
+    val email: String = "",
     val isEmailFormatError: Boolean = false,
 
     val isGeneralError: Boolean = false,
