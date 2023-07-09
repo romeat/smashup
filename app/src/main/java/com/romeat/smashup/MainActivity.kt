@@ -4,16 +4,22 @@ import android.app.Activity
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.romeat.smashup.navgraphs.RootNavigationGraph
 import com.romeat.smashup.ui.theme.SmashupTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +45,18 @@ class MainActivity : AppCompatActivity() {
                 checkIntent(intent)
             }
         }
+        askNotificationPermission()
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+            Log.d(TAG, token)
+        })
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -75,12 +93,40 @@ class MainActivity : AppCompatActivity() {
                 // Auth navgraph deeplinks
                 intent.data?.path?.let { incomingDeeplinkPath ->
                     if (authDeeplinkPaths.any { authPath ->
-                            incomingDeeplinkPath.contains(authPath) }
+                            incomingDeeplinkPath.contains(authPath)
+                        }
                     ) {
                         navController.handleDeepLink(intent)
                     }
                 }
             }
+        }
+    }
+
+    private fun askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                // FCM SDK (and your app) can post notifications.
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    // Declare the launcher at the top of your Activity/Fragment:
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // FCM SDK (and your app) can post notifications.
+        } else {
+            //
         }
     }
 }
