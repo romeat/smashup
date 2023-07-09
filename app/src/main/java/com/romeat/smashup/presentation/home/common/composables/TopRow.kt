@@ -1,5 +1,6 @@
 package com.romeat.smashup.presentation.home.common.composables
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -62,6 +63,42 @@ fun TopRow(
     }
 }
 
+@Composable
+fun TransparentTopRow(
+    onBackPressed: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val height = 50.dp
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(color = MaterialTheme.colors.background.copy(alpha = 0.2f))
+    ) {
+        Spacer(modifier = Modifier.height(10.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(height)
+        ) {
+            IconButton(
+                modifier = Modifier
+                    .width(70.dp)
+                    .height(height),
+                onClick = onBackPressed,
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .height(40.dp)
+                        .width(24.dp),
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_chevron_left_button),
+                    contentDescription = "back"
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+    }
+}
+
 @Preview
 @Composable
 fun TopRowPreview() {
@@ -69,7 +106,7 @@ fun TopRowPreview() {
         Surface(
             modifier = Modifier
                 .fillMaxSize(),
-            color =MaterialTheme.colors.background
+            color = MaterialTheme.colors.background
         ) {
             Column(
                 modifier = Modifier

@@ -8,11 +8,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -26,13 +28,14 @@ import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun PlaylistHeader(
     imageUrl: String,
     title: String,
     mashupsCount: Int,
 
-    onBackClick: () -> Unit,
+//    onBackClick: () -> Unit,
 
     onPlayPauseClick: () -> Unit,
     onShuffleClick: () -> Unit,
@@ -48,28 +51,30 @@ fun PlaylistHeader(
         modifier = modifier.fillMaxWidth()
     ) {
         // Top row with back button
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp)
-        ) {
-            IconButton(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(70.dp),
-                onClick = onBackClick,
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .height(40.dp)
-                        .width(24.dp),
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_chevron_left_button),
-                    contentDescription = "back"
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(10.dp))
+//        Box(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(60.dp)
+//        ) {
+//            IconButton(
+//                modifier = Modifier
+//                    .fillMaxHeight()
+//                    .width(70.dp),
+//                onClick = onBackClick,
+//            ) {
+//                Icon(
+//                    modifier = Modifier
+//                        .height(40.dp)
+//                        .width(24.dp),
+//                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_chevron_left_button),
+//                    contentDescription = "back"
+//                )
+//            }
+//        }
+//        Spacer(modifier = Modifier.height(10.dp))
 
+        // Spacer for overlaying top row
+        Spacer(modifier = Modifier.height(70.dp))
         // Image and titles
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -121,7 +126,7 @@ fun PlaylistHeader(
                 Text(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    text = "Mashup count: $mashupsCount",
+                    text = pluralStringResource(id = R.plurals.mashups_number, count = mashupsCount),
                     style = MaterialTheme.typography.body2,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
@@ -160,7 +165,8 @@ fun PlaylistHeader(
             ) {
                 Icon(
                     modifier = Modifier
-                        .fillMaxSize().padding(10.dp),
+                        .fillMaxSize()
+                        .padding(10.dp),
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_shuffle_button),
                     contentDescription = "shuffle"
                 )
@@ -180,6 +186,7 @@ fun PlaylistHeader(
             }
             Spacer(modifier = Modifier.width(20.dp))
         }
+        Spacer(modifier = Modifier.height(25.dp))
     }
 }
 
@@ -201,7 +208,7 @@ fun PlaylistHeaderPreview() {
                     mashupsCount = 32,
                     subtitle = "SmashUp",
                     subtitleClickable = true,
-                    onBackClick = { /*TODO*/ },
+//                    onBackClick = { /*TODO*/ },
                     onPlayPauseClick = { /*TODO*/ },
                     onShuffleClick = { /*TODO*/ }
                 )
@@ -211,7 +218,7 @@ fun PlaylistHeaderPreview() {
                     imageUrl = "123",
                     title = "warkka",
                     mashupsCount = 32,
-                    onBackClick = { /*TODO*/ },
+//                    onBackClick = { /*TODO*/ },
                     onPlayPauseClick = { /*TODO*/ },
                     onShuffleClick = { /*TODO*/ }
                 )
@@ -223,7 +230,7 @@ fun PlaylistHeaderPreview() {
                     mashupsCount = 32,
                     subtitle = "Vdrug ko mne podhodit hrenoten",
                     subtitleClickable = false,
-                    onBackClick = { /*TODO*/ },
+//                    onBackClick = { /*TODO*/ },
                     onPlayPauseClick = { /*TODO*/ },
                     onShuffleClick = { /*TODO*/ }
                 )

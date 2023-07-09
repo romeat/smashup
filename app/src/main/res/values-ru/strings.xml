@@ -149,4 +149,16 @@
     <string name="register_confirm_title">Подтверждение регистрации</string>
     <string name="close">Закрыть</string>
     <string name="confirming_registration">Регистрация подтверждается...</string>
+    
+    <plurals name="mashups_number">
+        <item quantity="one">%d мэшап</item>
+        <item quantity="few">%d мэшапа</item>
+        <item quantity="many">%d мэшапов</item>
+        <item quantity="other">%d мэшапов</item>
+    </plurals>
+    <string name="user_title">Пользователь</string>
+    <string name="playlists_title">Плейлисты</string>
+    <string name="mashups_title">Мэшапы</string>
+    <string name="sources_title">Сурсы</string>
+    <string name="authors_title">Пользователи</string>
 </resources>

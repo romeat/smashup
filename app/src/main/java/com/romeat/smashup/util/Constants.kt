@@ -16,6 +16,9 @@ object CommonNavigationConstants {
     const val PLAYLIST_ROUTE = "PLAYLIST"
     const val PLAYLIST_PARAM = "playlistId"
 
+    const val PLAYLIST_LIST_ROUTE = "PLAYLISTS"
+    const val PLAYLIST_LIST_PARAM = "playlistIds"
+
     const val MASHUP_ROUTE = "MASHUP"
     const val MASHUP_PARAM = "mashupId"
 

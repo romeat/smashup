@@ -19,7 +19,11 @@ object ImageUrlHelper {
 
     fun playlistImageIdToUrl400px(imageId: String?) = playlistImageBaseUrl + imageId + imageSuffix400px
 
+    fun playlistImageIdToUrl100px(imageId: String?) = playlistImageBaseUrl + imageId + imageSuffix100px
+
     fun authorImageIdToUrl400px(imageId: String) = authorImageBaseUrl + imageId + imageSuffix400px
+
+    fun authorImageIdToUrl100px(imageId: String) = authorImageBaseUrl + imageId + imageSuffix100px
 
     fun sourceImageIdToUrl400px(imageId: String) = sourceImageBaseUrl + imageId + imageSuffix400px
 

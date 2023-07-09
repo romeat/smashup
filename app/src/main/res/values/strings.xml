@@ -156,4 +156,14 @@
     <string name="register_confirm_title">Register confirm</string>
     <string name="close">Close</string>
     <string name="confirming_registration">Confirming registration...</string>
+
+    <plurals name="mashups_number">
+        <item quantity="one">%d mashup</item>
+        <item quantity="other">%d mashups</item>
+    </plurals>
+    <string name="user_title">User</string>
+    <string name="playlists_title">Playlists</string>
+    <string name="mashups_title">Mashups</string>
+    <string name="sources_title">Sources</string>
+    <string name="authors_title">Users</string>
 </resources>
