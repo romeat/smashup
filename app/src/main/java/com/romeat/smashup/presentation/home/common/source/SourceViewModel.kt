@@ -137,6 +137,22 @@ class SourceViewModel @Inject constructor(
             likesRepository.addLike(mashupId)
         }
     }
+
+    fun onPlayClick() {
+        playCurrentPlaylist(mashupIdToStart = state.value.mashupList.first().id)
+    }
+
+    fun onShuffleClick() {
+        playCurrentPlaylist(mashupIdToStart = state.value.mashupList.first().id, shuffle = true)
+    }
+
+    private fun playCurrentPlaylist(mashupIdToStart: Int, shuffle: Boolean = false) {
+        musicServiceConnection.playEntirePlaylist(
+            mashupIdToStart = mashupIdToStart,
+            playlist = originalMashupList,
+            shuffle = shuffle
+        )
+    }
 }
 
 data class SourceScreenState(
