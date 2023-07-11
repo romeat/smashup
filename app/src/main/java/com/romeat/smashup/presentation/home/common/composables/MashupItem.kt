@@ -97,6 +97,7 @@ fun MashupItem(
                     color = color
                 )
             }
+            Spacer(modifier = Modifier.height(3.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

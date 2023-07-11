@@ -68,8 +68,8 @@ fun UserItem(
                     style = MaterialTheme.typography.h6,
                 )
             }
-            Spacer(modifier = Modifier.height(5.dp))
             if (false) { // todo add logic to display is it regular user or mashuper
+                Spacer(modifier = Modifier.height(5.dp))
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
