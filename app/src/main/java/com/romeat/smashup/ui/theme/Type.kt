@@ -1,5 +1,6 @@
 package com.romeat.smashup.ui.theme
 
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -37,12 +38,14 @@ val Typography = Typography(
     body2 = TextStyle(
         fontWeight = FontWeight.Normal,
         letterSpacing = 0.15.sp,
-        fontSize = 13.sp
+        fontSize = 13.sp,
+        color = AppLightGrey.copy(alpha = 0.75f)
     ),
     overline = TextStyle(
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
-        letterSpacing = 0.3.sp
+        letterSpacing = 0.3.sp,
+        color = AppLightGrey.copy(alpha = 0.75f)
     )
 
     /* Other default text styles to override
