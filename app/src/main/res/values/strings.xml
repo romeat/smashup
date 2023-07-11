@@ -166,4 +166,5 @@
     <string name="mashups_title">Mashups</string>
     <string name="sources_title">Sources</string>
     <string name="authors_title">Users</string>
+    <string name="all">All</string>
 </resources>

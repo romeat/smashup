@@ -161,4 +161,5 @@
     <string name="mashups_title">Мэшапы</string>
     <string name="sources_title">Сурсы</string>
     <string name="authors_title">Пользователи</string>
+    <string name="all">Все</string>
 </resources>
