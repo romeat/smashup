@@ -81,6 +81,16 @@ class PlaylistViewModel @Inject constructor(
     }
 
     private suspend fun getMashups(ids: List<Int>) {
+        if (ids.isEmpty()) {
+            _state.update {
+                it.copy(
+                    isMashupListLoading = false,
+                    isMashupListError = false,
+                    isMashupListEmpty = true,
+                )
+            }
+            return
+        }
         likesRepository
             .likesState
             .combine(getMashupListUseCase.invoke(ids)) { likes, mashups ->
@@ -160,6 +170,7 @@ data class PlaylistScreenState(
 
     val isMashupListLoading: Boolean = true,
     val isMashupListError: Boolean = false,
+    val isMashupListEmpty: Boolean = false,
     val currentlyPlayingMashupId: Int? = null,
     val mashupList: List<MashupListItem> = emptyList()
 )

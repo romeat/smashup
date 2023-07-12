@@ -228,6 +228,10 @@ fun PlaylistScreenContent(
                     item {
                         ErrorTextMessage()
                     }
+                } else if (state.isMashupListEmpty) {
+                    item {
+                        ErrorTextMessage(R.string.playlist_empty)
+                    }
                 } else {
                     items(
                         items = state.mashupList,

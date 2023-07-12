@@ -32,12 +32,11 @@ fun MainScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.size(30.dp))
-
         // Top row
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .height(70.dp)
                 .padding(start = 20.dp, end = 10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
