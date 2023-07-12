@@ -89,7 +89,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
             ContentScreenWithPlayer(
                 content = {
                     SearchScreen(
-                        onAuthorClick = onAuthorClick,
+                        onAuthorClick = {}, //onAuthorClick,
                         onSourceClick = onSourceClick,
                         onPlaylistClick = onPlaylistClick,
                         onMashupInfoClick = onMashupInfoClick,

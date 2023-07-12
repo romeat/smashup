@@ -43,7 +43,7 @@
     <string name="string_empty"> </string>
 
     <string name="search">Поиск</string>
-    <string name="search_hint">минимум 4 символа</string>
+    <string name="search_hint">Мэшапы, плейлисты, юзеры…</string>
     <string name="error_during_search">При запросе произошла ошибка</string>
     <string name="no_results">Ничего не нашлось</string>
     <string name="search_mashups">Мэшапы</string>
@@ -162,4 +162,6 @@
     <string name="sources_title">Сурсы</string>
     <string name="authors_title">Пользователи</string>
     <string name="all">Все</string>
+    <string name="search_nothing_found">Ничего не нашлось</string>
+    <string name="playlist_empty">Плейлист пуст</string>
 </resources>

@@ -50,19 +50,19 @@ interface MainService {
 
     /* Search */
 
-    @GET("search/mashups")
+    @GET("mashup/search")
     suspend fun getMashupsWithName(@Query("query") query: String
     ): Response<ApiWrap<List<Mashup>>>
 
-    @GET("search/playlists")
+    @GET("playlist/search")
     suspend fun getPlaylistsWithName(@Query("query") query: String
     ): Response<ApiWrap<List<Playlist>>>
 
-    @GET("search/tracks")
+    @GET("track/search")
     suspend fun getSourcesWithName(@Query("query") query: String
     ): Response<ApiWrap<List<Source>>>
 
-    @GET("search/users")
+    @GET("user/search")
     suspend fun getUsersWithName(@Query("query") query: String
     ): Response<ApiWrap<List<AuthorProfile>>>
 
