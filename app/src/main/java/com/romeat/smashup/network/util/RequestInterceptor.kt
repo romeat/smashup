@@ -12,7 +12,7 @@ class RequestInterceptor @Inject constructor(
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder: Request.Builder = chain.request().newBuilder()
         userRepository.userInfoFlow.value?.token?.let {
-            builder.addHeader("Bearer", it)
+            builder.addHeader("Authorization", "Bearer $it")
         }
         return chain.proceed(builder.build())
     }
