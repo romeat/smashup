@@ -15,6 +15,7 @@ import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.common.composables.*
 import com.romeat.smashup.util.ImageUrlHelper
 
+// todo big redesign
 @Composable
 fun MashupScreen(
     onSourceClick: (Int) -> Unit,

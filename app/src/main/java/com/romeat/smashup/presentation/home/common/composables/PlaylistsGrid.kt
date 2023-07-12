@@ -5,9 +5,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -19,137 +22,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.romeat.smashup.R
 import com.romeat.smashup.data.dto.AuthorProfile
 import com.romeat.smashup.data.dto.Playlist
 import com.romeat.smashup.util.ImageUrlHelper
+import com.romeat.smashup.util.toStringWithThousands
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
-
-// BIG TODO - remove everything
-// todo remove - used on search screen
-@Composable
-fun PlaylistsGrid(
-    playlists: List<Playlist>,
-    onPlaylistClick: (Int) -> Unit
-) {
-    LazyVerticalGrid(
-        modifier = Modifier.fillMaxSize(),
-        columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 5.dp),
-    ) {
-        items(playlists.size) { i ->
-            val playlist = playlists[i]
-            PlaylistPreview(
-                imageUrl = ImageUrlHelper.playlistImageIdToUrl400px(playlist.imageUrl),
-                title = playlist.name,
-                owner = playlist.owner,
-                onClick = { onPlaylistClick(playlist.id) }
-            )
-        }
-    }
-}
-
-@Composable
-fun PlaylistPreview(
-    imageUrl: String,
-    title: String,
-    owner: String,
-    onClick: () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp)
-            .clickable { onClick() }
-    ) {
-        GlideImage(
-            imageModel = imageUrl,
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(1.0f),
-            contentScale = ContentScale.Crop,
-            error = ImageVector.vectorResource(id = Placeholder.Playlist.resource),
-            shimmerParams = ShimmerParams(
-                baseColor = MaterialTheme.colors.background,
-                highlightColor = MaterialTheme.colors.surface,
-                durationMillis = 700,
-                tilt = 0f
-            )
-        )
-        Text(
-            text = title,
-            fontWeight = FontWeight.Bold,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-        )
-        Text(
-            text = owner,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
-    }
-}
-
-@Composable
-fun AuthorPreview(
-    imageUrl: String,
-    title: String,
-    onClick: () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp)
-            .clickable { onClick() }
-    ) {
-        GlideImage(
-            imageModel = ImageUrlHelper.authorImageIdToUrl400px(imageUrl),
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(1.0f)
-                .clip(CircleShape),
-            contentScale = ContentScale.Crop,
-            error = ImageVector.vectorResource(id = Placeholder.Napas.resource),
-            shimmerParams = ShimmerParams(
-                baseColor = MaterialTheme.colors.background,
-                highlightColor = MaterialTheme.colors.surface,
-                durationMillis = 700,
-                tilt = 0f
-            )
-        )
-        Text(
-            text = title,
-            modifier = Modifier
-                .fillMaxWidth(),
-            fontWeight = FontWeight.Bold,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-@Composable
-fun AuthorsGrid(
-    authors: List<AuthorProfile>,
-    onAuthorClick: (String) -> Unit
-) {
-    LazyVerticalGrid(
-        modifier = Modifier.fillMaxSize(),
-        columns = GridCells.Fixed(3),
-        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 5.dp),
-    ) {
-        items(authors.size) { i ->
-            val author = authors[i]
-            AuthorPreview(
-                imageUrl = author.imageUrl,
-                title = author.username,
-                onClick = { onAuthorClick(author.username) }
-            )
-        }
-    }
-}
-
 
 // todo remove
 @Composable
@@ -172,12 +51,7 @@ fun ContentDescription(
     }
 }
 
-@Preview
-@Composable
-fun ContentDescriptionPreview() {
-    ContentDescription(content = "Playlist")
-    ContentDescription(content = "Playlist ContentDescription PreviewLong aaaaaaaaaaaaa")
-}
+
 
 // todo remove
 @Composable
@@ -205,20 +79,56 @@ fun ClickableDescription(
     }
 }
 
-@Preview
-@Composable
-fun ClickableDescriptionPreview() {
-    ClickableDescription(name = "MOVIESTRAIFE", onNameClick = {})
-}
 
-@Preview
 @Composable
-fun ClickableDescriptionPreviewLong() {
-    ClickableDescription(name = "MOVIESTRAIFE MOVIESTRAIFE MOVIESTRAIFE", onNameClick = {})
-}
-
-@Preview
-@Composable
-fun ClickableDescriptionPreviewReallyLong() {
-    ClickableDescription(name = "MOVIESTRAIFE MOVIESTRAIFE MOVIESTRAIFEMOVIESTRAIFE MOVIESTRAIFE MOVIESTRAIFE", onNameClick = {})
+fun StatsRow(
+    likes: Int,
+    listens: Int
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = likes.toStringWithThousands(),
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(
+            modifier = Modifier.width(5.dp)
+        )
+        Icon(
+            modifier = Modifier.size(24.dp),
+            imageVector = ImageVector
+                .vectorResource(id = R.drawable.ic_heart_border),
+            contentDescription = "likes"
+        )
+        Spacer(
+            modifier = Modifier.width(8.dp)
+        )
+        Divider(
+            modifier = Modifier
+                .width(1.dp)
+                .height(25.dp),
+            color = MaterialTheme.colors.onSurface
+        )
+        Spacer(
+            modifier = Modifier.width(8.dp)
+        )
+        Text(
+            text = listens.toStringWithThousands(),
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(
+            modifier = Modifier.width(5.dp)
+        )
+        Icon(
+            modifier = Modifier.size(24.dp),
+            imageVector = ImageVector
+                .vectorResource(id = R.drawable.ic_baseline_headphones_24),
+            contentDescription = "listens"
+        )
+    }
 }

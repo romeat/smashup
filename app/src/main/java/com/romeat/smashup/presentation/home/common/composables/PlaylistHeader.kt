@@ -1,7 +1,5 @@
 package com.romeat.smashup.presentation.home.common.composables
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,13 +9,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,8 +31,6 @@ fun PlaylistHeader(
     title: String,
     mashupsCount: Int,
 
-//    onBackClick: () -> Unit,
-
     onPlayPauseClick: () -> Unit,
     onShuffleClick: () -> Unit,
 
@@ -50,29 +44,6 @@ fun PlaylistHeader(
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-        // Top row with back button
-//        Box(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(60.dp)
-//        ) {
-//            IconButton(
-//                modifier = Modifier
-//                    .fillMaxHeight()
-//                    .width(70.dp),
-//                onClick = onBackClick,
-//            ) {
-//                Icon(
-//                    modifier = Modifier
-//                        .height(40.dp)
-//                        .width(24.dp),
-//                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_chevron_left_button),
-//                    contentDescription = "back"
-//                )
-//            }
-//        }
-//        Spacer(modifier = Modifier.height(10.dp))
-
         // Spacer for overlaying top row
         Spacer(modifier = Modifier.height(70.dp))
         // Image and titles
@@ -208,7 +179,6 @@ fun PlaylistHeaderPreview() {
                     mashupsCount = 32,
                     subtitle = "SmashUp",
                     subtitleClickable = true,
-//                    onBackClick = { /*TODO*/ },
                     onPlayPauseClick = { /*TODO*/ },
                     onShuffleClick = { /*TODO*/ }
                 )
@@ -218,7 +188,6 @@ fun PlaylistHeaderPreview() {
                     imageUrl = "123",
                     title = "warkka",
                     mashupsCount = 32,
-//                    onBackClick = { /*TODO*/ },
                     onPlayPauseClick = { /*TODO*/ },
                     onShuffleClick = { /*TODO*/ }
                 )
@@ -230,7 +199,6 @@ fun PlaylistHeaderPreview() {
                     mashupsCount = 32,
                     subtitle = "Vdrug ko mne podhodit hrenoten",
                     subtitleClickable = false,
-//                    onBackClick = { /*TODO*/ },
                     onPlayPauseClick = { /*TODO*/ },
                     onShuffleClick = { /*TODO*/ }
                 )
