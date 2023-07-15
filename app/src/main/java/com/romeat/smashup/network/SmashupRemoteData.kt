@@ -7,8 +7,11 @@ class SmashupRemoteData @Inject constructor(
 ) {
 
     //suspend fun getUserInfo(username: String) = mainService.getCurrentUser(username)
+    suspend fun getMyLikes() = mainService.getMyLikes()
 
-    suspend fun getAuthorInfo(name: String) = mainService.getAuthorProfile(name)
+    suspend fun getUserProfileList(ids: List<Int>) = mainService.getUserProfileList(ids.joinToString(","))
+
+    suspend fun getAuthorInfo(name: String) = mainService.getUserProfile(name)
 
     suspend fun getMashupsList(ids: List<Int>) = mainService.getMashupsList(ids.joinToString(","))
 
@@ -33,4 +36,6 @@ class SmashupRemoteData @Inject constructor(
     suspend fun addLikeToMashup(id: Int) = mainService.addLikeToMashup(id)
 
     suspend fun removeLikeFromMashup(id: Int) = mainService.removeLikeFromMashup(id)
+
+    suspend fun addStreamToMashup(id: Int) = mainService.addStreamToMashup(id)
 }

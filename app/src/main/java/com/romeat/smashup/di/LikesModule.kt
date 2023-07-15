@@ -2,7 +2,6 @@ package com.romeat.smashup.di
 
 import com.romeat.smashup.data.likes.LikesRepository
 import com.romeat.smashup.data.likes.LikesRepositoryImpl
-import com.romeat.smashup.data.likes.UserLikesHolder
 import com.romeat.smashup.domain.mashups.likes.AddLikeUseCase
 import com.romeat.smashup.domain.mashups.likes.AddLikeUseCaseImpl
 import com.romeat.smashup.domain.mashups.likes.RemoveLikeUseCase
@@ -18,9 +17,6 @@ abstract class LikesModule {
 
     @Binds
     abstract fun bindLikesRepository(repository: LikesRepositoryImpl) : LikesRepository
-
-    @Binds
-    abstract fun bindUserLikesHolder(repository: LikesRepositoryImpl) : UserLikesHolder
 
     @Binds
     abstract fun bindAddLikeUseCase(useCase: AddLikeUseCaseImpl) : AddLikeUseCase

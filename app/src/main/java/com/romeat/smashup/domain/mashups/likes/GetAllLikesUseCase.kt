@@ -1,26 +1,30 @@
-package com.romeat.smashup.domain.search
+package com.romeat.smashup.domain.mashups.likes
 
-import com.romeat.smashup.data.dto.UserProfile
 import com.romeat.smashup.network.SmashupRemoteData
 import com.romeat.smashup.util.Resource
+import com.romeat.smashup.util.SmashupApiException
 import com.romeat.smashup.util.getResourceWithExceptionLogging
+import com.romeat.smashup.util.toApiWrap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class SearchAuthorsUseCase @Inject constructor(
+class GetAllLikesUseCase @Inject constructor(
     private val remoteData: SmashupRemoteData
 ) {
-    suspend operator fun invoke(searchQuery: String): Flow<Resource<List<UserProfile>>> =
+    suspend fun invoke(): Flow<Resource<List<Int>>> =
         getResourceWithExceptionLogging(
             dispatcher = Dispatchers.IO,
             action = suspend {
-                val response = remoteData.getUsersWithName(searchQuery)
+                val response = remoteData.getMyLikes()
                 if (response.isSuccessful) {
                     response.body()!!.response!!
                 } else {
-                    throw HttpException(response)
+                    throw SmashupApiException(
+                        response.toApiWrap(),
+                        response.code()
+                    )
                 }
             }
         )

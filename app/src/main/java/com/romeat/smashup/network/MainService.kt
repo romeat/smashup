@@ -9,12 +9,43 @@ interface MainService {
 
     /* Current user info */
 
-    /*
     @GET("user/get")
-    suspend fun getCurrentUser(@Query("username") user: String
+    suspend fun getCurrentUser(@Query("id") userId: Int
     ): Response<OwnProfile>
 
-     */
+    @POST("firebase/update_token")
+    suspend fun updateFcmToken(@Query("token") token: String
+    ): Response<ApiWrap<Unit>>
+
+    @POST("firebase/delete_token")
+    suspend fun deleteFcmToken(@Query("token") token: String
+    ): Response<ApiWrap<Unit>>
+
+
+    /* Likes & Streams */
+
+    @GET("mashup/get_all_likes")
+    suspend fun getMyLikes(): Response<ApiWrap<List<Int>>>
+
+    @POST("likes/remove")
+    suspend fun removeLikeFromMashup(@Query("id") id: Int
+    ): Response<ApiWrap<Unit>>
+
+    @POST("likes/add")
+    suspend fun addLikeToMashup(@Query("id") id: Int
+    ): Response<ApiWrap<Unit>>
+
+    @POST("mashup/add_stream")
+    suspend fun addStreamToMashup(@Query("id") id: Int
+    ): Response<ApiWrap<Unit>>
+
+
+    /* Users */
+
+    @GET("user/get_many")
+    suspend fun getUserProfileList(@Query("id") commaSeparatedIds: String
+    ): Response<ApiWrap<List<UserProfile>>>
+
 
     /* Mashups & Sources */
 
@@ -31,8 +62,8 @@ interface MainService {
     ): Response<ApiWrap<List<Mashup>>>
 
     @GET("user/get")
-    suspend fun getAuthorProfile(@Query("username") user: String
-    ): Response<ApiWrap<AuthorProfile>>
+    suspend fun getUserProfile(@Query("username") user: String
+    ): Response<ApiWrap<UserProfile>>
 
 
     /* Playlists */
@@ -64,16 +95,6 @@ interface MainService {
 
     @GET("user/search")
     suspend fun getUsersWithName(@Query("query") query: String
-    ): Response<ApiWrap<List<AuthorProfile>>>
-
-
-    /* Likes */
-    @POST("likes/add")
-    suspend fun addLikeToMashup(@Query("id") id: Int
-    ): Response<ApiWrap<Unit>>
-
-    @POST("likes/remove")
-    suspend fun removeLikeFromMashup(@Query("id") id: Int
-    ): Response<ApiWrap<Unit>>
+    ): Response<ApiWrap<List<UserProfile>>>
 
 }

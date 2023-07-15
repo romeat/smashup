@@ -9,11 +9,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.common.composables.*
+import com.romeat.smashup.presentation.home.common.user.UserViewModel
 import com.romeat.smashup.util.ImageUrlHelper
 
 // todo redesign
@@ -21,7 +21,7 @@ import com.romeat.smashup.util.ImageUrlHelper
 fun AuthorScreen(
     onMashupInfoClick: (Int) -> Unit,
     onBackClicked: () -> Unit,
-    viewModel: AuthorViewModel = hiltViewModel(),
+    viewModel: UserViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
 

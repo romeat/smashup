@@ -16,14 +16,14 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.romeat.smashup.R
-import com.romeat.smashup.data.dto.AuthorProfile
+import com.romeat.smashup.data.dto.UserProfile
 import com.romeat.smashup.util.ImageUrlHelper
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun UserItem(
-    user: AuthorProfile,
+    user: UserProfile,
     onClick: (Int) -> Unit,
 ) {
     Row(

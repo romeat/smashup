@@ -1,6 +1,6 @@
 package com.romeat.smashup.domain.author
 
-import com.romeat.smashup.data.dto.AuthorProfile
+import com.romeat.smashup.data.dto.UserProfile
 import com.romeat.smashup.network.SmashupRemoteData
 import com.romeat.smashup.util.Resource
 import com.romeat.smashup.util.getResourceWithExceptionLogging
@@ -12,7 +12,7 @@ import javax.inject.Inject
 class GetAuthorUseCaseImpl @Inject constructor(
     val remoteData: SmashupRemoteData
 ) : GetAuthorUseCase {
-    override suspend fun invoke(name: String): Flow<Resource<AuthorProfile>> =
+    override suspend fun invoke(name: String): Flow<Resource<UserProfile>> =
         getResourceWithExceptionLogging(
             dispatcher = Dispatchers.IO,
             action = suspend {

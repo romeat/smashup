@@ -1,11 +1,11 @@
-package com.romeat.smashup.presentation.home.common.author
+package com.romeat.smashup.presentation.home.common.user
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romeat.smashup.domain.author.GetAuthorUseCase
 import com.romeat.smashup.domain.mashups.GetMashupsListUseCase
-import com.romeat.smashup.data.dto.AuthorProfile
+import com.romeat.smashup.data.dto.UserProfile
 import com.romeat.smashup.data.dto.Mashup
 import com.romeat.smashup.data.dto.MashupListItem
 import com.romeat.smashup.data.likes.LikesRepository
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthorViewModel @Inject constructor(
+class UserViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getAuthorUseCase: GetAuthorUseCase,
     private val getMashupListUseCase: GetMashupsListUseCase,
@@ -151,7 +151,7 @@ data class AuthorScreenState(
     val isLoading: Boolean = true,
     val errorMessage: String = "",
 
-    val authorInfo: AuthorProfile? = null,
+    val authorInfo: UserProfile? = null,
 
     val isMashupListLoading: Boolean = true,
     val isMashupListError: Boolean = false,

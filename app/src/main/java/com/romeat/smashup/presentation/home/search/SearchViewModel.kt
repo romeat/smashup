@@ -137,7 +137,7 @@ class SearchBarViewModel @Inject constructor(
                                     results[0].data!! as List<Mashup>,
                                     likesRepository.likesState.value.mashupLikes
                                 ),
-                                users = results[1].data!! as List<AuthorProfile>,
+                                users = results[1].data!! as List<UserProfile>,
                                 playlists = results[2].data!! as List<Playlist>,
                                 sources = results[3].data!! as List<Source>
                             )
@@ -169,7 +169,7 @@ data class SearchResultState(
     val originalMashups: List<Mashup> = emptyList(),
 
     val mashups: List<MashupListItem> = emptyList(),
-    val users: List<AuthorProfile> = emptyList(),
+    val users: List<UserProfile> = emptyList(),
     val playlists: List<Playlist> = emptyList(),
     val sources: List<Source> = emptyList(),
 )

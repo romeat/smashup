@@ -14,12 +14,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.romeat.smashup.R
-import com.romeat.smashup.data.dto.AuthorProfile
+import com.romeat.smashup.data.dto.UserProfile
 import com.romeat.smashup.ui.theme.SmashupTheme
 
 @Composable
 fun UserListCompact(
-    users: List<AuthorProfile>,
+    users: List<UserProfile>,
     onClick: (Int) -> Unit,
     onMoreClick: () -> Unit = { },
     maxNumberOfItemsToDisplay: Int = 4,
@@ -68,21 +68,21 @@ fun UserListCompactPreview() {
         Surface(color = MaterialTheme.colors.surface) {
             Column {
                 UserListCompact(users = listOf(
-                    AuthorProfile(1, "Chilish", "def", 0),
-                    AuthorProfile(1, "Mem", "def", 0),
+                    UserProfile(1, "Chilish", "def", 0, listOf(), listOf()),
+                    UserProfile(1, "Mem", "def", 0, listOf(), listOf()),
                 ), onClick = {})
                 UserListCompact(users = listOf(
-                    AuthorProfile(1, "Chilish", "def", 0),
-                    AuthorProfile(1, "Mem", "def", 0),
-                    AuthorProfile(1, "sobakin", "def", 0),
-                    AuthorProfile(1, "Аркадий", "def", 0),
+                    UserProfile(1, "Chilish", "def", 0, listOf(), listOf()),
+                    UserProfile(1, "Mem", "def", 0, listOf(), listOf()),
+                    UserProfile(1, "sobakin", "def", 0, listOf(), listOf()),
+                    UserProfile(1, "Аркадий", "def", 0, listOf(), listOf()),
                 ), onClick = {})
                 UserListCompact(users = listOf(
-                    AuthorProfile(1, "Chilish", "def", 0),
-                    AuthorProfile(1, "Mem", "def", 0),
-                    AuthorProfile(1, "sobakin", "def", 0),
-                    AuthorProfile(1, "Аркадий", "def", 0),
-                    AuthorProfile(1, "Not disp", "def", 0),
+                    UserProfile(1, "Chilish", "def", 0, listOf(), listOf()),
+                    UserProfile(1, "Mem", "def", 0, listOf(), listOf()),
+                    UserProfile(1, "sobakin", "def", 0, listOf(), listOf()),
+                    UserProfile(1, "Аркадий", "def", 0, listOf(), listOf()),
+                    UserProfile(1, "Not disp", "def", 0, listOf(), listOf()),
                 ), onClick = {})
             }
         }

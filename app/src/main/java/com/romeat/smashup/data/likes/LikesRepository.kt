@@ -1,5 +1,6 @@
 package com.romeat.smashup.data.likes
 
+import androidx.compose.runtime.Stable
 import kotlinx.coroutines.flow.StateFlow
 
 interface LikesRepository {
@@ -10,7 +11,7 @@ interface LikesRepository {
     fun removeLike(id: Int)
 }
 
-
+@Stable
 data class LikesState(
     val mashupLikes: Set<Int> = emptySet()
 )

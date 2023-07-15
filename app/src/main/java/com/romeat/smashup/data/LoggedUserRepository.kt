@@ -8,9 +8,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
 import com.romeat.smashup.data.dto.LoginResponse
-import com.romeat.smashup.data.likes.UserLikesHolder
-import com.romeat.smashup.network.SmashupAuthData
-import com.romeat.smashup.network.SmashupRemoteData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
