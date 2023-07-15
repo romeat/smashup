@@ -4,11 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romeat.smashup.data.LoggedUserRepository
 import com.romeat.smashup.domain.CheckVersionUseCase
+import com.romeat.smashup.domain.SmashupVersion
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,13 +27,27 @@ class StartupViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val job = async { checkVersionUseCase.isActualVersion() }
+            val checkVersionJob = async { dodo() }
 
-            if (job.await()) { // true means version is ok
+            delay(4500)
+            // cancel if it takes too long
+            if (checkVersionJob.isActive) {
+                checkVersionJob.cancelAndJoin()
                 checkUserLogged()
-            } else {
-                // show dialog that app is outdated and let user decide what to do
-                eventChannel.send(StartupEvent.ShowDialog)
+            }
+        }
+    }
+
+    private fun dodo() {
+        viewModelScope.launch {
+            val job = async { checkVersionUseCase.getVersion() }
+            val result = job.await()
+            if (!job.isCancelled) {
+                when (result) {
+                    SmashupVersion.Actual,
+                    SmashupVersion.Latest -> checkUserLogged()
+                    SmashupVersion.Outdated -> eventChannel.send(StartupEvent.ShowDialog)
+                }
             }
         }
     }

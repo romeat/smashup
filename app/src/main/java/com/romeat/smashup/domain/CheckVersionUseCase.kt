@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.net.ssl.HttpsURLConnection
 
@@ -17,55 +18,88 @@ class CheckVersionUseCase @Inject constructor(
     private val VERSION_PREFS_FILE = "VersionPrefsFile"
     private val VERSION_LAST_CHECKED_NAME = "LastCheckedTime"
 
-    private val urlString = "https://romeat.github.io"
-    private val regexConst = "<LastSupportedBuildCode>(.*?)</LastSupportedBuildCode>"
+    private val urlString = "https://romeat.github.io/"
+    private val regexLastSupported = "<LastSupportedBuildCode>(.*?)</LastSupportedBuildCode>"
+    private val regexLatest = "<LatestBuildCode>(.*?)</LatestBuildCode>"
 
-    private val threshold = 1000 * 60 * 60 * 4L // min period between checks - 4 hours
+    private val threshold = if (BuildConfig.DEBUG) TimeUnit.SECONDS.toMillis(1)
+        else TimeUnit.DAYS.toMillis(4) // min period between checks - 4 days
 
-    suspend fun isActualVersion(): Boolean =
+    suspend fun getVersion(): SmashupVersion =
         withContext(Dispatchers.IO) {
-            val lastCheckedTimestamp = appContext
-                .getSharedPreferences(VERSION_PREFS_FILE, Context.MODE_PRIVATE)
-                .getLong(VERSION_LAST_CHECKED_NAME, 0)
+            val lastCheckedTimestamp = getLastCheckedTime()
 
             val currentTime = System.currentTimeMillis()
 
             if ((currentTime - lastCheckedTimestamp) < threshold) {
-                return@withContext true
+                return@withContext SmashupVersion.Latest
             } else {
-                var conn: HttpURLConnection? = null
+                var connection: HttpURLConnection? = null
                 try {
-                    val connection = URL(urlString).openConnection() as HttpsURLConnection
-                    conn = connection
+                    connection = URL(urlString).openConnection() as HttpsURLConnection
 
                     connection.requestMethod = "GET"
-                    connection.connectTimeout = 5000
-                    connection.readTimeout = 5000
+                    connection.connectTimeout = 3000
+                    connection.readTimeout = 2000
 
                     val data = connection.inputStream.bufferedReader().readText()
+                    val lastSupportedCode = parseLastSupportedBuildCode(data)
+                    val latestCode = parseLatestBuildCode(data)
 
-                    val supportedCode = parseBuildCode(data)
                     val currentCode = BuildConfig.VERSION_CODE
 
-                    if (currentCode >= supportedCode) {
-                        appContext
-                            .getSharedPreferences(VERSION_PREFS_FILE, Context.MODE_PRIVATE)
-                            .edit()
-                            .putLong(VERSION_LAST_CHECKED_NAME, currentTime)
-                            .apply()
+                    if (currentCode < lastSupportedCode) {
+                        updateLastCheckedTime(currentTime - TimeUnit.DAYS.toMillis(2))
+                        return@withContext SmashupVersion.Outdated
+                    } else if (currentCode < latestCode) {
+                        updateLastCheckedTime(currentTime)
+                        return@withContext SmashupVersion.Actual
+                    } else {
+                        updateLastCheckedTime(currentTime)
+                        return@withContext SmashupVersion.Latest
                     }
-                    conn.disconnect()
-                    return@withContext currentCode >= supportedCode
+
                 } catch (e: Exception) {
-                    // TODO just let user proceed in case it's unable to connect to the server
-                    conn?.disconnect()
-                    return@withContext true
+                    e.printStackTrace()
+
+                    Log.e("CheckVersion", e.message ?: "some error")
+                    // in case of failure we wait 1 day before next version check
+                    updateLastCheckedTime(currentTime - TimeUnit.DAYS.toMillis(3))
+                    // just let user proceed in case it's unable to connect to the server
+                    return@withContext SmashupVersion.Latest
+                }finally {
+                    connection?.disconnect()
                 }
             }
         }
 
-    private fun parseBuildCode(str: String): Long {
-        val buildCode = regexConst.toRegex().find(str)!!.groups[1]!!.value
+    private fun parseLastSupportedBuildCode(str: String): Long {
+        val buildCode = regexLastSupported.toRegex().find(str)!!.groups[1]!!.value
         return buildCode.toLong()
     }
+
+    private fun parseLatestBuildCode(str: String): Long {
+        val buildCode = regexLatest.toRegex().find(str)!!.groups[1]!!.value
+        return buildCode.toLong()
+    }
+
+    private fun getLastCheckedTime() : Long {
+        return appContext
+            .getSharedPreferences(VERSION_PREFS_FILE, Context.MODE_PRIVATE)
+            .getLong(VERSION_LAST_CHECKED_NAME, 0)
+    }
+
+    private fun updateLastCheckedTime(timestamp: Long) {
+        appContext
+            .getSharedPreferences(VERSION_PREFS_FILE, Context.MODE_PRIVATE)
+            .edit()
+            .putLong(VERSION_LAST_CHECKED_NAME, timestamp)
+            .apply()
+    }
+}
+
+sealed class SmashupVersion {
+    object Latest : SmashupVersion()
+    object Actual : SmashupVersion()
+    object Outdated : SmashupVersion()
 }
