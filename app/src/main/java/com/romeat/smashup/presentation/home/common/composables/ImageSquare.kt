@@ -14,7 +14,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.romeat.smashup.R
-import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
@@ -28,17 +27,18 @@ fun ImageSquare(
         contentAlignment = Alignment.Center
     ) {
         GlideImage(
-            imageModel = url,
+            imageModel = { url },
             modifier = Modifier
                 .size(200.dp),
-            contentScale = ContentScale.Crop,
-            error = ImageVector.vectorResource(id = placeholder.resource),
-            shimmerParams = ShimmerParams(
-                baseColor = MaterialTheme.colors.background,
-                highlightColor = MaterialTheme.colors.surface,
-                durationMillis = 700,
-                tilt = 0f
-            )
+
+//            contentScale = ContentScale.Crop,
+//            error = ImageVector.vectorResource(id = placeholder.resource),
+//            shimmerParams = ShimmerParams(
+//                baseColor = MaterialTheme.colors.background,
+//                highlightColor = MaterialTheme.colors.surface,
+//                durationMillis = 700,
+//                tilt = 0f
+//            )
         )
     }
 }

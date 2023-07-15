@@ -26,10 +26,10 @@ import com.romeat.smashup.data.LanguageOption
 import com.romeat.smashup.data.SettingItemOption
 import com.romeat.smashup.presentation.home.common.composables.CustomCircularProgressIndicator
 import com.romeat.smashup.presentation.home.common.composables.ErrorTextMessage
+import com.romeat.smashup.presentation.home.common.composables.FriendlyGlideImage
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
 import com.romeat.smashup.ui.theme.AppGreenColor
 import com.romeat.smashup.util.ImageUrlHelper
-import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
@@ -102,20 +102,13 @@ fun ProfileScreenContent(
                         .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    GlideImage(
+                    FriendlyGlideImage(
                         imageModel = ImageUrlHelper.authorImageIdToUrl400px(state.imageUrl),
                         modifier = Modifier
                             .size(100.dp)
                             .aspectRatio(1.0f)
                             .clip(CircleShape),
-                        contentScale = ContentScale.Crop,
-                        error = ImageVector.vectorResource(id = Placeholder.Napas.resource),
-                        shimmerParams = ShimmerParams(
-                            baseColor = MaterialTheme.colors.background,
-                            highlightColor = MaterialTheme.colors.surface,
-                            durationMillis = 700,
-                            tilt = 0f
-                        )
+                        error = Placeholder.Napas.resource,
                     )
                     Text(
                         text = state.username,

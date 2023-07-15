@@ -128,7 +128,10 @@ dependencies {
     implementation "com.github.bumptech.glide:compose:1.0.0-alpha.1"
 
     // Glide with shimmer effect
-    implementation "com.github.skydoves:landscapist-glide:1.3.6"
+    def landscapist_ver = '2.2.2'
+    //implementation "com.github.skydoves:landscapist-glide:1.3.6"
+    implementation "com.github.skydoves:landscapist-glide:$landscapist_ver"
+    implementation "com.github.skydoves:landscapist-placeholder:$landscapist_ver"
 
     // Some converter for http response
     implementation 'com.squareup.retrofit2:converter-scalars:2.5.0'

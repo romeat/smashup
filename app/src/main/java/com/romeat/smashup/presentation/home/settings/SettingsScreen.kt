@@ -34,12 +34,12 @@ import com.romeat.smashup.data.LanguageOption
 import com.romeat.smashup.data.SettingItemOption
 import com.romeat.smashup.presentation.home.common.composables.CustomBitrateSlider
 import com.romeat.smashup.presentation.home.common.composables.CustomSwitch
+import com.romeat.smashup.presentation.home.common.composables.FriendlyGlideImage
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
 import com.romeat.smashup.presentation.home.common.composables.TopRow
 import com.romeat.smashup.presentation.home.profile.SettingDescriptionText
 import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.ImageUrlHelper
-import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
@@ -106,20 +106,13 @@ fun SettingsScreenContent(
                     .clickable { onProfileClick() },
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                GlideImage(
+                FriendlyGlideImage(
                     imageModel = ImageUrlHelper.authorImageIdToUrl400px(state.imageUrl),
                     modifier = Modifier
                         .size(48.dp)
                         .aspectRatio(1.0f)
                         .clip(RoundedCornerShape(14.dp)),
-                    contentScale = ContentScale.Crop,
-                    error = ImageVector.vectorResource(id = Placeholder.Napas.resource),
-                    shimmerParams = ShimmerParams(
-                        baseColor = MaterialTheme.colors.background,
-                        highlightColor = MaterialTheme.colors.surface,
-                        durationMillis = 700,
-                        tilt = 0f
-                    )
+                    error = Placeholder.Napas.resource,
                 )
                 Spacer(modifier = Modifier.width(15.dp))
                 Column(modifier = Modifier.weight(1f)) {

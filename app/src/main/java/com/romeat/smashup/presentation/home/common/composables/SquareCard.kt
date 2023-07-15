@@ -16,7 +16,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.romeat.smashup.util.SquareDisplayItem
-import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
@@ -30,20 +29,13 @@ fun SquareCard(
             .width(IntrinsicSize.Min)
             .clickable { onClick() }
     ) {
-        GlideImage(
+        FriendlyGlideImage(
             imageModel = item.imageUrl,
             modifier = Modifier
                 .weight(1f)
                 .aspectRatio(1.0f)
                 .clip(RoundedCornerShape(15)),
-            contentScale = ContentScale.Crop,
-            error = ImageVector.vectorResource(id = Placeholder.Playlist.resource),
-            shimmerParams = ShimmerParams(
-                baseColor = MaterialTheme.colors.background,
-                highlightColor = MaterialTheme.colors.surface,
-                durationMillis = 700,
-                tilt = 0f
-            )
+            error = Placeholder.Playlist.resource,
         )
         Spacer(modifier = Modifier.size(8.dp))
         Text(

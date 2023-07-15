@@ -20,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.romeat.smashup.data.dto.Playlist
 import com.romeat.smashup.util.ImageUrlHelper
-import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import com.romeat.smashup.R
 import com.romeat.smashup.ui.theme.SmashupTheme
@@ -39,19 +38,12 @@ fun PlaylistItem(
             .clickable { onClick(playlist.id) },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        GlideImage(
+        FriendlyGlideImage(
+            imageModel = ImageUrlHelper.playlistImageIdToUrl400px(playlist.imageUrl),
             modifier = Modifier
                 .size(60.dp)
                 .clip(RoundedCornerShape(15.dp)),
-            contentScale = ContentScale.Crop,
-            imageModel = ImageUrlHelper.playlistImageIdToUrl400px(playlist.imageUrl),
-            error = ImageVector.vectorResource(id = Placeholder.Playlist.resource),
-            shimmerParams = ShimmerParams(
-                baseColor = MaterialTheme.colors.background,
-                highlightColor = MaterialTheme.colors.surface,
-                durationMillis = 500,
-                tilt = 0f
-            )
+            error = Placeholder.Playlist.resource,
         )
         Spacer(modifier = Modifier.size(20.dp))
         Column(

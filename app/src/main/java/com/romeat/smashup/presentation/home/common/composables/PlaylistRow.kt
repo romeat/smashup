@@ -20,7 +20,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.romeat.smashup.data.dto.Playlist
-import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import com.romeat.smashup.R
 import com.romeat.smashup.ui.theme.SmashupTheme
@@ -123,19 +122,12 @@ fun PlaylistRowItem(
             .width(IntrinsicSize.Min)
             .clickable { onClick(id) }
     ) {
-        GlideImage(
+        FriendlyGlideImage(
             imageModel = playlistImageIdToUrl400px(imageUrl),
             modifier = Modifier
                 .size(100.dp)
                 .clip(RoundedCornerShape(20.dp)),
-            contentScale = ContentScale.Crop,
-            error = ImageVector.vectorResource(id = Placeholder.Playlist.resource),
-            shimmerParams = ShimmerParams(
-                baseColor = MaterialTheme.colors.background,
-                highlightColor = MaterialTheme.colors.surface,
-                durationMillis = 700,
-                tilt = 0f
-            )
+            error = Placeholder.Playlist.resource,
         )
         Spacer(modifier = Modifier.size(10.dp))
         Text(

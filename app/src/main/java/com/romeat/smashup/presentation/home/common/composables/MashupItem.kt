@@ -24,7 +24,6 @@ import com.romeat.smashup.R
 import com.romeat.smashup.data.dto.Mashup
 import com.romeat.smashup.data.dto.MashupListItem
 import com.romeat.smashup.util.ImageUrlHelper
-import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
@@ -44,19 +43,12 @@ fun MashupItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(modifier = Modifier.size(10.dp))
-        GlideImage(
+        FriendlyGlideImage(
+            imageModel = ImageUrlHelper.mashupImageIdToUrl100px(mashup.imageUrl),
             modifier = Modifier
                 .size(48.dp)
                 .clip(RoundedCornerShape(25)),
-            contentScale = ContentScale.Crop,
-            imageModel = ImageUrlHelper.mashupImageIdToUrl100px(mashup.imageUrl),
-            error = ImageVector.vectorResource(id = Placeholder.Napas.resource),
-            shimmerParams = ShimmerParams(
-                baseColor = MaterialTheme.colors.background,
-                highlightColor = MaterialTheme.colors.surface,
-                durationMillis = 500,
-                tilt = 0f
-            )
+            error = Placeholder.Napas.resource,
         )
         Spacer(modifier = Modifier.size(15.dp))
         Column(

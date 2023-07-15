@@ -161,6 +161,8 @@
         <item quantity="one">%d mashup</item>
         <item quantity="other">%d mashups</item>
     </plurals>
+
+    <string name="mashuper_title">Mashuper</string>
     <string name="user_title">User</string>
     <string name="playlists_title">Playlists</string>
     <string name="mashups_title">Mashups</string>

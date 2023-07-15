@@ -22,12 +22,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.romeat.smashup.R
+import com.romeat.smashup.presentation.home.common.composables.FriendlyGlideImage
 import com.romeat.smashup.presentation.home.common.composables.NoBackgroundButton
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
 import com.romeat.smashup.presentation.home.common.composables.TopRow
 import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.ImageUrlHelper
-import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
@@ -79,20 +79,13 @@ fun ProfileScreenContent(
                     .clickable { onEditAvatarClick() },
                 contentAlignment = Alignment.Center
             ) {
-                GlideImage(
+                FriendlyGlideImage(
                     imageModel = ImageUrlHelper.authorImageIdToUrl400px(state.imageUrl),
                     modifier = Modifier
                         .size(100.dp)
                         .aspectRatio(1.0f)
                         .clip(RoundedCornerShape(30.dp)),
-                    contentScale = ContentScale.Crop,
-                    error = ImageVector.vectorResource(id = Placeholder.Napas.resource),
-                    shimmerParams = ShimmerParams(
-                        baseColor = MaterialTheme.colors.background,
-                        highlightColor = MaterialTheme.colors.surface,
-                        durationMillis = 700,
-                        tilt = 0f
-                    )
+                    error = Placeholder.Napas.resource,
                 )
 
                 Surface(

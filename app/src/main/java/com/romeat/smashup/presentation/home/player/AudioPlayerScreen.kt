@@ -27,13 +27,13 @@ import com.romeat.smashup.R
 import com.romeat.smashup.musicservice.PlaybackRepeatMode
 import com.romeat.smashup.presentation.home.HomePlayerViewModel
 import com.romeat.smashup.presentation.home.PlayerState
+import com.romeat.smashup.presentation.home.common.composables.FriendlyGlideImage
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
 import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.ImageUrlHelper
 import com.romeat.smashup.util.compose.Marquee
 import com.romeat.smashup.util.compose.MarqueeParams
 import com.romeat.smashup.util.toDisplayableTimeString
-import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
 
@@ -133,20 +133,13 @@ fun AudioPlayerContent(
                 modifier = Modifier
                     .padding(20.dp)
             ) {
-                GlideImage(
+                FriendlyGlideImage(
                     imageModel = ImageUrlHelper.mashupImageIdToUrl400px(state.id.toString()),
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(15))
                         .aspectRatio(1.0f),
-                    contentScale = ContentScale.Crop,
-                    error = ImageVector.vectorResource(id = Placeholder.Napas.resource),
-                    shimmerParams = ShimmerParams(
-                        baseColor = MaterialTheme.colors.background,
-                        highlightColor = MaterialTheme.colors.surface,
-                        durationMillis = 700,
-                        tilt = 0f
-                    )
+                    error = Placeholder.Napas.resource,
                 )
             }
 

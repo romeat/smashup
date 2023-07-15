@@ -260,6 +260,16 @@ fun PlaylistScreenContentPreviewMashupListLoading() {
                 state = PlaylistScreenState(
                     isMashupListLoading = true,
                     isLoading = false,
+                    playlistInfo = Playlist(
+                        1,
+                        "Плейлист для качалки",
+                        "",
+                        listOf("Meonidlel"),
+                        "964",
+                        listOf(1,3,4,5),
+                        322,
+                        22
+                    ),
                 )
             )
         }

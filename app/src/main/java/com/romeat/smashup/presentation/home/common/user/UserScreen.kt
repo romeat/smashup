@@ -42,6 +42,7 @@ import com.romeat.smashup.data.dto.Playlist
 import com.romeat.smashup.data.dto.UserProfile
 import com.romeat.smashup.presentation.home.common.composables.CustomCircularProgressIndicator
 import com.romeat.smashup.presentation.home.common.composables.ErrorTextMessage
+import com.romeat.smashup.presentation.home.common.composables.FriendlyGlideImage
 import com.romeat.smashup.presentation.home.common.composables.MashupItem
 import com.romeat.smashup.presentation.home.common.composables.MashupListCompact
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
@@ -52,7 +53,6 @@ import com.romeat.smashup.presentation.home.common.composables.TransparentTopRow
 import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.ImageUrlHelper
 import com.romeat.smashup.util.compose.BackPressHandler
-import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
@@ -212,36 +212,36 @@ fun UserScreenContentPreview(
 
 class UserScreenStateProvider : PreviewParameterProvider<UserScreenState> {
     override val values = listOf(
-//        UserScreenState(), // initial
-//        UserScreenState(isLoading = false, userInfo = UserProfile(1, "murrka", "", 1, listOf(), listOf())), // loaded profile only
-//        UserScreenState(isLoading = false, isEmpty = true,  userInfo = UserProfile(1, "murrka", "", 1, listOf(), listOf())), // loaded all, but empty lists
-//        UserScreenState(isLoading = false, errorMessage = "error"), // load error
-//        UserScreenState(isLoading = false, errorMessage = "error", mashupsLoaded = true), // load error because of list
+        UserScreenState(), // initial
+        UserScreenState(isLoading = false, userInfo = UserProfile(1, "murrka", "", 1, listOf(), listOf())), // loaded profile only
+        UserScreenState(isLoading = false, isEmpty = true,  userInfo = UserProfile(1, "murrka", "", 1, listOf(), listOf())), // loaded all, but empty lists
+        UserScreenState(isLoading = false, errorMessage = "error"), // load error
+        UserScreenState(isLoading = false, errorMessage = "error", mashupsLoaded = true), // load error because of list
         UserScreenState(
             isLoading = false,
             mashupsLoaded = true,
-            userInfo = UserProfile(1, "murrka", "", 1, listOf(), listOf()),
+            userInfo = UserProfile(1, "murrka", "def", 1, listOf(), listOf()),
             mashupList = listOf(
-                MashupListItem(12, "popandos", "lavandos", "", false, 1, 1, emptyList(), true),
-                MashupListItem(15, "popandos", "lavandos", "", false, 1, 1, emptyList(), false),
-                MashupListItem(13, "joss", "lavandos", "", false, 1, 1, emptyList(), false),
+                MashupListItem(12, "popandos", "lavandos", "null", false, 1, 1, emptyList(), true),
+                MashupListItem(15, "popandos", "lavandos", "null", false, 1, 1, emptyList(), false),
+                MashupListItem(13, "joss", "lavandos", "null", false, 1, 1, emptyList(), false),
             )
         ),
         UserScreenState(
             isLoading = false,
             mashupsLoaded = true,
-            userInfo = UserProfile(1, "murrka", "", 1, listOf(), listOf()),
+            userInfo = UserProfile(1, "murrka", "def", 1, listOf(), listOf()),
             mashupList = listOf(
                 MashupListItem(12, "popandos", "lavandos", "null", false, 1, 1, emptyList(), true),
-                MashupListItem(15, "popandos", "lavandos", "", false, 1, 1, emptyList(), false),
-                MashupListItem(13, "joss", "lavandos", "", false, 1, 1, emptyList(), false),
+                MashupListItem(15, "popandos", "lavandos", "null", false, 1, 1, emptyList(), false),
+                MashupListItem(13, "joss", "lavandos", "null", false, 1, 1, emptyList(), false),
             ),
             playlistsLoaded = true
         ),
         UserScreenState(
             isLoading = false,
             mashupsLoaded = true,
-            userInfo = UserProfile(1, "murrka", "", 1, listOf(), listOf()),
+            userInfo = UserProfile(1, "murrka", "def", 1, listOf(), listOf()),
             mashupList = listOf(
                 MashupListItem(12, "popandos", "lavandos", "def", false, 1, 1, emptyList(), true),
                 MashupListItem(15, "popandos", "lavandos", "def", false, 1, 1, emptyList(), false),
@@ -269,7 +269,7 @@ fun UserInfoHeader(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth().height(200.dp)
     ) {
         // Spacer for overlaying top row
         Spacer(modifier = Modifier.height(70.dp))
@@ -279,19 +279,12 @@ fun UserInfoHeader(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Spacer(modifier = Modifier.width(20.dp))
-            GlideImage(
+            FriendlyGlideImage(
                 imageModel = imageUrl,
                 modifier = Modifier
                     .size(100.dp)
                     .clip(RoundedCornerShape(30.dp)),
-                contentScale = ContentScale.Crop,
-                error = ImageVector.vectorResource(id = Placeholder.Napas.resource),
-                shimmerParams = ShimmerParams(
-                    baseColor = MaterialTheme.colors.background,
-                    highlightColor = MaterialTheme.colors.surface,
-                    durationMillis = 700,
-                    tilt = 0f
-                )
+                error = Placeholder.Napas.resource,
             )
             Column(
                 modifier = Modifier
