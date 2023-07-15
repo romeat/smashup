@@ -32,7 +32,7 @@ import com.romeat.smashup.R
 import com.romeat.smashup.ui.theme.SmashupTheme
 
 @Composable
-fun PlaylistHeader(
+fun PlayableHeader(
     imageUrl: String,
     title: String,
     mashupsCount: Int,
@@ -172,7 +172,7 @@ fun PlaylistHeaderPreview() {
             Column {
 
                 // playlist
-                PlaylistHeader(
+                PlayableHeader(
                     imageUrl = "123",
                     title = "Плейлист для качалки",
                     mashupsCount = 32,
@@ -183,7 +183,7 @@ fun PlaylistHeaderPreview() {
                 )
 
                 // profile
-                PlaylistHeader(
+                PlayableHeader(
                     imageUrl = "123",
                     title = "warkka",
                     mashupsCount = 32,
@@ -192,7 +192,7 @@ fun PlaylistHeaderPreview() {
                 )
 
                 // source page
-                PlaylistHeader(
+                PlayableHeader(
                     imageUrl = "123",
                     title = "Я сижу на сочинском пляжу и на воду синюю гляжу",
                     mashupsCount = 32,

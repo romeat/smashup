@@ -217,7 +217,7 @@ class UserScreenStateProvider : PreviewParameterProvider<UserScreenState> {
         UserScreenState(isLoading = false, isEmpty = true,  userInfo = UserProfile(1, "murrka", "", 1, listOf(), listOf())), // loaded all, but empty lists
         UserScreenState(isLoading = false, errorMessage = "error"), // load error
         UserScreenState(isLoading = false, errorMessage = "error", mashupsLoaded = true), // load error because of list
-        UserScreenState(
+        UserScreenState( // mashups loaded, playlists not yet loaded
             isLoading = false,
             mashupsLoaded = true,
             userInfo = UserProfile(1, "murrka", "def", 1, listOf(), listOf()),
@@ -227,7 +227,7 @@ class UserScreenStateProvider : PreviewParameterProvider<UserScreenState> {
                 MashupListItem(13, "joss", "lavandos", "null", false, 1, 1, emptyList(), false),
             )
         ),
-        UserScreenState(
+        UserScreenState( // mashups loaded, playlists loaded and empty
             isLoading = false,
             mashupsLoaded = true,
             userInfo = UserProfile(1, "murrka", "def", 1, listOf(), listOf()),
@@ -238,10 +238,10 @@ class UserScreenStateProvider : PreviewParameterProvider<UserScreenState> {
             ),
             playlistsLoaded = true
         ),
-        UserScreenState(
+        UserScreenState( // mashups loaded, playlists loaded
             isLoading = false,
             mashupsLoaded = true,
-            userInfo = UserProfile(1, "murrka", "def", 1, listOf(), listOf()),
+            userInfo = UserProfile(1, "murrka", "def", 1, listOf(1, 2), listOf()),
             mashupList = listOf(
                 MashupListItem(12, "popandos", "lavandos", "def", false, 1, 1, emptyList(), true),
                 MashupListItem(15, "popandos", "lavandos", "def", false, 1, 1, emptyList(), false),
@@ -259,7 +259,6 @@ class UserScreenStateProvider : PreviewParameterProvider<UserScreenState> {
     ).asSequence()
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun UserInfoHeader(
     imageUrl: String,
@@ -292,18 +291,18 @@ fun UserInfoHeader(
                     .padding(horizontal = 20.dp)
             ) {
                 Text(
+                    text = title,
                     modifier = Modifier
                         .fillMaxWidth(),
-                    text = title,
                     style = MaterialTheme.typography.h5,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
+                    text = pluralStringResource(id = R.plurals.mashups_number, count = mashupsCount),
                     modifier = Modifier
                         .fillMaxWidth(),
-                    text = pluralStringResource(id = R.plurals.mashups_number, count = mashupsCount),
                     style = MaterialTheme.typography.body2,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis

@@ -5,21 +5,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.common.composables.*
-import com.romeat.smashup.presentation.home.common.playlist.PlaylistScreenContent
-import com.romeat.smashup.presentation.home.common.playlist.PlaylistScreenState
 import com.romeat.smashup.util.ImageUrlHelper
 
 @Composable
@@ -75,7 +68,7 @@ fun SourceScreenContent(
             val info = state.sourceInfo!!
             LazyColumn() {
                 item {
-                    PlaylistHeader(
+                    PlayableHeader(
                         imageUrl = ImageUrlHelper.playlistImageIdToUrl400px(info.imageUrl),
                         title = info.name,
                         subtitle = info.owner,
