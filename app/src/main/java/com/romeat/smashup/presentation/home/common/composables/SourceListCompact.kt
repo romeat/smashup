@@ -2,7 +2,6 @@ package com.romeat.smashup.presentation.home.common.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -22,7 +21,7 @@ fun SourceListCompact(
     sources: List<Source>,
     onClick: (Int) -> Unit,
     onMoreClick: () -> Unit = { },
-    maxNumberOfItemsToDisplay: Int = 4,
+    maxNumberOfItemsToDisplay: Int = 3,
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
@@ -49,12 +48,11 @@ fun SourceListCompact(
                 )
             }
         }
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(vertical = 10.dp),
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp),
         ) {
-            items(minOf(sources.size, maxNumberOfItemsToDisplay)) { i ->
-                SourceItem(source = sources[i], onClick = { onClick(sources[i].id) })
+            sources.take(minOf(sources.size, maxNumberOfItemsToDisplay)).forEach { source ->
+                SourceItem(source = source, onClick = { onClick(source.id) })
             }
         }
     }

@@ -2,7 +2,6 @@ package com.romeat.smashup.presentation.home.common.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -22,7 +21,7 @@ fun UserListCompact(
     users: List<UserProfile>,
     onClick: (Int) -> Unit,
     onMoreClick: () -> Unit = { },
-    maxNumberOfItemsToDisplay: Int = 4,
+    maxNumberOfItemsToDisplay: Int = 3,
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
@@ -49,12 +48,11 @@ fun UserListCompact(
                 )
             }
         }
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(vertical = 15.dp),
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 15.dp),
         ) {
-            items(minOf(users.size, maxNumberOfItemsToDisplay)) { i ->
-                UserItem(user = users[i], onClick = { onClick(users[i].id) })
+            users.take(minOf(users.size, maxNumberOfItemsToDisplay)).forEach { user ->
+                UserItem(user = user, onClick = { onClick(user.id) })
             }
         }
     }

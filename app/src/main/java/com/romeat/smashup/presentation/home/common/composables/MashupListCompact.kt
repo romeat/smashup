@@ -2,7 +2,6 @@ package com.romeat.smashup.presentation.home.common.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -49,12 +48,10 @@ fun MashupListCompact(
                 )
             }
         }
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(vertical = 10.dp),
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp),
         ) {
-            items(minOf(mashups.size, maxNumberOfItemsToDisplay)) { i ->
-                val mashup = mashups[i]
+            mashups.take(minOf(mashups.size, maxNumberOfItemsToDisplay)).forEach { mashup ->
                 MashupItem(
                     mashup = mashup,
                     onBodyClick = { onMashupClick(it.id) },
