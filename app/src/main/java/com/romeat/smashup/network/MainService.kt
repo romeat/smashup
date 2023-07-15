@@ -62,7 +62,7 @@ interface MainService {
     ): Response<ApiWrap<List<Mashup>>>
 
     @GET("user/get")
-    suspend fun getUserProfile(@Query("username") user: String
+    suspend fun getUserProfile(@Query("id") id: Int
     ): Response<ApiWrap<UserProfile>>
 
 

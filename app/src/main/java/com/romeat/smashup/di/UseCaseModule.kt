@@ -2,8 +2,8 @@ package com.romeat.smashup.di
 
 import com.romeat.smashup.domain.LoginUseCase
 import com.romeat.smashup.domain.LoginUseCaseImpl
-import com.romeat.smashup.domain.author.GetAuthorUseCase
-import com.romeat.smashup.domain.author.GetAuthorUseCaseImpl
+import com.romeat.smashup.domain.user.GetUserUseCase
+import com.romeat.smashup.domain.user.GetUserUseCaseImpl
 import com.romeat.smashup.domain.mashups.*
 import com.romeat.smashup.domain.playlists.GetPlaylistUseCase
 import com.romeat.smashup.domain.playlists.GetPlaylistUseCaseImpl
@@ -41,7 +41,7 @@ abstract class UseCaseModule {
     abstract fun bindSourcesListUseCase(useCaseImpl: GetSourcesListUseCaseImpl) : GetSourcesListUseCase
 
     @Binds
-    abstract fun bindAuthorUseCase(useCase: GetAuthorUseCaseImpl) : GetAuthorUseCase
+    abstract fun bindAuthorUseCase(useCase: GetUserUseCaseImpl) : GetUserUseCase
 
 
 

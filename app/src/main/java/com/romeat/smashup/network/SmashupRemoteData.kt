@@ -11,7 +11,7 @@ class SmashupRemoteData @Inject constructor(
 
     suspend fun getUserProfileList(ids: List<Int>) = mainService.getUserProfileList(ids.joinToString(","))
 
-    suspend fun getAuthorInfo(name: String) = mainService.getUserProfile(name)
+    suspend fun getAuthorInfo(id: Int) = mainService.getUserProfile(id)
 
     suspend fun getMashupsList(ids: List<Int>) = mainService.getMashupsList(ids.joinToString(","))
 

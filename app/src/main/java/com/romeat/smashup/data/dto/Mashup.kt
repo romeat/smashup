@@ -15,7 +15,7 @@ data class Mashup(
     val bitrate: Int,
     val duration: Long,
 ) {
-    fun isExplicit(): Boolean = false
+    fun isExplicit(): Boolean = statuses == 0
 
     val owner: String
         get() = authors.joinToString(", ")
@@ -27,7 +27,7 @@ fun Mashup.toMashupUListItem(): MashupListItem {
         name = this.name,
         owner = this.owner,
         imageUrl = this.imageUrl,
-        explicit = false, // todo this.statuses == something?
+        explicit = this.isExplicit(),
         streams = this.streams,
         likes = this.likes,
         tracks = this.tracks,

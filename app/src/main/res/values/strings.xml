@@ -169,4 +169,9 @@
     <string name="all">All</string>
     <string name="search_nothing_found">Nothing found</string>
     <string name="playlist_empty">Playlist is empty</string>
+    <string name="profile_no_content">User has no mashups or playlists</string>
+    <string name="all_mashups">All mashups</string>
+    <string name="all_sources">All sources</string>
+    <string name="all_users">All users</string>
+    <string name="all_playlists">All playlists</string>
 </resources>

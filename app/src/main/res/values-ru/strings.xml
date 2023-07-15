@@ -164,4 +164,9 @@
     <string name="all">Все</string>
     <string name="search_nothing_found">Ничего не нашлось</string>
     <string name="playlist_empty">Плейлист пуст</string>
+    <string name="profile_no_content">У пользователя еще нет мэшапов или плейлистов</string>
+    <string name="all_mashups">Все мэшапы</string>
+    <string name="all_sources">Все сурсы</string>
+    <string name="all_users">Все пользователи</string>
+    <string name="all_playlists">Все плейлисты</string>
 </resources>

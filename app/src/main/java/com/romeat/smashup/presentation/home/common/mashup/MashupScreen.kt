@@ -47,11 +47,11 @@ fun MashupScreen(
                 LazyColumn() {
                     item {
                         ImageSquare(url = ImageUrlHelper.mashupImageIdToUrl400px(info.imageUrl))
-                        ContentDescription(content = info.name)
-                        ClickableDescription(
-                            name = info.owner,
-                            onNameClick = { onAuthorClick(info.owner) })
-                        StatsRow(likes = info.likes, listens = info.streams)
+//                        ContentDescription(content = info.name)
+//                        ClickableDescription(
+//                            name = info.owner,
+//                            onNameClick = { onAuthorClick(info.owner) })
+//                        StatsRow(likes = info.likes, listens = info.streams)
                         Spacer(modifier = Modifier.height(20.dp))
                     }
                     if (state.isSourceListLoading) {

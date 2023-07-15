@@ -10,10 +10,10 @@ import com.google.accompanist.navigation.animation.composable
 import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.HomePlayerViewModel
 import com.romeat.smashup.presentation.home.common.ContentScreenWithPlayer
-import com.romeat.smashup.presentation.home.common.author.AuthorScreen
 import com.romeat.smashup.presentation.home.common.mashup.MashupScreen
 import com.romeat.smashup.presentation.home.common.playlist.PlaylistScreen
 import com.romeat.smashup.presentation.home.common.source.SourceScreen
+import com.romeat.smashup.presentation.home.common.user.UserScreen
 import com.romeat.smashup.presentation.home.main.MainScreen
 import com.romeat.smashup.presentation.home.player.AudioPlayerScreen
 import com.romeat.smashup.presentation.home.profile.ProfileScreen
@@ -225,9 +225,9 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
          * Author screen
          */
         composable(
-            route = "${HomeGraphScreen.Author.route}/{${CommonNavigationConstants.AUTHOR_PARAM}}",
-            arguments = listOf(navArgument(CommonNavigationConstants.AUTHOR_PARAM) {
-                type = NavType.StringType
+            route = "${HomeGraphScreen.Author.route}/{${CommonNavigationConstants.USER_PARAM}}",
+            arguments = listOf(navArgument(CommonNavigationConstants.USER_PARAM) {
+                type = NavType.IntType
             }),
             enterTransition = { EnterTransition.None },
             exitTransition = { ExitTransition.None },
@@ -238,9 +238,10 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
             val playerViewModel = hiltViewModel<HomePlayerViewModel>(parentEntry)
             ContentScreenWithPlayer(
                 content = {
-                    AuthorScreen(
-                        onBackClicked = onBackClicked,
+                    UserScreen(
+                        onBackClick = onBackClicked,
                         onMashupInfoClick = onMashupInfoClick,
+                        onPlaylistClick = onPlaylistClick,
                     )
                 },
                 onExpandPlayerClick = onExpandPlayerClicked,
@@ -292,7 +293,7 @@ sealed class HomeGraphScreen(val route: String) {
     object Playlist : HomeGraphScreen(route = CommonNavigationConstants.PLAYLIST_ROUTE)
     object Mashup : HomeGraphScreen(route = CommonNavigationConstants.MASHUP_ROUTE)
     object Source : HomeGraphScreen(route = CommonNavigationConstants.SOURCE_ROUTE)
-    object Author : HomeGraphScreen(route = CommonNavigationConstants.AUTHOR_ROUTE)
+    object Author : HomeGraphScreen(route = CommonNavigationConstants.USER_ROUTE)
 }
 
 sealed class BottomBarScreen(
