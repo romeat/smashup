@@ -1,4 +1,4 @@
-package com.romeat.smashup.presentation.home.common.composables
+package com.romeat.smashup.presentation.home.common.composables.listitem
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,17 +11,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.pluralStringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.romeat.smashup.data.dto.Playlist
 import com.romeat.smashup.util.ImageUrlHelper
-import com.skydoves.landscapist.glide.GlideImage
 import com.romeat.smashup.R
+import com.romeat.smashup.presentation.home.common.composables.FriendlyGlideImage
+import com.romeat.smashup.presentation.home.common.composables.Placeholder
 import com.romeat.smashup.ui.theme.SmashupTheme
 
 @OptIn(ExperimentalComposeUiApi::class)

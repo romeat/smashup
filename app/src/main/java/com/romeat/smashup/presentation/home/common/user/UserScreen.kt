@@ -22,14 +22,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -44,17 +40,16 @@ import com.romeat.smashup.data.dto.UserProfile
 import com.romeat.smashup.presentation.home.common.composables.CustomCircularProgressIndicator
 import com.romeat.smashup.presentation.home.common.composables.ErrorTextMessage
 import com.romeat.smashup.presentation.home.common.composables.FriendlyGlideImage
-import com.romeat.smashup.presentation.home.common.composables.MashupItem
-import com.romeat.smashup.presentation.home.common.composables.MashupListCompact
+import com.romeat.smashup.presentation.home.common.composables.listitem.MashupItem
+import com.romeat.smashup.presentation.home.common.composables.compact.MashupListCompact
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
-import com.romeat.smashup.presentation.home.common.composables.PlaylistRow
+import com.romeat.smashup.presentation.home.common.composables.compact.PlaylistRow
 import com.romeat.smashup.presentation.home.common.composables.TextBody1
 import com.romeat.smashup.presentation.home.common.composables.TopRow
 import com.romeat.smashup.presentation.home.common.composables.TransparentTopRow
 import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.ImageUrlHelper
 import com.romeat.smashup.util.compose.BackPressHandler
-import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun UserScreen(

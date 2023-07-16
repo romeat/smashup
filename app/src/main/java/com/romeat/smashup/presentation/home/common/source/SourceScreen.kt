@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.romeat.smashup.presentation.home.common.composables.*
+import com.romeat.smashup.presentation.home.common.composables.listitem.MashupItem
 import com.romeat.smashup.util.ImageUrlHelper
 
 @Composable

@@ -28,6 +28,14 @@ import com.romeat.smashup.R
 import com.romeat.smashup.data.dto.MashupListItem
 import com.romeat.smashup.data.dto.Playlist
 import com.romeat.smashup.presentation.home.common.composables.*
+import com.romeat.smashup.presentation.home.common.composables.compact.MashupListCompact
+import com.romeat.smashup.presentation.home.common.composables.compact.PlaylistRow
+import com.romeat.smashup.presentation.home.common.composables.compact.SourceListCompact
+import com.romeat.smashup.presentation.home.common.composables.compact.UserListCompact
+import com.romeat.smashup.presentation.home.common.composables.listitem.MashupItem
+import com.romeat.smashup.presentation.home.common.composables.listitem.PlaylistItem
+import com.romeat.smashup.presentation.home.common.composables.listitem.SourceItem
+import com.romeat.smashup.presentation.home.common.composables.listitem.UserItem
 import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.compose.BackPressHandler
 

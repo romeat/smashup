@@ -1,4 +1,4 @@
-package com.romeat.smashup.presentation.home.common.composables
+package com.romeat.smashup.presentation.home.common.composables.listitem
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -22,6 +22,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.romeat.smashup.R
 import com.romeat.smashup.data.dto.UserProfile
+import com.romeat.smashup.presentation.home.common.composables.FriendlyGlideImage
+import com.romeat.smashup.presentation.home.common.composables.Placeholder
 import com.romeat.smashup.util.ImageUrlHelper
 
 @Composable

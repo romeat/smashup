@@ -1,4 +1,4 @@
-package com.romeat.smashup.presentation.home.common.composables
+package com.romeat.smashup.presentation.home.common.composables.compact
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,9 +9,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.romeat.smashup.R
 import com.romeat.smashup.data.dto.MashupListItem
+import com.romeat.smashup.presentation.home.common.composables.listitem.MashupItem
 
 @Composable
 fun MashupListCompact(
@@ -38,13 +40,14 @@ fun MashupListCompact(
             )
             if (mashups.size > maxNumberOfItemsToDisplay) {
                 Text(
-                    modifier = Modifier.clickable {
-                        onMoreClick()
-                    },
+                    modifier = Modifier
+                        .widthIn(min = 48.dp)
+                        .clickable { onMoreClick() },
                     text = stringResource(id = R.string.all),
                     style = MaterialTheme.typography.body1,
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
+                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
+                    textAlign = TextAlign.End,
                 )
             }
         }

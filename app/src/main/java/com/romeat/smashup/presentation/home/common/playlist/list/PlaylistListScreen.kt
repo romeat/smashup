@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.common.composables.*
+import com.romeat.smashup.presentation.home.common.composables.listitem.PlaylistItem
 
 @Composable
 fun PlaylistListScreen(

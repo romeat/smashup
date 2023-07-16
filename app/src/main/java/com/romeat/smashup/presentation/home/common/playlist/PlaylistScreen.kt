@@ -17,6 +17,7 @@ import com.romeat.smashup.util.ImageUrlHelper
 import com.romeat.smashup.R
 import com.romeat.smashup.data.dto.MashupListItem
 import com.romeat.smashup.data.dto.Playlist
+import com.romeat.smashup.presentation.home.common.composables.listitem.MashupItem
 import com.romeat.smashup.ui.theme.SmashupTheme
 
 @Composable

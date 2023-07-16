@@ -1,4 +1,4 @@
-package com.romeat.smashup.presentation.home.common.composables
+package com.romeat.smashup.presentation.home.common.composables.compact
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,17 +11,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.romeat.smashup.data.dto.Playlist
-import com.skydoves.landscapist.glide.GlideImage
 import com.romeat.smashup.R
+import com.romeat.smashup.presentation.home.common.composables.FriendlyGlideImage
+import com.romeat.smashup.presentation.home.common.composables.Placeholder
 import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.ImageUrlHelper.playlistImageIdToUrl400px
 
@@ -47,13 +46,14 @@ fun PlaylistRow(
             )
             if (playlists.size > maxNumberOfItemsToDisplay) {
                 Text(
-                    modifier = Modifier.clickable {
-                        onMoreClick()
-                    },
+                    modifier = Modifier
+                        .widthIn(min = 48.dp)
+                        .clickable { onMoreClick() },
                     text = stringResource(id = R.string.all),
                     style = MaterialTheme.typography.body1,
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
+                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
+                    textAlign = TextAlign.End,
                 )
             }
         }
