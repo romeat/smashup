@@ -19,7 +19,7 @@ import com.romeat.smashup.util.ImageUrlHelper
 @Composable
 fun MashupScreen(
     onSourceClick: (Int) -> Unit,
-    onAuthorClick: (String) -> Unit,
+    onAuthorClick: (Int) -> Unit,
     onBackClicked: () -> Unit,
     viewModel: MashupViewModel = hiltViewModel(),
 ) {

@@ -22,7 +22,7 @@ import com.romeat.smashup.ui.theme.SmashupTheme
 @Composable
 fun PlaylistScreen(
     onMashupInfoClick: (Int) -> Unit,
-    onAuthorClick: (String) -> Unit,
+    onAuthorClick: (Int) -> Unit,
     onBackClicked: () -> Unit,
     viewModel: PlaylistViewModel = hiltViewModel(),
 ) {
@@ -49,7 +49,7 @@ fun PlaylistScreen(
 @Composable
 fun PlaylistScreenContent(
     onMashupInfoClick: (Int) -> Unit,
-    onAuthorClick: (String) -> Unit,
+    onAuthorClick: (Int) -> Unit,
     onBackClicked: () -> Unit,
     onLikeClick: (Int) -> Unit,
     onMashupClick: (Int) -> Unit,

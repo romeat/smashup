@@ -16,6 +16,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -106,35 +107,13 @@ fun UserScreenContent(
             .fillMaxSize(),
     ) {
         if (mashupListOpened.value) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .zIndex(3f)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    TopRow(title = stringResource(id = R.string.mashups_title), onBackPressed = { mashupListOpened.value = false })
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                    ) {
-                        items(state.mashupList.size) { i ->
-                            val mashup = state.mashupList[i]
-                            MashupItem(
-                                mashup = mashup,
-                                onBodyClick = { onMashupClick(it.id) },
-                                onInfoClick = { id -> onMashupInfoClick(id) },
-                                onLikeClick = { id -> onLikeClick(id)},
-                                isCurrentlyPlaying = state.currentlyPlayingMashupId?.equals(mashup.id)
-                                    ?: false
-                            )
-                        }
-                    }
-                }
-            }
+            MashupFullListOverlay(
+                mashupListOpened = mashupListOpened,
+                state = state,
+                onMashupClick = onMashupClick,
+                onMashupInfoClick = onMashupInfoClick,
+                onLikeClick = onLikeClick
+            )
         }
 
         TransparentTopRow(
@@ -182,6 +161,45 @@ fun UserScreenContent(
                     }
                 }
                 item { Spacer(modifier = Modifier.height(25.dp)) }
+            }
+        }
+    }
+}
+
+@Composable
+fun MashupFullListOverlay(
+    mashupListOpened: MutableState<Boolean>,
+    state: UserScreenState,
+    onMashupClick: (Int) -> Unit,
+    onMashupInfoClick: (Int) -> Unit,
+    onLikeClick: (Int) -> Unit,
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .zIndex(3f)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            TopRow(title = stringResource(id = R.string.all_mashups), onBackPressed = { mashupListOpened.value = false })
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) {
+                items(state.mashupList.size) { i ->
+                    val mashup = state.mashupList[i]
+                    MashupItem(
+                        mashup = mashup,
+                        onBodyClick = { onMashupClick(it.id) },
+                        onInfoClick = onMashupInfoClick,
+                        onLikeClick = onLikeClick,
+                        isCurrentlyPlaying = state.currentlyPlayingMashupId?.equals(mashup.id)
+                            ?: false
+                    )
+                }
             }
         }
     }
@@ -268,7 +286,9 @@ fun UserInfoHeader(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth().height(200.dp)
+        modifier = modifier
+            .fillMaxWidth()
+            .height(200.dp)
     ) {
         // Spacer for overlaying top row
         Spacer(modifier = Modifier.height(70.dp))

@@ -1,5 +1,6 @@
 package com.romeat.smashup.presentation.home.search
 
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -33,8 +34,6 @@ class SearchBarViewModel @Inject constructor(
     private val _resultState = MutableStateFlow(SearchResultState())
     val resultState = _resultState.asStateFlow()
 
-    var currentlyPlaying: Int? by mutableStateOf(null)
-
     private val _searchQueryState = MutableStateFlow("")
     val searchQueryState = _searchQueryState.asStateFlow()
 
@@ -63,7 +62,7 @@ class SearchBarViewModel @Inject constructor(
         viewModelScope.launch {
             musicServiceConnection.nowPlayingMashup
                 .collect { mashup ->
-                    currentlyPlaying = mashup?.id
+                    _resultState.update { it.copy(currentlyPlayingMashupId = mashup?.id) }
                 }
         }
         viewModelScope.launch {
@@ -161,12 +160,14 @@ class SearchBarViewModel @Inject constructor(
     }
 }
 
+@Stable
 data class SearchResultState(
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val isResultEmpty: Boolean = false,
 
     val originalMashups: List<Mashup> = emptyList(),
+    val currentlyPlayingMashupId: Int? = null,
 
     val mashups: List<MashupListItem> = emptyList(),
     val users: List<UserProfile> = emptyList(),

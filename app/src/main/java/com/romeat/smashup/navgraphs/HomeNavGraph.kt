@@ -39,7 +39,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
         val onSourceClick: (Int) -> Unit =
             { id -> navController.navigate("${HomeGraphScreen.Source.route}/${id}") }
 
-        val onAuthorClick: (String) -> Unit =
+        val onAuthorClick: (Int) -> Unit =
             { alias -> navController.navigate("${HomeGraphScreen.Author.route}/${alias}") }
 
         val onPlaylistClick: (Int) -> Unit =
@@ -89,10 +89,15 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
             ContentScreenWithPlayer(
                 content = {
                     SearchScreen(
-                        onAuthorClick = {}, //onAuthorClick,
+                        onUserClick = onAuthorClick,
                         onSourceClick = onSourceClick,
                         onPlaylistClick = onPlaylistClick,
                         onMashupInfoClick = onMashupInfoClick,
+                        onBackClick = {
+                            navController.navigate(HomeGraphScreen.Main.route) {
+                                popUpTo(RootGraph.HOME)
+                            }
+                        }
                     )
                 },
                 onExpandPlayerClick = onExpandPlayerClicked,
