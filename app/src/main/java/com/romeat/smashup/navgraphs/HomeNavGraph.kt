@@ -14,6 +14,7 @@ import com.romeat.smashup.presentation.home.common.mashup.MashupScreen
 import com.romeat.smashup.presentation.home.common.playlist.PlaylistScreen
 import com.romeat.smashup.presentation.home.common.source.SourceScreen
 import com.romeat.smashup.presentation.home.common.user.UserScreen
+import com.romeat.smashup.presentation.home.favourite.CollectionScreen
 import com.romeat.smashup.presentation.home.main.MainScreen
 import com.romeat.smashup.presentation.home.player.AudioPlayerScreen
 import com.romeat.smashup.presentation.home.profile.ProfileScreen
@@ -54,6 +55,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
         /**
          * Bottom bar root destinations
          */
+        // HOME
         composable(
             route = HomeGraphScreen.Main.route,
             enterTransition = { EnterTransition.None },
@@ -77,6 +79,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
             )
         }
 
+        // SEARCH
         composable(
             route = HomeGraphScreen.Search.route,
             enterTransition = { EnterTransition.None },
@@ -106,6 +109,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
             )
         }
 
+        // COLLECTION
         composable(
             route = HomeGraphScreen.Collection.route,
             enterTransition = { EnterTransition.None },
@@ -117,10 +121,13 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
             val playerViewModel = hiltViewModel<HomePlayerViewModel>(parentEntry)
             ContentScreenWithPlayer(
                 content = {
-                    ProfileScreen(
-                        onLogoutClick = {
-                            navController.popBackStack()
-                            navController.navigate(RootGraph.AUTHENTICATION)
+                    CollectionScreen(
+                        onPlaylistClick = onPlaylistClick,
+                        onMashupInfoClick = onMashupInfoClick,
+                        onBackClick = {
+                            navController.navigate(HomeGraphScreen.Main.route) {
+                                popUpTo(RootGraph.HOME)
+                            }
                         }
                     )
                 },

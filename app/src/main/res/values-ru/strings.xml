@@ -156,6 +156,7 @@
         <item quantity="many">%d мэшапов</item>
         <item quantity="other">%d мэшапов</item>
     </plurals>
+    <string name="mashuper_title">Мэшапер</string>
     <string name="user_title">Пользователь</string>
     <string name="playlists_title">Плейлисты</string>
     <string name="mashups_title">Мэшапы</string>
@@ -169,4 +170,6 @@
     <string name="all_sources">Все сурсы</string>
     <string name="all_users">Все пользователи</string>
     <string name="all_playlists">Все плейлисты</string>
+    <string name="collection_empty">Здесь будут ваши любимые мэшапы и ваши плейлисты</string>
+    <string name="collection_favourite_mashups">Любимые мэшапы</string>
 </resources>

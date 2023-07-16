@@ -176,4 +176,6 @@
     <string name="all_sources">All sources</string>
     <string name="all_users">All users</string>
     <string name="all_playlists">All playlists</string>
+    <string name="collection_empty">Here will be your favourite mashups and your playlists</string>
+    <string name="collection_favourite_mashups">Favourite mashups</string>
 </resources>
