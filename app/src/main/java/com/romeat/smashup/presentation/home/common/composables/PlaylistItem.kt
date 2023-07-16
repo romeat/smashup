@@ -92,18 +92,20 @@ fun PlaylistItemPreview() {
                 .fillMaxSize(),
             color = (MaterialTheme.colors.background)
         ) {
-            PlaylistItem(
-                playlist = Playlist(
-                    12,
-                    "Плейлист для качалки",
-                    "",
-                    listOf("das","dopO"),
-                    "def",
-                    listOf(1,2,3,4),
-                    1,
-                    4
-                ),
-                onClick = {})
+            Column() {
+                PlaylistItem(
+                    playlist = Playlist(
+                        12,
+                        "Плейлист для качалки",
+                        "",
+                        listOf("das","dopO"),
+                        "def",
+                        listOf(1,2,3,4),
+                        1,
+                        4
+                    ),
+                    onClick = {})
+            }
         }
     }
 }
