@@ -35,8 +35,8 @@ class CollectionViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            // todo update likes
-            delay(1000)
+            likesRepository.updateLikesManually()
+            delay(300)
             getMyPlaylists()
             getLikedMashups()
         }

@@ -27,11 +27,11 @@ interface MainService {
     @GET("mashup/get_all_likes")
     suspend fun getMyLikes(): Response<ApiWrap<List<Int>>>
 
-    @POST("likes/remove")
+    @POST("mashup/remove_like")
     suspend fun removeLikeFromMashup(@Query("id") id: Int
     ): Response<ApiWrap<Unit>>
 
-    @POST("likes/add")
+    @POST("mashup/add_like")
     suspend fun addLikeToMashup(@Query("id") id: Int
     ): Response<ApiWrap<Unit>>
 

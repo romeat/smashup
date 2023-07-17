@@ -9,6 +9,8 @@ interface LikesRepository {
 
     fun addLike(id: Int)
     fun removeLike(id: Int)
+
+    fun updateLikesManually()
 }
 
 @Stable

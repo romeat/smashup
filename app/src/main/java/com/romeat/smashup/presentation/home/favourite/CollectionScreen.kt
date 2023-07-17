@@ -116,7 +116,7 @@ fun CollectionScreenContent(
             )
             if (state.isError) {
                 ErrorTextMessage()
-            } else if (state.isLoading) {
+            } else if (state.isLoading || !state.playlistsLoaded || !state.mashupsLoaded) {
                 CustomCircularProgressIndicator()
             }  else if (state.isEmpty) {
                 ErrorTextMessage(R.string.collection_empty)

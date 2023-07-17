@@ -93,4 +93,8 @@ class LikesRepositoryImpl @Inject constructor(
                 }
         }
     }
+
+    override fun updateLikesManually() {
+        getUserLikes()
+    }
 }
