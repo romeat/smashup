@@ -47,18 +47,16 @@ class UserViewModel @Inject constructor(
                 .collect { result ->
                     when (result) {
                         is Resource.Success -> {
-                            _state.update { it.copy(isLoading = false) }
+                            _state.update {
+                                it.copy(isLoading = false, userInfo = result.data)
+                            }
                             result.data?.let { profile ->
                                 if (profile.mashups.isEmpty() && profile.playlists.isEmpty()) {
                                     _state.update { it.copy(isEmpty = true) }
                                     return@collect
                                 }
-                                if (profile.mashups.isNotEmpty()) {
-                                    getMashups(profile.mashups)
-                                }
-                                if (profile.playlists.isNotEmpty()) {
-                                    getPlaylists(profile.playlists)
-                                }
+                                getMashups(profile.mashups)
+                                getPlaylists(profile.playlists)
                             }
                         }
                         is Resource.Loading -> {
@@ -85,70 +83,74 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getMashups(ids: List<Int>) {
+    private fun getMashups(ids: List<Int>) {
         if (ids.isEmpty()) {
             _state.update { it.copy(mashupsLoaded = true) }
             return
         }
-        likesRepository
-            .likesState
-            .combine(getMashupListUseCase.invoke(ids)) { likes, mashups ->
-                Pair(likes, mashups)
-            }
-            .collect { pair ->
-                when (pair.second) {
-                    is Resource.Success -> {
-                        _state.update {
-                            it.copy(
-                                mashupsLoaded = true,
-                                originalMashupList = pair.second.data!!,
-                                mashupList = ConvertToUiListItems(
-                                    pair.second.data!!,
-                                    pair.first.mashupLikes
-                                ),
-                            )
+        viewModelScope.launch {
+            likesRepository
+                .likesState
+                .combine(getMashupListUseCase.invoke(ids)) { likes, mashups ->
+                    Pair(likes, mashups)
+                }
+                .collect { pair ->
+                    when (pair.second) {
+                        is Resource.Success -> {
+                            _state.update {
+                                it.copy(
+                                    mashupsLoaded = true,
+                                    originalMashupList = pair.second.data!!,
+                                    mashupList = ConvertToUiListItems(
+                                        pair.second.data!!,
+                                        pair.first.mashupLikes
+                                    ),
+                                )
+                            }
                         }
-                    }
-                    is Resource.Loading -> { }
-                    is Resource.Error -> {
-                        _state.update {
-                            it.copy(
-                                mashupsLoaded = true,
-                                errorMessage = "failed to get mashups"
-                            )
+                        is Resource.Loading -> { }
+                        is Resource.Error -> {
+                            _state.update {
+                                it.copy(
+                                    mashupsLoaded = true,
+                                    errorMessage = "failed to get mashups"
+                                )
+                            }
                         }
                     }
                 }
-            }
+        }
     }
 
-    private suspend fun getPlaylists(ids: List<Int>) {
+    private fun getPlaylists(ids: List<Int>) {
         if (ids.isEmpty()) {
             _state.update { it.copy(playlistsLoaded = true) }
             return
         }
-        getPlaylistsUseCase(ids)
-            .collect { result ->
-                when (result) {
-                    is Resource.Success -> {
-                        _state.update { it ->
-                            it.copy(
-                                playlistsLoaded = true,
-                                playlistList = result.data!!,
-                            )
+        viewModelScope.launch {
+            getPlaylistsUseCase(ids)
+                .collect { result ->
+                    when (result) {
+                        is Resource.Success -> {
+                            _state.update { it ->
+                                it.copy(
+                                    playlistsLoaded = true,
+                                    playlistList = result.data!!,
+                                )
+                            }
                         }
-                    }
-                    is Resource.Loading -> { }
-                    is Resource.Error -> {
-                        _state.update {
-                            it.copy(
-                                playlistsLoaded = true,
-                                errorMessage = "failed to get playlists"
-                            )
+                        is Resource.Loading -> { }
+                        is Resource.Error -> {
+                            _state.update {
+                                it.copy(
+                                    playlistsLoaded = true,
+                                    errorMessage = "failed to get playlists"
+                                )
+                            }
                         }
                     }
                 }
-            }
+        }
     }
 
     fun onMashupClick(mashupId: Int) {
