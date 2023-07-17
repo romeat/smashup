@@ -1,5 +1,6 @@
 package com.romeat.smashup.presentation.home.common.playlist
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -162,6 +163,7 @@ class PlaylistViewModel @Inject constructor(
     }
 }
 
+@Stable
 data class PlaylistScreenState(
     val isLoading: Boolean = true,
     val errorMessage: String = "",

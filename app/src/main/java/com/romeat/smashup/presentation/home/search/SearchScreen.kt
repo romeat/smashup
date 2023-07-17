@@ -237,25 +237,31 @@ fun MashupFullListOverlay(
             .fillMaxSize()
             .zIndex(7f)
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
+        Surface(
+            modifier = Modifier
+                .fillMaxSize(),
+            color = (MaterialTheme.colors.background)
         ) {
-            TopRow(title = stringResource(id = R.string.all_mashups), onBackPressed = { mashupListOpened.value = false })
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth().weight(1f)
+            Column(
+                modifier = Modifier.fillMaxSize()
             ) {
-                items(
-                    items = state.mashups,
-                    key = { it.id }
-                ) { mashup ->
-                    MashupItem(
-                        mashup = mashup,
-                        onBodyClick = { onMashupClick(it.id) },
-                        onInfoClick = onMashupInfoClick,
-                        onLikeClick = onLikeClick,
-                        isCurrentlyPlaying = state.currentlyPlayingMashupId?.equals(mashup.id)
-                            ?: false
-                    )
+                TopRow(title = stringResource(id = R.string.all_mashups), onBackPressed = { mashupListOpened.value = false })
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth().weight(1f)
+                ) {
+                    items(
+                        items = state.mashups,
+                        key = { it.id }
+                    ) { mashup ->
+                        MashupItem(
+                            mashup = mashup,
+                            onBodyClick = { onMashupClick(it.id) },
+                            onInfoClick = onMashupInfoClick,
+                            onLikeClick = onLikeClick,
+                            isCurrentlyPlaying = state.currentlyPlayingMashupId?.equals(mashup.id)
+                                ?: false
+                        )
+                    }
                 }
             }
         }
@@ -273,19 +279,25 @@ fun UserFullListOverlay(
             .fillMaxSize()
             .zIndex(6f)
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
+        Surface(
+            modifier = Modifier
+                .fillMaxSize(),
+            color = (MaterialTheme.colors.background)
         ) {
-            TopRow(title = stringResource(id = R.string.all_users), onBackPressed = { userListOpened.value = false })
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth().weight(1f),
-                contentPadding = PaddingValues(vertical = 15.dp),
+            Column(
+                modifier = Modifier.fillMaxSize()
             ) {
-                items(
-                    items = state.users,
-                    key = { it.id }
-                ) { user ->
-                    UserItem(user = user, onClick = { onClick(user.id) })
+                TopRow(title = stringResource(id = R.string.all_users), onBackPressed = { userListOpened.value = false })
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth().weight(1f),
+                    contentPadding = PaddingValues(vertical = 15.dp),
+                ) {
+                    items(
+                        items = state.users,
+                        key = { it.id }
+                    ) { user ->
+                        UserItem(user = user, onClick = { onClick(user.id) })
+                    }
                 }
             }
         }
@@ -303,21 +315,27 @@ fun PlaylistFullListOverlay(
             .fillMaxSize()
             .zIndex(5f)
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
+        Surface(
+            modifier = Modifier
+                .fillMaxSize(),
+            color = (MaterialTheme.colors.background)
         ) {
-            TopRow(title = stringResource(id = R.string.all_playlists), onBackPressed = { playlistListOpened.value = false })
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth().weight(1f)
+            Column(
+                modifier = Modifier.fillMaxSize()
             ) {
-                items(
-                    items = state.playlists,
-                    key = { it.id }
-                ) { playlist ->
-                    PlaylistItem(
-                        playlist = playlist,
-                        onClick = { onClick(playlist.id) },
-                    )
+                TopRow(title = stringResource(id = R.string.all_playlists), onBackPressed = { playlistListOpened.value = false })
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth().weight(1f)
+                ) {
+                    items(
+                        items = state.playlists,
+                        key = { it.id }
+                    ) { playlist ->
+                        PlaylistItem(
+                            playlist = playlist,
+                            onClick = { onClick(playlist.id) },
+                        )
+                    }
                 }
             }
         }
@@ -335,18 +353,24 @@ fun SourceFullListOverlay(
             .fillMaxSize()
             .zIndex(4f)
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
+        Surface(
+            modifier = Modifier
+                .fillMaxSize(),
+            color = (MaterialTheme.colors.background)
         ) {
-            TopRow(title = stringResource(id = R.string.all_sources), onBackPressed = { sourceListOpened.value = false })
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth().weight(1f)
+            Column(
+                modifier = Modifier.fillMaxSize()
             ) {
-                items(
-                    items = state.sources,
-                    key = { it.id }
-                ) { source ->
-                    SourceItem(source = source, onClick = { onClick(source.id) })
+                TopRow(title = stringResource(id = R.string.all_sources), onBackPressed = { sourceListOpened.value = false })
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth().weight(1f)
+                ) {
+                    items(
+                        items = state.sources,
+                        key = { it.id }
+                    ) { source ->
+                        SourceItem(source = source, onClick = { onClick(source.id) })
+                    }
                 }
             }
         }

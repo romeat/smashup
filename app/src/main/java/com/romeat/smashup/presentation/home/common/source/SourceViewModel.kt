@@ -1,5 +1,6 @@
 package com.romeat.smashup.presentation.home.common.source
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -155,6 +156,7 @@ class SourceViewModel @Inject constructor(
     }
 }
 
+@Stable
 data class SourceScreenState(
     val isLoading: Boolean = true,
     val errorMessage: String = "",

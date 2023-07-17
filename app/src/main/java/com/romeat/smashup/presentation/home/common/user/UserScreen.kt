@@ -174,26 +174,32 @@ fun MashupFullListOverlay(
             .fillMaxSize()
             .zIndex(3f)
     ) {
-        Column(
+        Surface(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxSize(),
+            color = (MaterialTheme.colors.background)
         ) {
-            TopRow(title = stringResource(id = R.string.all_mashups), onBackPressed = { mashupListOpened.value = false })
-            LazyColumn(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
+                    .fillMaxSize()
             ) {
-                items(state.mashupList.size) { i ->
-                    val mashup = state.mashupList[i]
-                    MashupItem(
-                        mashup = mashup,
-                        onBodyClick = { onMashupClick(it.id) },
-                        onInfoClick = onMashupInfoClick,
-                        onLikeClick = onLikeClick,
-                        isCurrentlyPlaying = state.currentlyPlayingMashupId?.equals(mashup.id)
-                            ?: false
-                    )
+                TopRow(title = stringResource(id = R.string.all_mashups), onBackPressed = { mashupListOpened.value = false })
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
+                    items(state.mashupList.size) { i ->
+                        val mashup = state.mashupList[i]
+                        MashupItem(
+                            mashup = mashup,
+                            onBodyClick = { onMashupClick(it.id) },
+                            onInfoClick = onMashupInfoClick,
+                            onLikeClick = onLikeClick,
+                            isCurrentlyPlaying = state.currentlyPlayingMashupId?.equals(mashup.id)
+                                ?: false
+                        )
+                    }
                 }
             }
         }

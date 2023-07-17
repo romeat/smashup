@@ -1,5 +1,6 @@
 package com.romeat.smashup.presentation.home.common.mashup
 
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -87,6 +88,7 @@ class MashupViewModel @Inject constructor(
     }
 }
 
+@Stable
 data class MashupScreenState(
     val isLoading: Boolean = true,
     val errorMessage: String = "",

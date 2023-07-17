@@ -227,27 +227,33 @@ fun MashupFullListOverlay(
             .fillMaxSize()
             .zIndex(2f)
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
+        Surface(
+            modifier = Modifier
+                .fillMaxSize(),
+            color = (MaterialTheme.colors.background)
         ) {
-            TopRow(title = stringResource(id = R.string.collection_favourite_mashups), onBackPressed = { mashupListOpened.value = false })
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
+            Column(
+                modifier = Modifier.fillMaxSize()
             ) {
-                items(
-                    items = state.myLikedMashups,
-                    key = { it.id }
-                ) { mashup ->
-                    MashupItem(
-                        mashup = mashup,
-                        onBodyClick = { onMashupClick(it.id) },
-                        onInfoClick = onMashupInfoClick,
-                        onLikeClick = onLikeClick,
-                        isCurrentlyPlaying = state.currentlyPlayingMashupId?.equals(mashup.id)
-                            ?: false
-                    )
+                TopRow(title = stringResource(id = R.string.collection_favourite_mashups), onBackPressed = { mashupListOpened.value = false })
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
+                    items(
+                        items = state.myLikedMashups,
+                        key = { it.id }
+                    ) { mashup ->
+                        MashupItem(
+                            mashup = mashup,
+                            onBodyClick = { onMashupClick(it.id) },
+                            onInfoClick = onMashupInfoClick,
+                            onLikeClick = onLikeClick,
+                            isCurrentlyPlaying = state.currentlyPlayingMashupId?.equals(mashup.id)
+                                ?: false
+                        )
+                    }
                 }
             }
         }
