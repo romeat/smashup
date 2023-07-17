@@ -35,8 +35,8 @@ android {
         applicationId "com.romeat.smashup"
         minSdk 24
         targetSdk 33
-        versionCode 10
-        versionName "0.4.0"
+        versionCode 11
+        versionName "0.4.1"
 
         resourceConfigurations += ["en", "ru"]
 
@@ -137,7 +137,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-scalars:2.5.0'
 
     // OKHttp
-    implementation("com.squareup.okhttp3:okhttp:4.2.2")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation("com.squareup.okhttp3:okhttp-urlconnection:4.2.2")
 
 
