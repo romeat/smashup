@@ -13,6 +13,7 @@ import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
 import com.google.android.exoplayer2.*
@@ -401,6 +402,7 @@ open class MusicService : MediaBrowserServiceCompat() {
 
         // TODO add some exception handling
         override fun onPlayerError(error: PlaybackException) {
+            Log.e(TAG, "Player error: " + error.errorCodeName + " (" + error.errorCode + ")");
             /*
             var message = R.string.generic_error;
             Log.e(TAG, "Player error: " + error.errorCodeName + " (" + error.errorCode + ")");

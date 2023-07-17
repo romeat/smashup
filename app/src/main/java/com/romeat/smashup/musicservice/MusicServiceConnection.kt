@@ -221,6 +221,7 @@ class MusicServiceConnection @Inject constructor(
          * Invoked when the connection to the media browser failed.
          */
         override fun onConnectionFailed() {
+            Log.e("TAG", "Player error: onConnectionFailed");
             _isConnected.value = false
         }
     }
