@@ -71,7 +71,7 @@ fun PlaylistItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = pluralStringResource(id = R.plurals.mashups_number, count = playlist.mashups.size),
+                    text = pluralStringResource(id = R.plurals.mashups_number, playlist.mashups.size, playlist.mashups.size),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.body1,

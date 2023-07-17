@@ -321,7 +321,7 @@ fun UserInfoHeader(
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
-                    text = pluralStringResource(id = R.plurals.mashups_number, count = mashupsCount),
+                    text = pluralStringResource(id = R.plurals.mashups_number, mashupsCount, mashupsCount),
                     modifier = Modifier
                         .fillMaxWidth(),
                     style = MaterialTheme.typography.body2,

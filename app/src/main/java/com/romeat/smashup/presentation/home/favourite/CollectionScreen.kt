@@ -205,7 +205,7 @@ fun LikedMashupsPlaylist(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = pluralStringResource(id = R.plurals.mashups_number, count = mashupsCount),
+                    text = pluralStringResource(id = R.plurals.mashups_number, mashupsCount, mashupsCount),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.body1,

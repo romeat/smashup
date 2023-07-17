@@ -96,7 +96,7 @@ fun PlayableHeader(
                 Text(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    text = pluralStringResource(id = R.plurals.mashups_number, count = mashupsCount),
+                    text = pluralStringResource(id = R.plurals.mashups_number, mashupsCount, mashupsCount),
                     style = MaterialTheme.typography.body2,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
