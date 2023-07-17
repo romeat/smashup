@@ -17,7 +17,6 @@ import com.romeat.smashup.presentation.home.common.user.UserScreen
 import com.romeat.smashup.presentation.home.favourite.CollectionScreen
 import com.romeat.smashup.presentation.home.main.MainScreen
 import com.romeat.smashup.presentation.home.player.AudioPlayerScreen
-import com.romeat.smashup.presentation.home.profile.ProfileScreen
 import com.romeat.smashup.presentation.home.search.SearchScreen
 import com.romeat.smashup.util.CommonNavigationConstants
 

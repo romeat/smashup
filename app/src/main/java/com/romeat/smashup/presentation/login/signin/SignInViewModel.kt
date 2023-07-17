@@ -63,7 +63,7 @@ class SignInViewModel @Inject constructor(
                     eventChannel.send(SignInEvent.NavigateToHomeGraph)
                 } else if (response is Resource.Error) {
                     when (response.code) {
-                        400 -> {
+                        400, 403 -> {
                             state = state.copy(
                                 isLoading = false,
                                 inputsEnabled = true,

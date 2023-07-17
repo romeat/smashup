@@ -7,7 +7,6 @@ import com.romeat.smashup.data.LanguageOption
 import com.romeat.smashup.data.LoggedUserRepository
 import com.romeat.smashup.data.SettingsProvider
 import com.romeat.smashup.musicservice.MusicServiceConnection
-import com.romeat.smashup.presentation.home.profile.ProfileScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

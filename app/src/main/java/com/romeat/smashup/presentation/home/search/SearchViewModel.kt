@@ -114,7 +114,7 @@ class SearchBarViewModel @Inject constructor(
                 searchPlaylistsUseCase(searchQueryState.value),
                 searchSourcesUseCase(searchQueryState.value),
             ) { mashups, authors, playlists, sources ->
-                listOf(mashups, authors, playlists)
+                listOf(mashups, authors, playlists, sources)
             }.collect { results ->
                 if (results.any { it is Resource.Loading }) {
                     _resultState.update { it.copy(isLoading = true) }
