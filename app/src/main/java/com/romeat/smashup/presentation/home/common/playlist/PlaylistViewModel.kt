@@ -110,6 +110,7 @@ class PlaylistViewModel @Inject constructor(
                                 isMashupListError = false,
                             )
                         }
+                        originalMashupList = pair.second.data!!
                     }
                     is Resource.Loading -> {
                         _state.update { it ->

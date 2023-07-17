@@ -43,7 +43,7 @@
     <string name="string_empty"> </string>
 
     <string name="search">Поиск</string>
-    <string name="search_hint">Мэшапы, плейлисты, юзеры…</string>
+    <string name="search_hint">Мэшапы, плейлисты…</string>
     <string name="error_during_search">При запросе произошла ошибка</string>
     <string name="no_results">Ничего не нашлось</string>
     <string name="search_mashups">Мэшапы</string>

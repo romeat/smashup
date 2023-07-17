@@ -47,6 +47,7 @@ import com.romeat.smashup.presentation.home.common.composables.listitem.Playlist
 import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.compose.BackPressHandler
 
+// todo swipe to refresh
 @Composable
 fun CollectionScreen(
     onBackClick: () -> Unit,

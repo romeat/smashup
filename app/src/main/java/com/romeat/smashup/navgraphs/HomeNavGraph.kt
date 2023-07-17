@@ -97,7 +97,9 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
                         onMashupInfoClick = onMashupInfoClick,
                         onBackClick = {
                             navController.navigate(HomeGraphScreen.Main.route) {
-                                popUpTo(RootGraph.HOME)
+                                popUpTo(RootGraph.HOME) { saveState = false }
+                                launchSingleTop = true
+                                restoreState = true
                             }
                         }
                     )
@@ -125,7 +127,9 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
                         onMashupInfoClick = onMashupInfoClick,
                         onBackClick = {
                             navController.navigate(HomeGraphScreen.Main.route) {
-                                popUpTo(RootGraph.HOME)
+                                popUpTo(RootGraph.HOME) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
                             }
                         }
                     )
