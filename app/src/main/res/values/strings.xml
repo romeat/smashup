@@ -49,7 +49,7 @@
     <string name="string_empty"> </string>
 
     <string name="search">Search</string>
-    <string name="search_hint">Mashups, playlists…</string>
+    <string name="search_hint">Mashups, playlists etc…</string>
     <string name="error_during_search">Error occurred during search</string>
     <string name="no_results">No results</string>
     <string name="search_mashups">Mashups</string>

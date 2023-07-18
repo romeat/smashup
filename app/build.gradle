@@ -35,8 +35,8 @@ android {
         applicationId "com.romeat.smashup"
         minSdk 24
         targetSdk 33
-        versionCode 12
-        versionName "0.4.2"
+        versionCode 13
+        versionName "0.4.3"
 
         resourceConfigurations += ["en", "ru"]
 

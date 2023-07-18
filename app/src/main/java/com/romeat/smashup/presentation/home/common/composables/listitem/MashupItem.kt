@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,6 +23,7 @@ import com.romeat.smashup.R
 import com.romeat.smashup.data.dto.MashupListItem
 import com.romeat.smashup.presentation.home.common.composables.FriendlyGlideImage
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
+import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.ImageUrlHelper
 
 @Composable
@@ -105,14 +107,11 @@ fun MashupItem(
         }
 
         IconButton(
-            modifier = Modifier
-                .size(48.dp),
             onClick = { onLikeClick(mashup.id) }
         ) {
             Icon(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(12.dp),
+                    .padding(14.dp),
                 imageVector = ImageVector
                     .vectorResource(
                         id = if (mashup.isLiked) {
@@ -145,39 +144,43 @@ fun MashupItem(
 @Composable
 @Preview
 fun MashupItemPreview() {
-    Column() {
-        MashupItem(
-            mashup = MashupListItem(
-                123,
-                "Лобби под подошвой",
-                "The свитер",
-                "",
-                false,
-                0,
-                0,
-                listOf(0),
-                true
-            ),
-            onBodyClick = {},
-            onInfoClick = {},
-            onLikeClick = {}
-        )
-        MashupItem(
-            mashup = MashupListItem(
-                123,
-                "napas",
-                "The свитер",
-                "",
-                false,
-                0,
-                0,
-                listOf(0),
-                false
-            ),
-            onBodyClick = {},
-            onInfoClick = {},
-            isCurrentlyPlaying = true,
-            onLikeClick = {}
-        )
+    SmashupTheme {
+        Surface(color = MaterialTheme.colors.surface) {
+            Column() {
+                MashupItem(
+                    mashup = MashupListItem(
+                        123,
+                        "Лобби под подошвой",
+                        "The свитер",
+                        "",
+                        false,
+                        0,
+                        0,
+                        listOf(0),
+                        true
+                    ),
+                    onBodyClick = {},
+                    onInfoClick = {},
+                    onLikeClick = {}
+                )
+                MashupItem(
+                    mashup = MashupListItem(
+                        123,
+                        "napas",
+                        "The свитер",
+                        "",
+                        false,
+                        0,
+                        0,
+                        listOf(0),
+                        false
+                    ),
+                    onBodyClick = {},
+                    onInfoClick = {},
+                    isCurrentlyPlaying = true,
+                    onLikeClick = {}
+                )
+            }
+        }
     }
 }

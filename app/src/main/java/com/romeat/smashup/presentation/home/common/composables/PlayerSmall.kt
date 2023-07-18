@@ -184,7 +184,6 @@ fun PlayerSmallContent(
             ) {
                 IconButton(
                     modifier = Modifier
-                        .padding(start = 4.dp, end = 10.dp)
                         .size(60.dp),
                     onClick = onLikeClick,
                 ) {
@@ -209,13 +208,15 @@ fun PlayerSmallContent(
 @Preview
 fun PlayerSmallPreview() {
     SmashupTheme() {
-        PlayerSmallContent(
-            state = PlayerState(isPlaybackNull = false),
-            onPreviousClick = { /*TODO*/ },
-            onPlayPauseClick = { /*TODO*/ },
-            onNextClick = { /*TODO*/ },
-            onExpandClick = { },
-            onLikeClick = { },
-        )
+        Surface(color = MaterialTheme.colors.surface) {
+            PlayerSmallContent(
+                state = PlayerState(isPlaybackNull = false),
+                onPreviousClick = { /*TODO*/ },
+                onPlayPauseClick = { /*TODO*/ },
+                onNextClick = { /*TODO*/ },
+                onExpandClick = { },
+                onLikeClick = { },
+            )
+        }
     }
 }
