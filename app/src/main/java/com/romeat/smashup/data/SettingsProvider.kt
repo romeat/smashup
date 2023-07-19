@@ -128,11 +128,11 @@ sealed class BitrateOption(
     override val displayResId: Int,
     val suffix: String,
 ) : SettingItemOption {
-    object KB64 : BitrateOption(R.string.bitrate64, "_64000.mp3")
-    object KB96 : BitrateOption(R.string.bitrate96, "_96000.mp3")
-    object KB128 : BitrateOption(R.string.bitrate128, "_128000.mp3")
-    object KB160 : BitrateOption(R.string.bitrate160, "_160000.mp3")
-    object KB320 : BitrateOption(R.string.bitrate320, ".mp3")
+    object KB64 : BitrateOption(R.string.bitrate64, "64000")
+    object KB96 : BitrateOption(R.string.bitrate96, "96000")
+    object KB128 : BitrateOption(R.string.bitrate128, "128000")
+    object KB160 : BitrateOption(R.string.bitrate160, "160000")
+    object KB320 : BitrateOption(R.string.bitrate320, "320000")
     //object OrigQuality : BitrateOption(R.string.bitrate_orig, ".mp3")
 }
 

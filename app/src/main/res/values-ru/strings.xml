@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_release">Smashup</string>
-    <string name="app_name_debug">Smashup D</string>
+    <string name="app_name_release">SmashUp</string>
+    <string name="app_name_debug">SmashUp D</string>
 
     <string name="welcome">Добро пожаловать в SmashUp!</string>
     <string name="we_are">Мы - первый и единственный\nстриминговый сервис мэшапов.</string>

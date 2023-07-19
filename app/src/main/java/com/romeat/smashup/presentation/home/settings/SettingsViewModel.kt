@@ -89,7 +89,7 @@ data class SettingsState(
     val newsNotificationsAllowed: Boolean = false,
     val systemNotificationsAllowed: Boolean = false,
 
-    val allowMultisessions: Boolean = true,
+    val allowMultisessions: Boolean = false,
     val explicitAllowed: Boolean = true,
 
     val selectedBitrate: BitrateOption = BitrateOption.KB320,

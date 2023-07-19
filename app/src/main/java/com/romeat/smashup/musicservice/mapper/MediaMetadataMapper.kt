@@ -9,13 +9,8 @@ import com.romeat.smashup.musicservice.*
 import com.romeat.smashup.util.ImageUrlHelper
 
 object MediaMetadataMapper {
-
-    // TODO replace with DI provided values
+    
     private const val musicBaseUrl = "${BuildConfig.API_URL}/uploads/mashup/"
-    private const val defaultBitrateSuffix = ".mp3"
-
-
-    private fun musicIdToUrl(id: Int) = musicBaseUrl + id.toString() + defaultBitrateSuffix
 
     fun convertToMedia(mashup: Mashup, bitrate: String) : MediaMetadataCompat {
         val builder = MediaMetadataCompat.Builder()
@@ -23,7 +18,7 @@ object MediaMetadataMapper {
             it.id = mashup.id.toString()
             it.title = mashup.name
             it.artist = mashup.owner
-            it.mediaUri = musicIdToUrl(mashup.id)
+            it.mediaUri = musicBaseUrl + mashup.id.toString() + ".mp3?bitrate=" + bitrate
             it.albumArtUri = ImageUrlHelper.mashupImageIdToUrl400px(mashup.imageUrl)
 
             it.displayTitle = mashup.name

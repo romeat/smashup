@@ -1,20 +1,32 @@
 package com.romeat.smashup.presentation.home.settings.profile
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.romeat.smashup.data.LoggedUserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-
+    private val loggedUser: LoggedUserRepository,
 ) : ViewModel() {
 
-    val state by mutableStateOf(ProfileState())
+    private val _state = MutableStateFlow(ProfileState())
+    val state = _state.asStateFlow()
 
     init {
-
+        val user = loggedUser.userInfoFlow.value
+        user?.let { presentUser ->
+            _state.update {
+                it.copy(
+                    nickname = presentUser.username,
+                    email = "блять, емаил неоткуда взять",
+                    passwordDots = "***********"
+                )
+            }
+        }
     }
 }
 
