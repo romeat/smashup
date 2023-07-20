@@ -32,7 +32,7 @@ fun SourceScreen(
     ) {
         SourceScreenContent(
             onMashupInfoClick = onMashupInfoClick,
-            onAuthorClick = { },
+            //onAuthorClick = { },
             onBackClicked = onBackClicked,
             onLikeClick = viewModel::onLikeClick,
             onMashupClick = viewModel::onMashupClick,
@@ -46,7 +46,7 @@ fun SourceScreen(
 @Composable
 fun SourceScreenContent(
     onMashupInfoClick: (Int) -> Unit,
-    onAuthorClick: (String) -> Unit,
+    //onAuthorClick: (String) -> Unit,
     onBackClicked: () -> Unit,
     onLikeClick: (Int) -> Unit,
     onMashupClick: (Int) -> Unit,

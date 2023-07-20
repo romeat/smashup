@@ -13,11 +13,13 @@ import com.romeat.smashup.musicservice.MusicServiceConnection
 import com.romeat.smashup.util.ConvertToUiListItems
 import com.romeat.smashup.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OptIn(FlowPreview::class)
 @HiltViewModel
 class SearchBarViewModel @Inject constructor(
     private val searchPlaylistsUseCase: SearchPlaylistsUseCase,
@@ -131,14 +133,14 @@ class SearchBarViewModel @Inject constructor(
                     } else {
                         _resultState.update {
                             it.copy(
-                                originalMashups = results[0].data!! as List<Mashup>,
+                                originalMashups = results[0].data!! as? List<Mashup> ?: emptyList(),
                                 mashups = ConvertToUiListItems(
-                                    results[0].data!! as List<Mashup>,
+                                    results[0].data!! as? List<Mashup> ?: emptyList(),
                                     likesRepository.likesState.value.mashupLikes
                                 ),
-                                users = results[1].data!! as List<UserProfile>,
-                                playlists = results[2].data!! as List<Playlist>,
-                                sources = results[3].data!! as List<Source>
+                                users = results[1].data!! as? List<UserProfile> ?: emptyList(),
+                                playlists = results[2].data!! as? List<Playlist> ?: emptyList(),
+                                sources = results[3].data!! as? List<Source> ?: emptyList()
                             )
                         }
                     }

@@ -37,7 +37,7 @@ fun PlaylistScreen(
     ) {
         PlaylistScreenContent(
             onMashupInfoClick = onMashupInfoClick,
-            onAuthorClick = onAuthorClick,
+            //onAuthorClick = onAuthorClick,
             onBackClicked = onBackClicked,
             onLikeClick = viewModel::onLikeClick,
             onMashupClick = viewModel::onMashupClick,
@@ -51,7 +51,7 @@ fun PlaylistScreen(
 @Composable
 fun PlaylistScreenContent(
     onMashupInfoClick: (Int) -> Unit,
-    onAuthorClick: (Int) -> Unit,
+    //onAuthorClick: (Int) -> Unit,
     onBackClicked: () -> Unit,
     onLikeClick: (Int) -> Unit,
     onMashupClick: (Int) -> Unit,
@@ -138,7 +138,6 @@ fun PlaylistScreenContentPreview() {
         ) {
             PlaylistScreenContent(
                 onMashupInfoClick = {},
-                onAuthorClick = {},
                 onBackClicked = { },
                 onLikeClick = {},
                 onMashupClick = {},
@@ -223,7 +222,6 @@ fun PlaylistScreenContentPreviewAllLoading() {
         ) {
             PlaylistScreenContent(
                 onMashupInfoClick = {},
-                onAuthorClick = {},
                 onBackClicked = { },
                 onLikeClick = {},
                 onMashupClick = {},
@@ -250,7 +248,6 @@ fun PlaylistScreenContentPreviewMashupListLoading() {
         ) {
             PlaylistScreenContent(
                 onMashupInfoClick = {},
-                onAuthorClick = {},
                 onBackClicked = { },
                 onLikeClick = {},
                 onMashupClick = {},
@@ -288,7 +285,6 @@ fun PlaylistScreenContentPreviewLoadingError() {
         ) {
             PlaylistScreenContent(
                 onMashupInfoClick = {},
-                onAuthorClick = {},
                 onBackClicked = { },
                 onLikeClick = {},
                 onMashupClick = {},

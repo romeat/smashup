@@ -52,10 +52,6 @@ class MainViewModel @Inject constructor(
                 }
         }
     }
-
-    fun onPlaylistSelect(id: Int) {
-
-    }
 }
 
 data class ChartsState(
