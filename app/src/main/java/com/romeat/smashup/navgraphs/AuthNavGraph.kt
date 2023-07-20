@@ -26,14 +26,10 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
         composable(route = AuthScreen.Greetings.route) {
             GreetingsScreen(
                 onRegistrationClick = {
-                    navController.navigate(AuthScreen.Register.route) {
-                        popUpTo(RootGraph.AUTHENTICATION)
-                    }
+                    navController.navigate(AuthScreen.Register.route)
                 },
                 onLoginClick = {
-                    navController.navigate(AuthScreen.SignIn.route) {
-                        popUpTo(RootGraph.AUTHENTICATION)
-                    }
+                    navController.navigate(AuthScreen.SignIn.route)
                 }
             )
         }
@@ -43,7 +39,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
             RegisterScreen(
                 toSignInScreen = {
                     navController.navigate(AuthScreen.SignIn.route) {
-                        popUpTo(RootGraph.AUTHENTICATION)
+                        popUpTo(AuthScreen.Greetings.route)
                     }
                 },
                 toRegisterConfirm = { email ->
@@ -100,7 +96,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
                 },
                 toRegister = {
                     navController.navigate(AuthScreen.Register.route) {
-                        popUpTo(RootGraph.AUTHENTICATION)
+                        popUpTo(AuthScreen.Greetings.route)
                     }
                 },
                 toForgotPassword = {
