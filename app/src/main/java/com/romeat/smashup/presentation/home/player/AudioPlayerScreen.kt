@@ -1,7 +1,9 @@
 package com.romeat.smashup.presentation.home.player
 
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -12,10 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -31,10 +30,7 @@ import com.romeat.smashup.presentation.home.common.composables.FriendlyGlideImag
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
 import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.ImageUrlHelper
-import com.romeat.smashup.util.compose.Marquee
-import com.romeat.smashup.util.compose.MarqueeParams
 import com.romeat.smashup.util.toDisplayableTimeString
-import com.skydoves.landscapist.glide.GlideImage
 
 
 @Composable
@@ -55,6 +51,7 @@ fun AudioPlayerScreen(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AudioPlayerContent(
     state: PlayerState,
@@ -157,48 +154,27 @@ fun AudioPlayerContent(
                         .weight(1f),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Marquee(
-                        params = MarqueeParams(
-                            period = 7500,
-                            gradientEnabled = false,
-                            gradientEdgeColor = Color.Transparent,
-                            direction = LocalLayoutDirection.current,
-                            easing = LinearEasing
-                        ),
-                        modifier = Modifier
-                            .padding(end = 10.dp)
-                            .fillMaxWidth()
-                    ) {
-                        Text(
-                            text = state.trackName,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 22.sp,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        )
-                    }
 
-                    Marquee(
-                        params = MarqueeParams(
-                            period = 7500,
-                            gradientEnabled = false,
-                            gradientEdgeColor = Color.Transparent,
-                            direction = LocalLayoutDirection.current,
-                            easing = LinearEasing
-                        ),
+                    Text(
+                        text = state.trackName,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 22.sp,
+                        textAlign = TextAlign.Start,
                         modifier = Modifier
-                            .padding(end = 10.dp)
                             .fillMaxWidth()
-                    ) {
-                        Text(
-                            text = state.trackAuthor,
-                            style = MaterialTheme.typography.body1,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        )
-                    }
+                            .padding(end = 10.dp)
+                            .basicMarquee(10)
+                    )
+
+                    Text(
+                        text = state.trackAuthor,
+                        style = MaterialTheme.typography.body1,
+                        textAlign = TextAlign.Start,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 10.dp)
+                            .basicMarquee(10)
+                    )
                 }
                 IconButton(
                     modifier = Modifier
