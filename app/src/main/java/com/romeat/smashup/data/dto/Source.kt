@@ -6,6 +6,7 @@ data class Source(
     val authors: List<String>,
     val imageUrl: String,
     val link: String = "",
+    val backgroundColor: Int = 0,
 ) {
     val owner: String
         get() = authors.joinToString(", ")

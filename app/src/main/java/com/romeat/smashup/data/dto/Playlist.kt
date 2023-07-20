@@ -10,6 +10,7 @@ data class Playlist(
     val mashups: List<Int>,
     val streams: Int,
     val likes: Int,
+    val backgroundColor: Int = 0,
 ) {
     val owner: String
         get() = authors.joinToString(", ")

@@ -3,6 +3,7 @@ package com.romeat.smashup.presentation.home.common.source
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -53,13 +54,16 @@ fun SourceScreenContent(
     onPlayClick: () -> Unit,
     state: SourceScreenState,
 ) {
+    val scrollState = rememberLazyListState()
+
     Box(
         modifier = Modifier
             .fillMaxSize(),
     ) {
         TransparentTopRow(
             onBackPressed = onBackClicked,
-            modifier = Modifier.zIndex(2f)
+            modifier = Modifier.zIndex(2f),
+            scrollState = scrollState
         )
         if (state.isLoading) {
             CustomCircularProgressIndicator()
@@ -67,7 +71,7 @@ fun SourceScreenContent(
             ErrorTextMessage()
         } else {
             val info = state.sourceInfo!!
-            LazyColumn() {
+            LazyColumn(state = scrollState) {
                 item {
                     PlayableHeader(
                         imageUrl = ImageUrlHelper.playlistImageIdToUrl400px(info.imageUrl),
@@ -77,6 +81,7 @@ fun SourceScreenContent(
                         mashupsCount = state.mashupList.size,
                         onPlayPauseClick = onPlayClick,
                         onShuffleClick = onShuffleClick,
+                        backgroundColor = info.backgroundColor,
                     )
                 }
                 if (state.isMashupListLoading) {

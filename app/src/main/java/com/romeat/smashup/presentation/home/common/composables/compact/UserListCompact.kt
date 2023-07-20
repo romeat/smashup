@@ -69,21 +69,21 @@ fun UserListCompactPreview() {
         Surface(color = MaterialTheme.colors.surface) {
             Column {
                 UserListCompact(users = listOf(
-                    UserProfile(1, "Chilish", "def", 0, listOf(), listOf()),
-                    UserProfile(1, "Mem", "def", 0, listOf(), listOf()),
+                    UserProfile(1, "Chilish", "def", 0, 0, listOf(), listOf()),
+                    UserProfile(1, "Mem", "def", 0, 0, listOf(), listOf()),
                 ), onClick = {})
                 UserListCompact(users = listOf(
-                    UserProfile(1, "Chilish", "def", 0, listOf(), listOf()),
-                    UserProfile(1, "Mem", "def", 0, listOf(), listOf()),
-                    UserProfile(1, "sobakin", "def", 0, listOf(), listOf()),
-                    UserProfile(1, "Аркадий", "def", 0, listOf(), listOf()),
+                    UserProfile(1, "Chilish", "def", 0, 0, listOf(), listOf()),
+                    UserProfile(1, "Mem", "def", 0, 0, listOf(), listOf()),
+                    UserProfile(1, "sobakin", "def", 0, 0, listOf(), listOf()),
+                    UserProfile(1, "Аркадий", "def", 0, 0, listOf(), listOf()),
                 ), onClick = {})
                 UserListCompact(users = listOf(
-                    UserProfile(1, "Chilish", "def", 0, listOf(), listOf()),
-                    UserProfile(1, "Mem", "def", 0, listOf(), listOf()),
-                    UserProfile(1, "sobakin", "def", 0, listOf(), listOf()),
-                    UserProfile(1, "Аркадий", "def", 0, listOf(), listOf()),
-                    UserProfile(1, "Not disp", "def", 0, listOf(), listOf()),
+                    UserProfile(1, "Chilish", "def", 0, 0, listOf(), listOf()),
+                    UserProfile(1, "Mem", "def", 0, 0, listOf(), listOf()),
+                    UserProfile(1, "sobakin", "def", 0, 0, listOf(), listOf()),
+                    UserProfile(1, "Аркадий", "def", 0, 0, listOf(), listOf()),
+                    UserProfile(1, "Not disp", "def", 0, 0, listOf(), listOf()),
                 ), onClick = {})
             }
         }

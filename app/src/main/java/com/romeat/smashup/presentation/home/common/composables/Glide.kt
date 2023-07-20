@@ -1,5 +1,6 @@
 package com.romeat.smashup.presentation.home.common.composables
 
+import androidx.compose.foundation.background
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,7 +25,7 @@ fun FriendlyGlideImage(
 ) {
     GlideImage(
         imageModel = { imageModel },
-        modifier = modifier,
+        modifier = modifier.background(color = MaterialTheme.colors.surface),
         previewPlaceholder = composePreviewRes,
         imageOptions = ImageOptions(
             contentScale = ContentScale.Crop,

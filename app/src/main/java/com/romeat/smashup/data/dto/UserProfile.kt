@@ -4,6 +4,7 @@ data class UserProfile(
     val id: Int,
     val username: String,
     val imageUrl: String,
+    val backgroundColor: Int,
     val permissions: Int,
     val mashups: List<Int>,
     val playlists: List<Int>

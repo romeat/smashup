@@ -3,6 +3,7 @@ package com.romeat.smashup.presentation.home.common.playlist
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -58,13 +59,16 @@ fun PlaylistScreenContent(
     onPlayClick: () -> Unit,
     state: PlaylistScreenState,
 ) {
+    val scrollState = rememberLazyListState()
+
     Box(
         modifier = Modifier
             .fillMaxSize(),
     ) {
         TransparentTopRow(
             onBackPressed = onBackClicked,
-            modifier = Modifier.zIndex(2f)
+            modifier = Modifier.zIndex(2f),
+            scrollState = scrollState
         )
         if (state.isLoading) {
             CustomCircularProgressIndicator()
@@ -72,7 +76,7 @@ fun PlaylistScreenContent(
             ErrorTextMessage()
         } else {
             val info = state.playlistInfo!!
-            LazyColumn() {
+            LazyColumn(state = scrollState) {
                 item {
                     PlayableHeader(
                         imageUrl = ImageUrlHelper.playlistImageIdToUrl400px(info.imageUrl),
@@ -81,6 +85,7 @@ fun PlaylistScreenContent(
                         mashupsCount = info.mashups.size,
                         onPlayPauseClick = onPlayClick,
                         onShuffleClick = onShuffleClick,
+                        backgroundColor = info.backgroundColor
                     )
                 }
                 if (state.isMashupListLoading) {
@@ -262,7 +267,8 @@ fun PlaylistScreenContentPreviewMashupListLoading() {
                         "964",
                         listOf(1,3,4,5),
                         322,
-                        22
+                        22,
+                        3947062,
                     ),
                 )
             )

@@ -1,7 +1,9 @@
 package com.romeat.smashup.presentation.home.common.user
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -24,6 +27,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -87,6 +92,8 @@ fun UserScreenContent(
 ) {
     val mashupListOpened = remember { mutableStateOf(false) }
 
+    val scrollState = rememberLazyListState()
+
     BackPressHandler(
         onBackPressed = {
             if (mashupListOpened.value) {
@@ -113,7 +120,8 @@ fun UserScreenContent(
 
         TransparentTopRow(
             onBackPressed = onBackClick,
-            modifier = Modifier.zIndex(2f)
+            modifier = Modifier.zIndex(2f),
+            scrollState = scrollState
         )
         if (state.isLoading || !state.mashupsLoaded || !state.playlistsLoaded) {
             CustomCircularProgressIndicator()
@@ -121,12 +129,13 @@ fun UserScreenContent(
             ErrorTextMessage()
         } else {
             val info = state.userInfo!!
-            LazyColumn() {
+            LazyColumn(state = scrollState) {
                 item {
                     UserInfoHeader(
                         imageUrl = ImageUrlHelper.authorImageIdToUrl400px(info.imageUrl),
                         title = info.username,
                         mashupsCount = state.mashupList.size,
+                        backgroundColor = state.userInfo.backgroundColor,
                     )
                 }
                 if (state.isEmpty) {
@@ -232,14 +241,14 @@ fun UserScreenContentPreview(
 class UserScreenStateProvider : PreviewParameterProvider<UserScreenState> {
     override val values = listOf(
         UserScreenState(), // initial
-        UserScreenState(isLoading = false, userInfo = UserProfile(1, "murrka", "", 1, listOf(), listOf())), // loaded profile only
-        UserScreenState(isLoading = false, isEmpty = true,  userInfo = UserProfile(1, "murrka", "", 1, listOf(), listOf())), // loaded all, but empty lists
+        UserScreenState(isLoading = false, userInfo = UserProfile(1, "murrka", "", 1052688, 1, listOf(), listOf())), // loaded profile only
+        UserScreenState(isLoading = false, isEmpty = true,  userInfo = UserProfile(1, "murrka", "", 1052688, 1, listOf(), listOf())), // loaded all, but empty lists
         UserScreenState(isLoading = false, errorMessage = "error"), // load error
         UserScreenState(isLoading = false, errorMessage = "error", mashupsLoaded = true), // load error because of list
         UserScreenState( // mashups loaded, playlists not yet loaded
             isLoading = false,
             mashupsLoaded = true,
-            userInfo = UserProfile(1, "murrka", "def", 1, listOf(), listOf()),
+            userInfo = UserProfile(1, "murrka", "def",1052688,1, listOf(), listOf()),
             mashupList = listOf(
                 MashupListItem(12, "popandos", "lavandos", "null", false, 1, 1, emptyList(), true),
                 MashupListItem(15, "popandos", "lavandos", "null", false, 1, 1, emptyList(), false),
@@ -249,7 +258,7 @@ class UserScreenStateProvider : PreviewParameterProvider<UserScreenState> {
         UserScreenState( // mashups loaded, playlists loaded and empty
             isLoading = false,
             mashupsLoaded = true,
-            userInfo = UserProfile(1, "murrka", "def", 1, listOf(), listOf()),
+            userInfo = UserProfile(1, "murrka", "def", 1052688, 1, listOf(), listOf()),
             mashupList = listOf(
                 MashupListItem(12, "popandos", "lavandos", "null", false, 1, 1, emptyList(), true),
                 MashupListItem(15, "popandos", "lavandos", "null", false, 1, 1, emptyList(), false),
@@ -260,7 +269,7 @@ class UserScreenStateProvider : PreviewParameterProvider<UserScreenState> {
         UserScreenState( // mashups loaded, playlists loaded
             isLoading = false,
             mashupsLoaded = true,
-            userInfo = UserProfile(1, "murrka", "def", 1, listOf(1, 2), listOf()),
+            userInfo = UserProfile(1, "murrka", "def", 8082291, 1, listOf(1, 2), listOf()),
             mashupList = listOf(
                 MashupListItem(12, "popandos", "lavandos", "def", false, 1, 1, emptyList(), true),
                 MashupListItem(15, "popandos", "lavandos", "def", false, 1, 1, emptyList(), false),
@@ -285,51 +294,70 @@ fun UserInfoHeader(
     mashupsCount: Int,
 
     modifier: Modifier = Modifier,
+    backgroundColor: Int = 0,
 ) {
-    Column(
-        modifier = modifier
+    Box(
+        modifier = Modifier
             .fillMaxWidth()
             .height(200.dp)
     ) {
-        // Spacer for overlaying top row
-        Spacer(modifier = Modifier.height(70.dp))
-        // Image and titles
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .zIndex(-1f)
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color(backgroundColor).copy(alpha = 0.75f),
+                            Color.Transparent
+                        )
+                    )
+                )
+        )
+        Column(
+            modifier = modifier
+                .fillMaxSize()
         ) {
-            Spacer(modifier = Modifier.width(20.dp))
-            FriendlyGlideImage(
-                imageModel = imageUrl,
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(RoundedCornerShape(30.dp)),
-                error = Placeholder.Napas.resource,
-            )
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = 20.dp)
+            // Spacer for overlaying top row
+            Spacer(modifier = Modifier.height(70.dp))
+            // Image and titles
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(
-                    text = title,
+                Spacer(modifier = Modifier.width(20.dp))
+                FriendlyGlideImage(
+                    imageModel = imageUrl,
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    style = MaterialTheme.typography.h5,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                        .size(100.dp)
+                        .clip(RoundedCornerShape(30.dp)),
+                    error = Placeholder.Napas.resource,
                 )
-                Spacer(modifier = Modifier.height(5.dp))
-                Text(
-                    text = pluralStringResource(id = R.plurals.mashups_number, mashupsCount, mashupsCount),
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    style = MaterialTheme.typography.body2,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
+                        .weight(1f)
+                        .padding(horizontal = 20.dp)
+                ) {
+                    Text(
+                        text = title,
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        style = MaterialTheme.typography.h5,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Text(
+                        text = pluralStringResource(id = R.plurals.mashups_number, mashupsCount, mashupsCount),
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        style = MaterialTheme.typography.body2,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
+            Spacer(modifier = Modifier.height(25.dp))
         }
-        Spacer(modifier = Modifier.height(25.dp))
     }
 }

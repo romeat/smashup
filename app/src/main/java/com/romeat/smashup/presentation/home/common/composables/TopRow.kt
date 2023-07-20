@@ -2,17 +2,20 @@ package com.romeat.smashup.presentation.home.common.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.romeat.smashup.R
 import com.romeat.smashup.ui.theme.SmashupTheme
 
@@ -67,12 +70,17 @@ fun TopRow(
 fun TransparentTopRow(
     onBackPressed: () -> Unit,
     modifier: Modifier = Modifier,
+    scrollState: LazyListState
 ) {
+    val canScrollBack = remember { derivedStateOf { scrollState.canScrollBackward } }
+
     val height = 50.dp
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(color = MaterialTheme.colors.background.copy(alpha = 0.2f))
+            .background(
+                color = if (canScrollBack.value) MaterialTheme.colors.surface.copy(alpha = 0.5f)
+                    else Color.Transparent)
     ) {
         Spacer(modifier = Modifier.height(10.dp))
         Box(
