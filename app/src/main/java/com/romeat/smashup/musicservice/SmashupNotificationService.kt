@@ -3,10 +3,15 @@ package com.romeat.smashup.musicservice
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.res.Resources.Theme
 import android.graphics.Bitmap
 import android.net.Uri
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
+import android.util.Log
+import androidx.compose.material.MaterialTheme
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -15,7 +20,9 @@ import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.romeat.smashup.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -35,6 +42,7 @@ internal class SmashupNotificationManager(
     private var player: Player? = null
     private val serviceJob = SupervisorJob()
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
+    private var loadingJob: Job? = null
     private val notificationManager: PlayerNotificationManager
     private val platformNotificationManager: NotificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -84,16 +92,18 @@ internal class SmashupNotificationManager(
             callback: PlayerNotificationManager.BitmapCallback
         ): Bitmap? {
             val iconUri = controller.metadata.description.iconUri
-            return if (currentIconUri != iconUri || currentBitmap == null) {
-
-                // Cache the bitmap for the current song so that successive calls to
-                // `getCurrentLargeIcon` don't cause the bitmap to be recreated.
-                currentIconUri = iconUri
-                serviceScope.launch {
+            return if (currentIconUri != iconUri) {
+                loadingJob?.cancel()
+                loadingJob = serviceScope.launch {
                     currentBitmap = iconUri?.let {
                         resolveUriAsBitmap(it)
                     }
-                    currentBitmap?.let { callback.onBitmap(it) }
+                    currentBitmap?.let {
+                        if (isActive) {
+                            currentIconUri = iconUri
+                            callback.onBitmap(it)
+                        }
+                    }
                 }
                 null
             } else {
@@ -105,7 +115,7 @@ internal class SmashupNotificationManager(
             return withContext(Dispatchers.IO) {
                 // Block on downloading artwork.
                 Glide.with(context)
-                    //.applyDefaultRequestOptions(glideOptions) //
+                    .applyDefaultRequestOptions(glideOptions)
                     .asBitmap()
                     .load(uri)
                     .submit(NOTIFICATION_LARGE_ICON_SIZE, NOTIFICATION_LARGE_ICON_SIZE)
@@ -118,5 +128,4 @@ internal class SmashupNotificationManager(
 const val NOTIFICATION_LARGE_ICON_SIZE = 144 // px
 
 private val glideOptions = RequestOptions()
-    .fallback(R.drawable.napas)
     .diskCacheStrategy(DiskCacheStrategy.DATA)
