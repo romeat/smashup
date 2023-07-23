@@ -3,6 +3,7 @@ package com.romeat.smashup.di
 import com.romeat.smashup.BuildConfig
 import com.romeat.smashup.network.*
 import com.romeat.smashup.network.util.RequestInterceptor
+import com.romeat.smashup.network.util.ResponseUnauthorizedInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -46,7 +47,10 @@ object NetworkModule {
     @Provides
     @Singleton
     @MainRetrofitClient
-    fun provideMainNetwork(interceptor: RequestInterceptor) : Retrofit = Retrofit.Builder()
+    fun provideMainNetwork(
+        requestInterceptor: RequestInterceptor,
+        responseInterceptor: ResponseUnauthorizedInterceptor
+    ) : Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
         .baseUrl(BuildConfig.API_URL)
         .client(
@@ -55,7 +59,8 @@ object NetworkModule {
                 .callTimeout(15, TimeUnit.SECONDS)
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
-                .addNetworkInterceptor(interceptor)
+                .addNetworkInterceptor(requestInterceptor)
+                .addNetworkInterceptor(responseInterceptor)
                 .build()
         )
         .build()

@@ -16,13 +16,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import com.romeat.smashup.navgraphs.RootGraph
 import com.romeat.smashup.navgraphs.RootNavigationGraph
 import com.romeat.smashup.ui.theme.SmashupTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -45,6 +50,7 @@ class MainActivity : AppCompatActivity() {
                 checkIntent(intent)
             }
         }
+        collectEvents()
         askNotificationPermission()
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -71,11 +77,6 @@ class MainActivity : AppCompatActivity() {
             val eae = intent.data?.pathSegments
             Log.d(TAG, "checkIntent: action: $action data: $data scheme: $eae")
             Log.d(TAG, "checkIntent: ${viewModel.state.value == null}")
-            /*
-            if (viewModel.state.value == null) {
-                navController.handleDeepLink(intent)
-            }
-             */
 
             val authDeeplinkPaths = listOf(
                 getString(R.string.deeplink_path_register_confirm),
@@ -97,6 +98,20 @@ class MainActivity : AppCompatActivity() {
                         }
                     ) {
                         navController.handleDeepLink(intent)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun collectEvents() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.events.collect { event ->
+                    when (event) {
+                        is MainEvent.NavigateToAuth -> {
+                            navController.navigate(RootGraph.AUTHENTICATION) { popUpTo(RootGraph.ROOT) }
+                        }
                     }
                 }
             }
