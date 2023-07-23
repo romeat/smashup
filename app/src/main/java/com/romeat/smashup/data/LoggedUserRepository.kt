@@ -8,6 +8,8 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
 import com.romeat.smashup.data.dto.LoginResponse
+import com.romeat.smashup.musicservice.MusicServiceConnection
+import com.romeat.smashup.util.MediaConstants
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -17,7 +19,7 @@ import javax.inject.Singleton
 @Singleton
 class LoggedUserRepository @Inject constructor(
     @ApplicationContext val appContext: Context,
-    //private val remoteData: SmashupRemoteData,
+    private val musicServiceConnection: MusicServiceConnection,
 ) {
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "smashup_user")
 
@@ -44,78 +46,16 @@ class LoggedUserRepository @Inject constructor(
         }
     }
 
-    fun logout() = scope.launch {
-        // todo send fcm token remove request
-
-        appContext.dataStore.edit { pref ->
-            pref.remove(USER_KEY)
+    fun logout() {
+        scope.launch {
+            appContext.dataStore.edit { pref ->
+                pref.remove(USER_KEY)
+            }
+        }
+        scope.launch(Dispatchers.Main) {
+            musicServiceConnection.sendCommand(MediaConstants.STOP_PLAYER, null)
         }
     }
-
-    /*
-    fun updateUserStat(user: LoginResponse) {
-        _name.value = appContext
-            .getSharedPreferences(USER_PREFS_FILE, Context.MODE_PRIVATE)
-            .getString(USER_PREFS_NAME, null)
-        //getUserInfo()
-    }
-     */
-
-
-
-    /*
-    fun setName(user: String) {
-        appContext
-            .getSharedPreferences(USER_PREFS_FILE, Context.MODE_PRIVATE)
-            .edit()
-            .putString(
-                USER_PREFS_NAME,
-                user
-            )
-            .apply()
-    }
-
-     */
-
-
-
-    /*
-    @OptIn(DelicateCoroutinesApi::class)
-    private fun getUserInfo() {
-        GlobalScope.launch {
-            getUserInfoUseCase
-                .invoke(_name.value!!)
-                .collect { result ->
-                    when (result) {
-                        is Resource.Success -> {
-                            result.data?.let {
-                                _fullInfo.value = it
-                                userLikes.updateLoggedUserLikes(it.mashupsLikes)
-                            }
-                        }
-                        is Resource.Loading -> { }
-                        is Resource.Error -> {
-                            _fullInfo.value = null
-                            userLikes.updateLoggedUserLikes(emptyList())
-                        }
-                    }
-                }
-        }
-    }
-     */
-
-    /*
-    fun logOut() {
-        appContext
-            .getSharedPreferences(USER_PREFS_FILE, Context.MODE_PRIVATE)
-            .edit()
-            .remove(USER_PREFS_NAME)
-            .apply()
-        _name.value = null
-        _fullInfo.value = null
-    }
-
-     */
 }
 
 
