@@ -40,4 +40,9 @@ class SmashupRemoteData @Inject constructor(
     suspend fun removeLikeFromMashup(id: Int) = mainService.removeLikeFromMashup(id)
 
     suspend fun addStreamToMashup(id: Int) = mainService.addStreamToMashup(id)
+
+
+    suspend fun updateFcmToken(token: String) = mainService.updateFcmToken(token)
+
+    suspend fun deleteFcmToken(token: String) = mainService.deleteFcmToken(token)
 }

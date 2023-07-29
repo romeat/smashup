@@ -39,11 +39,6 @@ class LoggedUserRepository @Inject constructor(
         appContext.dataStore.edit { pref ->
             pref[USER_KEY] = Gson().toJson(user)
         }
-        scope.launch {
-            delay(1000)
-            // todo send fcm token update request
-
-        }
     }
 
     fun logout() {
