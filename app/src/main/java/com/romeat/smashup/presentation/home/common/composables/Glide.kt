@@ -21,7 +21,7 @@ fun FriendlyGlideImage(
     imageModel: String,
     modifier: Modifier,
     error: Int,
-    composePreviewRes: Int = R.drawable.napas
+    composePreviewRes: Int = R.drawable.smashup_default
 ) {
     GlideImage(
         imageModel = { imageModel },
@@ -41,4 +41,11 @@ fun FriendlyGlideImage(
             )
         }
     )
+}
+
+enum class Placeholder(val resource: Int) {
+    SmashupDefault(R.drawable.smashup_default),
+    Napas(R.drawable.napas),
+    Playlist(R.drawable.ic_baseline_library_music_24),
+    Source(R.drawable.ic_baseline_album_24)
 }
