@@ -1,10 +1,9 @@
 package com.romeat.smashup.presentation.home.favourite
 
 import androidx.compose.runtime.Stable
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.romeat.smashup.R
 import com.romeat.smashup.data.LoggedUserRepository
-import com.romeat.smashup.data.dto.Mashup
 import com.romeat.smashup.data.dto.MashupListItem
 import com.romeat.smashup.data.dto.Playlist
 import com.romeat.smashup.data.likes.LikesRepository
@@ -13,6 +12,7 @@ import com.romeat.smashup.domain.playlists.GetPlaylistUseCase
 import com.romeat.smashup.domain.user.GetUserUseCase
 import com.romeat.smashup.musicservice.MusicServiceConnection
 import com.romeat.smashup.presentation.home.MusicServiceViewModel
+import com.romeat.smashup.presentation.home.PlaylistTitle
 import com.romeat.smashup.util.ConvertToUiListItems
 import com.romeat.smashup.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,6 +48,7 @@ class CollectionViewModel @Inject constructor(
                     _state.update { it.copy(currentlyPlayingMashupId = mashup?.id) }
                 }
         }
+        playlistTitle = PlaylistTitle.ResType(R.string.playlist_favourite_mashups)
     }
 
     fun onLikeClick(mashupId: Int) {

@@ -178,4 +178,9 @@
     <string name="all_playlists">All playlists</string>
     <string name="collection_empty">Here will be your favourite mashups and your playlists</string>
     <string name="collection_favourite_mashups">Favourite mashups</string>
+    <string name="playlist_from_search">From search</string>
+    <string name="playlist_mashups_by_user">User\'s mashups</string>
+    <string name="playlist_tracks">Mashups by track</string>
+    <string name="playlist_recommendations">Recommendations</string>
+    <string name="playlist_favourite_mashups">Favourite mashups</string>
 </resources>

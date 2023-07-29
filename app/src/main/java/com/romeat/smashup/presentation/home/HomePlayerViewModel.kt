@@ -3,6 +3,7 @@ package com.romeat.smashup.presentation.home
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -48,24 +49,25 @@ class HomePlayerViewModel @Inject constructor(
     private val imageLoader = ImageLoaderJob()
 
     init {
-        //loggedUserRepository.updateUserStat()
-
         viewModelScope.launch {
             combine(
                 musicService.playbackState,
                 musicService.nowPlayingMashup.debounce(100),
                 musicService.currentSongDuration,
                 likesRepository.likesState,
+                musicService.playlistTitle,
             ) { playbackState: SmashupPlaybackState,
                 nowPlaying: MashupMediaItem?,
                 songDuration: Long,
-                liked: LikesState ->
+                liked: LikesState,
+                title: String ->
                 PlayerState(
                     isPlaying = playbackState.rawState.isPlaying,
                     id = nowPlaying?.id ?: 0,
                     isShuffle = playbackState.isShuffle,
                     repeatMode = playbackState.repeatMode,
                     trackDurationMs = songDuration,
+                    playlistTitle = title,
                     trackName = nowPlaying?.name ?: "",
                     trackAuthor = nowPlaying?.owner ?: "",
                     isPlaybackNull = nowPlaying == null,
@@ -188,14 +190,14 @@ class HomePlayerViewModel @Inject constructor(
     }
 }
 
-
-
+@Stable
 data class PlayerState(
     val id: Int = 0,
     val isPlaying: Boolean = false,
     val isShuffle: Boolean = false,
     val repeatMode: PlaybackRepeatMode = PlaybackRepeatMode.None,
     val trackDurationMs: Long = 148000,
+    val playlistTitle: String = "",
     val trackName: String = "Лобби под подошвой",
     val trackAuthor: String = "Утонул в пиве",
     val isPlaybackNull: Boolean = true,

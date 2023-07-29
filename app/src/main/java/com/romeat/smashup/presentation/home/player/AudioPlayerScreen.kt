@@ -1,6 +1,5 @@
 package com.romeat.smashup.presentation.home.player
 
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.basicMarquee
@@ -18,7 +17,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -99,14 +97,13 @@ fun AudioPlayerContent(
                 }
 
                 Text(
-                    text = "[PLAYLIST_NAME]",
+                    text = state.playlistTitle,
                     style = MaterialTheme.typography.h5,
                     fontSize = 22.sp,
                     textAlign = TextAlign.Center,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
                         .weight(1f)
+                        .basicMarquee(10)
                 )
 
                 IconButton(

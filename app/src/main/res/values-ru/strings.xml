@@ -172,4 +172,9 @@
     <string name="all_playlists">Все плейлисты</string>
     <string name="collection_empty">Здесь будут ваши любимые мэшапы и ваши плейлисты</string>
     <string name="collection_favourite_mashups">Любимые мэшапы</string>
+    <string name="playlist_from_search">Из поиска</string>
+    <string name="playlist_mashups_by_user">Мэшапы пользователя</string>
+    <string name="playlist_tracks">Мэшапы по треку</string>
+    <string name="playlist_recommendations">Рекомендации</string>
+    <string name="playlist_favourite_mashups">Любимые мэшапы</string>
 </resources>

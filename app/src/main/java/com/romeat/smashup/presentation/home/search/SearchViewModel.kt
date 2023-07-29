@@ -1,16 +1,14 @@
 package com.romeat.smashup.presentation.home.search
 
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.romeat.smashup.R
 import com.romeat.smashup.data.dto.*
 import com.romeat.smashup.data.likes.LikesRepository
 import com.romeat.smashup.domain.search.*
 import com.romeat.smashup.musicservice.MusicServiceConnection
 import com.romeat.smashup.presentation.home.MusicServiceViewModel
+import com.romeat.smashup.presentation.home.PlaylistTitle
 import com.romeat.smashup.util.ConvertToUiListItems
 import com.romeat.smashup.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,6 +41,8 @@ class SearchBarViewModel @Inject constructor(
     private var activeSearchJob: Job? = null
 
     init {
+        playlistTitle = PlaylistTitle.ResType(R.string.playlist_from_search)
+
         viewModelScope.launch {
             searchQueryState
                 .debounce(500L)

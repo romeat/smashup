@@ -2,18 +2,18 @@ package com.romeat.smashup.presentation.home.common.user
 
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.romeat.smashup.R
 import com.romeat.smashup.domain.user.GetUserUseCase
 import com.romeat.smashup.domain.mashups.GetMashupsListUseCase
 import com.romeat.smashup.data.dto.UserProfile
-import com.romeat.smashup.data.dto.Mashup
 import com.romeat.smashup.data.dto.MashupListItem
 import com.romeat.smashup.data.dto.Playlist
 import com.romeat.smashup.data.likes.LikesRepository
 import com.romeat.smashup.domain.playlists.GetPlaylistUseCase
 import com.romeat.smashup.musicservice.MusicServiceConnection
 import com.romeat.smashup.presentation.home.MusicServiceViewModel
+import com.romeat.smashup.presentation.home.PlaylistTitle
 import com.romeat.smashup.util.CommonNavigationConstants
 import com.romeat.smashup.util.ConvertToUiListItems
 import com.romeat.smashup.util.Resource
@@ -42,6 +42,8 @@ class UserViewModel @Inject constructor(
         checkNotNull(savedStateHandle[CommonNavigationConstants.USER_PARAM])
 
     init {
+        playlistTitle = PlaylistTitle.ResType(R.string.playlist_mashups_by_user)
+
         viewModelScope.launch {
             getAuthorUseCase
                 .invoke(authorId)

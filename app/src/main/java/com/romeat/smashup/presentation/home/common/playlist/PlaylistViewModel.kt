@@ -2,9 +2,7 @@ package com.romeat.smashup.presentation.home.common.playlist
 
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.romeat.smashup.data.dto.Mashup
 import com.romeat.smashup.data.dto.MashupListItem
 import com.romeat.smashup.data.dto.Playlist
 import com.romeat.smashup.data.likes.LikesRepository
@@ -12,6 +10,7 @@ import com.romeat.smashup.domain.mashups.GetMashupsListUseCase
 import com.romeat.smashup.domain.playlists.GetPlaylistUseCase
 import com.romeat.smashup.musicservice.MusicServiceConnection
 import com.romeat.smashup.presentation.home.MusicServiceViewModel
+import com.romeat.smashup.presentation.home.PlaylistTitle
 import com.romeat.smashup.util.CommonNavigationConstants
 import com.romeat.smashup.util.ConvertToUiListItems
 import com.romeat.smashup.util.Resource
@@ -50,6 +49,7 @@ class PlaylistViewModel @Inject constructor(
                                         errorMessage = ""
                                     )
                                 }
+                                playlistTitle = PlaylistTitle.StringType(playlist.name)
                                 getMashups(playlist.mashups)
                             }
                         }

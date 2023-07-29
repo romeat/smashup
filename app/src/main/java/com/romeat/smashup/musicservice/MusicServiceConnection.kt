@@ -15,11 +15,13 @@ import androidx.media.MediaBrowserServiceCompat
 import com.romeat.smashup.data.dto.Mashup
 import com.romeat.smashup.data.dto.MashupMediaItem
 import com.romeat.smashup.musicservice.mapper.MediaMetadataMapper
+import com.romeat.smashup.presentation.home.PlaylistTitle
 import com.romeat.smashup.util.MediaConstants
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
@@ -51,9 +53,9 @@ class MusicServiceConnection @Inject constructor(
     private val _nowPlayingMashup = MutableStateFlow<MashupMediaItem?>(null)
     val nowPlayingMashup: StateFlow<MashupMediaItem?> = _nowPlayingMashup
 
-    // currently playing playlist
-    private val _nowPlayingPlaylist = MutableStateFlow(emptyList<MashupMediaItem>())
-    val nowPlayingPlaylist: StateFlow<List<MashupMediaItem>> = _nowPlayingPlaylist
+    // shows playlist title
+    private val _playlistTitle = MutableStateFlow<String>("")
+    val playlistTitle = _playlistTitle.asStateFlow()
 
     private val _nowPlayingQueue = MutableStateFlow(emptyList<MediaSessionCompat.QueueItem>())
     val nowPlayingQueue: StateFlow<List<MediaSessionCompat.QueueItem>> = _nowPlayingQueue
@@ -89,10 +91,19 @@ class MusicServiceConnection @Inject constructor(
         }
     }
 
+    private fun getStringTitle(title: PlaylistTitle): String {
+        return when (title) {
+            is PlaylistTitle.StringType -> title.value
+            is PlaylistTitle.ResType -> context.getString(title.value)
+        }
+    }
+
     fun playMashupFromPlaylist(
         mashupIdToStart: Int,
-        playlist: List<Mashup>
+        playlist: List<Mashup>,
+        title: PlaylistTitle,
     ) {
+        _playlistTitle.value = getStringTitle(title)
         val nowPlaying = nowPlayingMashup.value
         nowPlaying?.id.let { nowPlayingId ->
             if (nowPlayingId == mashupIdToStart) {
@@ -115,8 +126,10 @@ class MusicServiceConnection @Inject constructor(
     fun playEntirePlaylist(
         mashupIdToStart: Int,
         playlist: List<Mashup>,
+        title: PlaylistTitle,
         shuffle: Boolean = false
     ) {
+        _playlistTitle.value = getStringTitle(title)
         val extras = Bundle()
         extras.putString(MediaConstants.PLAYLIST_TO_PLAY, Json.encodeToString(playlist))
 

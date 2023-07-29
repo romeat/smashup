@@ -12,18 +12,24 @@ open class MusicServiceViewModel @Inject constructor(
 ) : ViewModel() {
 
     protected var originalMashupList: List<Mashup> = emptyList()
+    protected var playlistTitle: PlaylistTitle = PlaylistTitle.StringType("")
 
     fun onMashupClick(mashupId: Int) {
         musicServiceConnection.playMashupFromPlaylist(
             mashupId,
-            originalMashupList
+            originalMashupList,
+            playlistTitle
         )
     }
 
-    protected fun playCurrentPlaylist(mashupIdToStart: Int, shuffle: Boolean = false) {
+    protected fun playCurrentPlaylist(
+        mashupIdToStart: Int,
+        shuffle: Boolean = false
+    ) {
         musicServiceConnection.playEntirePlaylist(
             mashupIdToStart = mashupIdToStart,
             playlist = originalMashupList,
+            title = playlistTitle,
             shuffle = shuffle
         )
     }
