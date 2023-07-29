@@ -121,7 +121,7 @@ class CollectionViewModel @Inject constructor(
                             _state.update { it.copy(isLoading = false, isError = true) }
                         }
                         is Resource.Success -> {
-                            val mashups = result.data!!
+                            val mashups = result.data!!.sortedByDescending { it.id }
                             originalMashupList = mashups
                             _state.update {
                                 it.copy(
