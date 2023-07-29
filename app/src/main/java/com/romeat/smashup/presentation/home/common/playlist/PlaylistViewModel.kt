@@ -160,4 +160,7 @@ data class PlaylistScreenState(
     val isMashupListEmpty: Boolean = false,
     val currentlyPlayingMashupId: Int? = null,
     val mashupList: List<MashupListItem> = emptyList()
-)
+) {
+    val isProgress
+        get() = isLoading || isMashupListLoading
+}

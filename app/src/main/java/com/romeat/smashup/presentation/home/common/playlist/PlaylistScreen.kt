@@ -70,7 +70,7 @@ fun PlaylistScreenContent(
             modifier = Modifier.zIndex(2f),
             scrollState = scrollState
         )
-        if (state.isLoading) {
+        if (state.isProgress) {
             CustomCircularProgressIndicator()
         } else if (state.errorMessage.isNotBlank()) {
             ErrorTextMessage()
