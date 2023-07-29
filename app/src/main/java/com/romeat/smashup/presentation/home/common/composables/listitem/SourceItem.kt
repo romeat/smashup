@@ -44,7 +44,7 @@ fun SourceItem(
             modifier = Modifier
                 .size(48.dp)
                 .clip(RoundedCornerShape(12.dp)),
-            error = Placeholder.Napas.resource,
+            error = Placeholder.SmashupDefault.resource,
         )
         Spacer(modifier = Modifier.size(15.dp))
         Column(

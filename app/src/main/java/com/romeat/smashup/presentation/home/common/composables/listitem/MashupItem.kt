@@ -48,7 +48,7 @@ fun MashupItem(
             modifier = Modifier
                 .size(48.dp)
                 .clip(RoundedCornerShape(25)),
-            error = Placeholder.Napas.resource,
+            error = Placeholder.SmashupDefault.resource,
         )
         Spacer(modifier = Modifier.size(15.dp))
         Column(

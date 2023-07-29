@@ -44,7 +44,7 @@ fun UserItem(
             modifier = Modifier
                 .size(60.dp)
                 .clip(RoundedCornerShape(15.dp)),
-            error = Placeholder.Napas.resource,
+            error = Placeholder.SmashupDefault.resource,
         )
         Spacer(modifier = Modifier.size(20.dp))
         Column(

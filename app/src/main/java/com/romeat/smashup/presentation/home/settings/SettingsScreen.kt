@@ -106,7 +106,7 @@ fun SettingsScreenContent(
                         .size(48.dp)
                         .aspectRatio(1.0f)
                         .clip(RoundedCornerShape(14.dp)),
-                    error = Placeholder.Napas.resource,
+                    error = Placeholder.SmashupDefault.resource,
                 )
                 Spacer(modifier = Modifier.width(15.dp))
                 Column(modifier = Modifier.weight(1f)) {

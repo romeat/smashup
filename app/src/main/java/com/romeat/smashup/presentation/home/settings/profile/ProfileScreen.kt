@@ -87,7 +87,7 @@ fun ProfileScreenContent(
                         .size(100.dp)
                         .aspectRatio(1.0f)
                         .clip(RoundedCornerShape(30.dp)),
-                    error = Placeholder.Napas.resource,
+                    error = Placeholder.SmashupDefault.resource,
                 )
 
                 Surface(

@@ -331,7 +331,7 @@ fun UserInfoHeader(
                     modifier = Modifier
                         .size(100.dp)
                         .clip(RoundedCornerShape(30.dp)),
-                    error = Placeholder.Napas.resource,
+                    error = Placeholder.SmashupDefault.resource,
                 )
                 Column(
                     modifier = Modifier
