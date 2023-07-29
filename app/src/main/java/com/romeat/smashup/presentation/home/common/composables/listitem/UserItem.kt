@@ -68,20 +68,20 @@ fun UserItem(
                 )
             }
 
-            Spacer(modifier = Modifier.height(5.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1.0f),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(id = if (user.mashups.isEmpty()) R.string.user_title else R.string.mashuper_title),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.body1,
-                )
-            }
+//            Spacer(modifier = Modifier.height(5.dp))
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .weight(1.0f),
+//                verticalAlignment = Alignment.CenterVertically
+//            ) {
+//                Text(
+//                    text = stringResource(id = if (user.mashups.isEmpty()) R.string.user_title else R.string.mashuper_title),
+//                    maxLines = 1,
+//                    overflow = TextOverflow.Ellipsis,
+//                    style = MaterialTheme.typography.body1,
+//                )
+//            }
         }
     }
 }

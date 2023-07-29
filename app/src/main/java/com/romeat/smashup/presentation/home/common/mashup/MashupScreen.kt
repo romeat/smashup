@@ -1,9 +1,11 @@
 package com.romeat.smashup.presentation.home.common.mashup
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -16,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,6 +32,7 @@ import com.romeat.smashup.presentation.home.common.composables.listitem.SourceIt
 import com.romeat.smashup.presentation.home.common.composables.listitem.UserItem
 import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.ImageUrlHelper
+import com.romeat.smashup.util.toStringWithThousands
 
 @Composable
 fun MashupScreen(
@@ -41,7 +45,7 @@ fun MashupScreen(
     Surface(
         modifier = Modifier
             .fillMaxSize(),
-        color = (MaterialTheme.colors.background)
+        color = (MaterialTheme.colors.surface)
     ) {
         MashupScreenContent(
             state = state,
@@ -87,7 +91,13 @@ fun MashupScreenContent(
                         textAlign = TextAlign.Center,
                     )
                 }
-                item { Spacer(modifier = Modifier.size(45.dp)) }
+                item {
+                    StatsRow(
+                        state.mashupInfo.likes,
+                        state.mashupInfo.streams
+                    )
+                }
+                item { Spacer(modifier = Modifier.size(25.dp)) }
                 item {
                     Row(
                         modifier = Modifier
@@ -150,7 +160,10 @@ fun MashupScreenContent(
                         Text(
                             text = stringResource(R.string.failed_to_load),
                             style = MaterialTheme.typography.body1,
-                            modifier = Modifier.fillMaxWidth().padding(20.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(color = MaterialTheme.colors.background)
+                                .padding(20.dp),
                             textAlign = TextAlign.Center,
                         )
                     }
@@ -159,11 +172,12 @@ fun MashupScreenContent(
                         SourceItem(
                             source = state.sourceList[i],
                             onClick = onSourceClick,
-                            modifier = Modifier.padding(start = 6.dp)
+                            modifier = Modifier
+                                .background(color = MaterialTheme.colors.background)
+                                .padding(start = 6.dp)
                         )
                     }
                 }
-                item { Spacer(modifier = Modifier.size(20.dp)) }
 
                 // AUTHORS
                 item {
@@ -193,7 +207,10 @@ fun MashupScreenContent(
                         Text(
                             text = stringResource(R.string.failed_to_load),
                             style = MaterialTheme.typography.body1,
-                            modifier = Modifier.fillMaxWidth().padding(20.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(color = MaterialTheme.colors.background)
+                                .padding(20.dp),
                             textAlign = TextAlign.Center,
                         )
                     }
@@ -205,13 +222,67 @@ fun MashupScreenContent(
                         UserItem(
                             user = author,
                             onClick = onAuthorClick,
-                            modifier = Modifier.padding(start = 6.dp)
+                            modifier = Modifier
+                                .background(color = MaterialTheme.colors.background)
+                                .padding(start = 6.dp)
                         )
                     }
                 }
-                item { Spacer(modifier = Modifier.size(20.dp)) }
             }
         }
+    }
+}
+
+@Composable
+fun StatsRow(
+    likes: Int,
+    listens: Int
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = likes.toStringWithThousands(),
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(
+            modifier = Modifier.width(5.dp)
+        )
+        Icon(
+            modifier = Modifier.size(24.dp),
+            imageVector = ImageVector
+                .vectorResource(id = R.drawable.ic_heart_filled),
+            contentDescription = "likes"
+        )
+        Spacer(
+            modifier = Modifier.width(8.dp)
+        )
+        Divider(
+            modifier = Modifier
+                .width(1.dp)
+                .height(25.dp),
+            color = MaterialTheme.colors.onSurface
+        )
+        Spacer(
+            modifier = Modifier.width(8.dp)
+        )
+        Text(
+            text = listens.toStringWithThousands(),
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(
+            modifier = Modifier.width(5.dp)
+        )
+        Icon(
+            modifier = Modifier.size(24.dp),
+            imageVector = ImageVector
+                .vectorResource(id = R.drawable.ic_baseline_headphones_24),
+            contentDescription = "listens"
+        )
     }
 }
 
@@ -222,7 +293,7 @@ fun MashupScreenContentPreview() {
         Surface(
             modifier = Modifier
                 .fillMaxSize(),
-            color = (MaterialTheme.colors.background)
+            color = (MaterialTheme.colors.surface)
         ) {
             MashupScreenContent(
                 state = MashupScreenState(
@@ -233,7 +304,7 @@ fun MashupScreenContentPreview() {
                         emptyList(),
                         emptyList(),
                         emptyList(),
-                        "def", 1,1,1,1,2, 3
+                        "def", 1,1,21,355,2, 3
                     ),
                     isLiked = true,
                     isSourceListLoading = false,
