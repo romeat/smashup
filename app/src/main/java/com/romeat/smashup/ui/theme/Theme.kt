@@ -7,6 +7,16 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
+
+val AppBlack = Color(0xFF000000)
+val AppDarkGrey = Color(0xFF1A1A1A)
+val AppGrey = Color(0xFF262626)
+val AppLightGrey = Color(0xFFEBEBEB) //Color(0xFFB9B9B9)
+val AppMainColor = Color(0xFF2A1947)
+val AppAltColor = Color(0xFFA887F8)
+val AppGreenColor = Color(0xFF4CAF50)
+val AppRedColor = Color(0xFFFF4545)
+
 private val DarkColorPalette = darkColors(
     primary = AppMainColor,
     primaryVariant = AppAltColor,
