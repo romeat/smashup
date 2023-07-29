@@ -25,14 +25,13 @@ fun SquareCard(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxHeight()
             .width(IntrinsicSize.Min)
             .clickable { onClick() }
     ) {
         FriendlyGlideImage(
             imageModel = item.imageUrl,
             modifier = Modifier
-                .weight(1f)
+                .size(150.dp)
                 .aspectRatio(1.0f)
                 .clip(RoundedCornerShape(15)),
             error = Placeholder.Playlist.resource,

@@ -133,7 +133,7 @@ fun AudioPlayerContent(
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(15))
                         .aspectRatio(1.0f),
-                    error = Placeholder.Napas.resource,
+                    error = Placeholder.SmashupDefault.resource,
                 )
             }
 

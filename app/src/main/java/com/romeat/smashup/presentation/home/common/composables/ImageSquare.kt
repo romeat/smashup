@@ -47,7 +47,6 @@ enum class Placeholder(val resource: Int) {
     SmashupDefault(R.drawable.smashup_default),
     Napas(R.drawable.napas),
     Playlist(R.drawable.ic_baseline_library_music_24),
-    Track(R.drawable.ic_baseline_audiotrack_24),
     Source(R.drawable.ic_baseline_album_24)
 }
 
