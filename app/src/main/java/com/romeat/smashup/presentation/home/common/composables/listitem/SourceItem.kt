@@ -41,7 +41,7 @@ fun SourceItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         FriendlyGlideImage(
-            imageModel = ImageUrlHelper.sourceImageIdToUrl400px(source.imageUrl),
+            imageModel = ImageUrlHelper.sourceImageIdToUrl100px(source.imageUrl),
             modifier = Modifier
                 .size(48.dp)
                 .clip(RoundedCornerShape(12.dp)),

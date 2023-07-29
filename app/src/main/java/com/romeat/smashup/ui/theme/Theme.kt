@@ -1,12 +1,20 @@
 package com.romeat.smashup.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Shapes
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 
+/* Default stuff */
+val Purple200 = Color(0xFFBB86FC)
+val Purple500 = Color(0xFF6200EE)
+val Purple700 = Color(0xFF3700B3)
+val Teal200 = Color(0xFF03DAC5)
 
 val AppBlack = Color(0xFF000000)
 val AppDarkGrey = Color(0xFF111111)
@@ -20,7 +28,7 @@ val AppRedColor = Color(0xFFFF4545)
 private val DarkColorPalette = darkColors(
     primary = AppMainColor,
     primaryVariant = AppAltColor,
-    secondary = Teal200,
+    secondary = Purple500,
     background = AppBlack,
     surface = AppDarkGrey,
     onPrimary = Color.White,
@@ -35,7 +43,7 @@ private val DarkColorPalette = darkColors(
 private val LightColorPalette = lightColors(
     primary = Purple500,
     primaryVariant = Purple700,
-    secondary = Teal200
+    secondary = Purple500
 
     /* Other default colors to override
     background = Color.White,
@@ -45,6 +53,12 @@ private val LightColorPalette = lightColors(
     onBackground = Color.Black,
     onSurface = Color.Black,
     */
+)
+
+val Shapes = Shapes(
+    small = RoundedCornerShape(12.dp),
+    medium = RoundedCornerShape(4.dp),
+    large = RoundedCornerShape(0.dp)
 )
 
 @Composable
