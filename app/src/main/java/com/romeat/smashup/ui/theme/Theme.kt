@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 
 
 val AppBlack = Color(0xFF000000)
-val AppDarkGrey = Color(0xFF1A1A1A)
+val AppDarkGrey = Color(0xFF111111)
 val AppGrey = Color(0xFF262626)
 val AppLightGrey = Color(0xFFEBEBEB) //Color(0xFFB9B9B9)
 val AppMainColor = Color(0xFF2A1947)
