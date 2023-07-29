@@ -32,7 +32,7 @@ class MusicServiceConnection @Inject constructor(
     @ApplicationContext val context: Context
 ) {
 
-    private val scope = CoroutineScope(Dispatchers.Default)
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private var job: Job? = null
 
     private val _isConnected = MutableStateFlow(false)
@@ -267,8 +267,8 @@ class MusicServiceConnection @Inject constructor(
                 _nowPlayingMashup.value = null
                 _currentSongDuration.value = -1
             } else {
-                _nowPlayingMashup.value = MediaMetadataMapper.convertFromMedia(metadata)
                 _currentSongDuration.value = metadata.duration
+                _nowPlayingMashup.value = MediaMetadataMapper.convertFromMedia(metadata)
             }
         }
 
