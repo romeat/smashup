@@ -21,6 +21,7 @@ object CommonNavigationConstants {
 
     const val MASHUP_ROUTE = "MASHUP"
     const val MASHUP_PARAM = "mashupId"
+    const val MASHUP_SERIALIZED = "mashupJson"
 
     const val USER_ROUTE = "USER"
     const val USER_PARAM = "userId"

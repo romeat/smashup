@@ -1,5 +1,6 @@
 package com.romeat.smashup.presentation.home.favourite
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -52,11 +53,10 @@ import com.romeat.smashup.util.compose.BackPressHandler
 fun CollectionScreen(
     onBackClick: () -> Unit,
     onPlaylistClick: (Int) -> Unit,
-    onMashupInfoClick: (Int) -> Unit,
+    onMashupInfoClick: (String) -> Unit,
     viewModel: CollectionViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-
     Surface(
         modifier = Modifier
             .fillMaxSize(),
@@ -79,7 +79,7 @@ fun CollectionScreenContent(
     onBackClick: () -> Unit,
     onPlaylistClick: (Int) -> Unit,
     onMashupClick: (Int) -> Unit,
-    onMashupInfoClick: (Int) -> Unit,
+    onMashupInfoClick: (String) -> Unit,
     onMashupLikeClick: (Int) -> Unit,
 ) {
     val mashupListOpened = remember { mutableStateOf(false) }
@@ -220,7 +220,7 @@ fun MashupFullListOverlay(
     mashupListOpened: MutableState<Boolean>,
     state: CollectionState,
     onMashupClick: (Int) -> Unit,
-    onMashupInfoClick: (Int) -> Unit,
+    onMashupInfoClick: (String) -> Unit,
     onLikeClick: (Int) -> Unit,
 ) {
     Box(
@@ -249,7 +249,7 @@ fun MashupFullListOverlay(
                         MashupItem(
                             mashup = mashup,
                             onBodyClick = { onMashupClick(it.id) },
-                            onInfoClick = onMashupInfoClick,
+                            onInfoClick = { onMashupInfoClick(mashup.serializedMashup) },
                             onLikeClick = onLikeClick,
                             isCurrentlyPlaying = state.currentlyPlayingMashupId?.equals(mashup.id)
                                 ?: false

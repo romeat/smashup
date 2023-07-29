@@ -29,10 +29,11 @@ import com.romeat.smashup.util.ImageUrlHelper
 @Composable
 fun SourceItem(
     source: Source,
-    onClick: (Int) -> Unit
+    onClick: (Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
             .padding(vertical = 10.dp, horizontal = 20.dp)

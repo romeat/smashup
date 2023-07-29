@@ -15,7 +15,8 @@ fun ConvertToUiListItems(mashups: List<Mashup>, likes: Set<Int>): List<MashupLis
             streams = mashup.streams,
             likes = mashup.likes,
             tracks = mashup.tracks,
-            isLiked = likes.contains(mashup.id)
+            isLiked = likes.contains(mashup.id),
+            serializedMashup = mashup.serialized()
         )
     }.toList()
 }

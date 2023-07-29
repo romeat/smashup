@@ -13,6 +13,8 @@ object ImageUrlHelper {
     private const val authorImageBaseUrl = "${BuildConfig.API_URL}/uploads/user/"
     private const val sourceImageBaseUrl = "${BuildConfig.API_URL}/uploads/track/"
 
+    fun mashupImageIdToUrl800px(imageId: String) = mashupImageBaseUrl + imageId + imageSuffix800px
+
     fun mashupImageIdToUrl400px(imageId: String) = mashupImageBaseUrl + imageId + imageSuffix400px
 
     fun mashupImageIdToUrl100px(imageId: String?) = mashupImageBaseUrl + imageId + imageSuffix100px

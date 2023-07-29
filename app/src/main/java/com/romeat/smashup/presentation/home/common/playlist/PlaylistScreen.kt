@@ -23,7 +23,7 @@ import com.romeat.smashup.ui.theme.SmashupTheme
 
 @Composable
 fun PlaylistScreen(
-    onMashupInfoClick: (Int) -> Unit,
+    onMashupInfoClick: (String) -> Unit,
     onAuthorClick: (Int) -> Unit,
     onBackClicked: () -> Unit,
     viewModel: PlaylistViewModel = hiltViewModel(),
@@ -50,7 +50,7 @@ fun PlaylistScreen(
 
 @Composable
 fun PlaylistScreenContent(
-    onMashupInfoClick: (Int) -> Unit,
+    onMashupInfoClick: (String) -> Unit,
     //onAuthorClick: (Int) -> Unit,
     onBackClicked: () -> Unit,
     onLikeClick: (Int) -> Unit,
@@ -114,7 +114,7 @@ fun PlaylistScreenContent(
                         MashupItem(
                             mashup = mashup,
                             onBodyClick = { onMashupClick(it.id) },
-                            onInfoClick = { id -> onMashupInfoClick(id) },
+                            onInfoClick = { onMashupInfoClick(mashup.serializedMashup) },
                             onLikeClick = { id -> onLikeClick(id)},
                             isCurrentlyPlaying = state.currentlyPlayingMashupId?.equals(mashup.id)
                                 ?: false

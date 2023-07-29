@@ -183,4 +183,8 @@
     <string name="playlist_tracks">Mashups by track</string>
     <string name="playlist_recommendations">Recommendations</string>
     <string name="playlist_favourite_mashups">Favourite mashups</string>
+    <string name="add_to_favourite">Add to favourite</string>
+    <string name="remove_from_favourite">Remove from favourite</string>
+    <string name="mashup_authors">Authors</string>
+    <string name="mashup_sources">Sources</string>
 </resources>

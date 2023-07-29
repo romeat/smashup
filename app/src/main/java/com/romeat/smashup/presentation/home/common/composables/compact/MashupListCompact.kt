@@ -20,7 +20,7 @@ fun MashupListCompact(
     mashups: List<MashupListItem>,
     onMashupClick: (Int) -> Unit,
     onLikeClick: (Int) -> Unit,
-    onMashupInfoClick: (Int) -> Unit,
+    onMashupInfoClick: (String) -> Unit,
     onMoreClick: () -> Unit = { },
     currentlyPlayingMashupId: Int? = null,
     maxNumberOfItemsToDisplay: Int = 4,
@@ -58,7 +58,7 @@ fun MashupListCompact(
                 MashupItem(
                     mashup = mashup,
                     onBodyClick = { onMashupClick(it.id) },
-                    onInfoClick = { id -> onMashupInfoClick(id) },
+                    onInfoClick = { onMashupInfoClick(mashup.serializedMashup) },
                     onLikeClick = { id -> onLikeClick(id)},
                     isCurrentlyPlaying = currentlyPlayingMashupId?.equals(mashup.id)
                         ?: false

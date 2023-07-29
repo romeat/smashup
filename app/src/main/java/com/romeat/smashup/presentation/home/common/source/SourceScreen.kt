@@ -19,7 +19,7 @@ import com.romeat.smashup.util.ImageUrlHelper
 
 @Composable
 fun SourceScreen(
-    onMashupInfoClick: (Int) -> Unit,
+    onMashupInfoClick: (String) -> Unit,
     onBackClicked: () -> Unit,
     viewModel: SourceViewModel = hiltViewModel(),
 ) {
@@ -45,7 +45,7 @@ fun SourceScreen(
 
 @Composable
 fun SourceScreenContent(
-    onMashupInfoClick: (Int) -> Unit,
+    onMashupInfoClick: (String) -> Unit,
     //onAuthorClick: (String) -> Unit,
     onBackClicked: () -> Unit,
     onLikeClick: (Int) -> Unit,
@@ -106,7 +106,7 @@ fun SourceScreenContent(
                         MashupItem(
                             mashup = mashup,
                             onBodyClick = { onMashupClick(it.id) },
-                            onInfoClick = { id -> onMashupInfoClick(id) },
+                            onInfoClick = { onMashupInfoClick(mashup.serializedMashup) },
                             onLikeClick = { id -> onLikeClick(id)},
                             isCurrentlyPlaying = state.currentlyPlayingMashupId?.equals(mashup.id)
                                 ?: false

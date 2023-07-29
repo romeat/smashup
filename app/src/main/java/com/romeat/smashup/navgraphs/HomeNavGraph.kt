@@ -33,8 +33,8 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
         /**
          * Common navigation lambdas
          */
-        val onMashupInfoClick: (Int) -> Unit =
-            { id -> navController.navigate("${HomeGraphScreen.Mashup.route}/${id}") }
+        val onMashupInfoClick: (String) -> Unit =
+            { serialized -> navController.navigate("${HomeGraphScreen.Mashup.route}/${serialized}") }
 
         val onSourceClick: (Int) -> Unit =
             { id -> navController.navigate("${HomeGraphScreen.Source.route}/${id}") }
@@ -184,28 +184,29 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
          * Mashup screen
          */
         composable(
-            route = "${HomeGraphScreen.Mashup.route}/{${CommonNavigationConstants.MASHUP_PARAM}}",
-            arguments = listOf(navArgument(CommonNavigationConstants.MASHUP_PARAM) {
-                type = NavType.IntType
+            route = "${HomeGraphScreen.Mashup.route}/{${CommonNavigationConstants.MASHUP_SERIALIZED}}",
+            arguments = listOf(navArgument(CommonNavigationConstants.MASHUP_SERIALIZED) {
+                type = NavType.StringType
             }),
-            enterTransition = { EnterTransition.None },
-            exitTransition = { ExitTransition.None },
-            popEnterTransition = { EnterTransition.None },
-            popExitTransition = { ExitTransition.None }
-        ) { backStackEntry ->
-            val parentEntry = remember { navController.getBackStackEntry(RootGraph.HOME) }
-            val playerViewModel = hiltViewModel<HomePlayerViewModel>(parentEntry)
-            ContentScreenWithPlayer(
-                content = {
-                    MashupScreen(
-                        onBackClicked = onBackClicked,
-                        onAuthorClick = onAuthorClick,
-                        onSourceClick = onSourceClick
-                    )
-                },
-                onExpandPlayerClick = onExpandPlayerClicked,
-                playerViewModel = playerViewModel,
-                navHostController = navController
+            enterTransition = {
+                slideInVertically(
+                    animationSpec = tween(durationMillis = 300),
+                    initialOffsetY = { it })
+            },
+            exitTransition = {
+                slideOutVertically(
+                    animationSpec = tween(durationMillis = 300),
+                    targetOffsetY = { it })
+            },
+            popExitTransition = {
+                slideOutVertically(
+                    animationSpec = tween(durationMillis = 300),
+                    targetOffsetY = { it })
+            },
+        ) {
+            MashupScreen(
+                onAuthorClick = onAuthorClick,
+                onSourceClick = onSourceClick
             )
         }
 

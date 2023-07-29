@@ -9,5 +9,6 @@ data class MashupListItem(
     val streams: Int,
     val likes: Int,
     val tracks: List<Int>,
-    val isLiked: Boolean
+    val isLiked: Boolean,
+    val serializedMashup: String = ""
 )

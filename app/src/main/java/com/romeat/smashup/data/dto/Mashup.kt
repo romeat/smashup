@@ -1,10 +1,14 @@
 package com.romeat.smashup.data.dto
 
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+
 @kotlinx.serialization.Serializable
 data class Mashup(
     val id: Int,
     val name: String,
     val authors: List<String>,
+    val authorsIds: List<Int>,
     val genres: List<String>,
     val tracks: List<Int>,
     val imageUrl: String,
@@ -19,6 +23,8 @@ data class Mashup(
 
     val owner: String
         get() = authors.joinToString(", ")
+
+    fun serialized(): String = Json.encodeToString(this)
 }
 
 fun Mashup.toMashupUListItem(): MashupListItem {

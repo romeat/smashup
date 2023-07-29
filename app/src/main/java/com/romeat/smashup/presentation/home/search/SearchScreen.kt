@@ -42,7 +42,7 @@ import com.romeat.smashup.util.compose.BackPressHandler
 
 @Composable
 fun SearchScreen(
-    onMashupInfoClick: (Int) -> Unit,
+    onMashupInfoClick: (String) -> Unit,
     onSourceClick: (Int) -> Unit,
     onUserClick: (Int) -> Unit,
     onPlaylistClick: (Int) -> Unit,
@@ -79,7 +79,7 @@ fun SearchScreenContent(
     searchQuery: String,
     onQueryChange: (String) -> Unit,
     clearInput: () -> Unit,
-    onMashupInfoClick: (Int) -> Unit,
+    onMashupInfoClick: (String) -> Unit,
     onMashupClick: (Int) -> Unit,
     onLikeClick: (Int) -> Unit,
     onSourceClick: (Int) -> Unit,
@@ -229,7 +229,7 @@ fun MashupFullListOverlay(
     mashupListOpened: MutableState<Boolean>,
     state: SearchResultState,
     onMashupClick: (Int) -> Unit,
-    onMashupInfoClick: (Int) -> Unit,
+    onMashupInfoClick: (String) -> Unit,
     onLikeClick: (Int) -> Unit,
 ) {
     Box(
@@ -256,7 +256,7 @@ fun MashupFullListOverlay(
                         MashupItem(
                             mashup = mashup,
                             onBodyClick = { onMashupClick(it.id) },
-                            onInfoClick = onMashupInfoClick,
+                            onInfoClick = { onMashupInfoClick(mashup.serializedMashup) },
                             onLikeClick = onLikeClick,
                             isCurrentlyPlaying = state.currentlyPlayingMashupId?.equals(mashup.id)
                                 ?: false

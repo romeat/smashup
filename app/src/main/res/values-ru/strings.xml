@@ -177,4 +177,8 @@
     <string name="playlist_tracks">Мэшапы по треку</string>
     <string name="playlist_recommendations">Рекомендации</string>
     <string name="playlist_favourite_mashups">Любимые мэшапы</string>
+    <string name="add_to_favourite">Добавить в любимые</string>
+    <string name="remove_from_favourite">Убрать из любимых</string>
+    <string name="mashup_authors">Авторы</string>
+    <string name="mashup_sources">Сурсы</string>
 </resources>

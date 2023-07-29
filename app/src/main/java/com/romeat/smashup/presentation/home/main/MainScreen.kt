@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -29,10 +30,10 @@ fun MainScreen(
     onPlaylistClick: (Int) -> Unit,
     onSettingsClick: () -> Unit,
     onNotificationsClick: () -> Unit,
-    onMashupInfoClick: (Int) -> Unit,
+    onMashupInfoClick: (String) -> Unit,
     viewModel: MainViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state.collectAsState().value
+    val state by viewModel.state.collectAsState()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -152,7 +153,7 @@ fun MainScreen(
                             MashupItem(
                                 mashup = mashup,
                                 onBodyClick = { viewModel.onMashupClick(it.id) },
-                                onInfoClick = { id -> onMashupInfoClick(id) },
+                                onInfoClick = { onMashupInfoClick(mashup.serializedMashup) },
                                 onLikeClick = { id -> viewModel.onLikeClick(id)},
                                 isCurrentlyPlaying = state.currentlyPlayingMashupId?.equals(mashup.id)
                                     ?: false

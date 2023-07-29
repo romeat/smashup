@@ -58,7 +58,7 @@ import com.romeat.smashup.util.compose.BackPressHandler
 
 @Composable
 fun UserScreen(
-    onMashupInfoClick: (Int) -> Unit,
+    onMashupInfoClick: (String) -> Unit,
     onPlaylistClick: (Int) -> Unit,
     onBackClick: () -> Unit,
     viewModel: UserViewModel = hiltViewModel(),
@@ -84,7 +84,7 @@ fun UserScreen(
 @Composable
 fun UserScreenContent(
     state: UserScreenState,
-    onMashupInfoClick: (Int) -> Unit,
+    onMashupInfoClick: (String) -> Unit,
     onPlaylistClick: (Int) -> Unit,
     onMashupClick: (Int) -> Unit,
     onLikeClick: (Int) -> Unit,
@@ -175,7 +175,7 @@ fun MashupFullListOverlay(
     mashupListOpened: MutableState<Boolean>,
     state: UserScreenState,
     onMashupClick: (Int) -> Unit,
-    onMashupInfoClick: (Int) -> Unit,
+    onMashupInfoClick: (String) -> Unit,
     onLikeClick: (Int) -> Unit,
 ) {
     Box(
@@ -203,7 +203,7 @@ fun MashupFullListOverlay(
                         MashupItem(
                             mashup = mashup,
                             onBodyClick = { onMashupClick(it.id) },
-                            onInfoClick = onMashupInfoClick,
+                            onInfoClick = { onMashupInfoClick(mashup.serializedMashup) },
                             onLikeClick = onLikeClick,
                             isCurrentlyPlaying = state.currentlyPlayingMashupId?.equals(mashup.id)
                                 ?: false
