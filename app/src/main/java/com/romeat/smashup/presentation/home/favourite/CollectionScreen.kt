@@ -275,7 +275,6 @@ fun CollectionScreenContentPreview() {
                     false,
                     false,
                     null,
-                    listOf(),
                     listOf(
                         MashupListItem(12, "popandos", "lavandos", "null", false, 1, 1, emptyList(), true),
                         MashupListItem(13, "joss", "lavandos", "null", false, 1, 1, emptyList(), false),

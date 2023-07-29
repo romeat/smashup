@@ -10,6 +10,7 @@ import com.romeat.smashup.data.dto.*
 import com.romeat.smashup.data.likes.LikesRepository
 import com.romeat.smashup.domain.search.*
 import com.romeat.smashup.musicservice.MusicServiceConnection
+import com.romeat.smashup.presentation.home.MusicServiceViewModel
 import com.romeat.smashup.util.ConvertToUiListItems
 import com.romeat.smashup.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,9 +27,9 @@ class SearchBarViewModel @Inject constructor(
     private val searchMashupsUseCase: SearchMashupsUseCase,
     private val searchAuthorsUseCase: SearchAuthorsUseCase,
     private val searchSourcesUseCase: SearchSourcesUseCase,
-    private val musicServiceConnection: MusicServiceConnection,
+    musicServiceConnection: MusicServiceConnection,
     private val likesRepository: LikesRepository
-) : ViewModel() {
+) : MusicServiceViewModel(musicServiceConnection) {
 
     private val searchQueryMinSymbols = 4
     private val searchQueryMaxSymbols = 32
@@ -73,7 +74,7 @@ class SearchBarViewModel @Inject constructor(
                     _resultState.update {
                         it.copy(
                             mashups = ConvertToUiListItems(
-                                _resultState.value.originalMashups,
+                                originalMashupList,
                                 likes.mashupLikes
                             )
                         )
@@ -100,13 +101,6 @@ class SearchBarViewModel @Inject constructor(
         }
     }
 
-    fun onMashupClick(mashupId: Int) {
-        musicServiceConnection.playMashupFromPlaylist(
-            mashupId,
-            resultState.value.originalMashups
-        )
-    }
-
     private fun performSearch() {
         activeSearchJob?.cancel()
         activeSearchJob = viewModelScope.launch {
@@ -131,11 +125,11 @@ class SearchBarViewModel @Inject constructor(
                         // nothing found
                         _resultState.update { it.copy(isResultEmpty = true) }
                     } else {
+                        originalMashupList = results[0].data!! as? List<Mashup> ?: emptyList()
                         _resultState.update {
                             it.copy(
-                                originalMashups = results[0].data!! as? List<Mashup> ?: emptyList(),
                                 mashups = ConvertToUiListItems(
-                                    results[0].data!! as? List<Mashup> ?: emptyList(),
+                                    originalMashupList,
                                     likesRepository.likesState.value.mashupLikes
                                 ),
                                 users = results[1].data!! as? List<UserProfile> ?: emptyList(),
@@ -150,9 +144,9 @@ class SearchBarViewModel @Inject constructor(
     }
 
     private fun clearResults() {
+        originalMashupList = emptyList()
         _resultState.update {
             it.copy(
-                originalMashups = emptyList(),
                 mashups = emptyList(),
                 users = emptyList(),
                 playlists = emptyList(),
@@ -168,7 +162,6 @@ data class SearchResultState(
     val isError: Boolean = false,
     val isResultEmpty: Boolean = false,
 
-    val originalMashups: List<Mashup> = emptyList(),
     val currentlyPlayingMashupId: Int? = null,
 
     val mashups: List<MashupListItem> = emptyList(),

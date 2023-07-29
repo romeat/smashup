@@ -6,6 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romeat.smashup.domain.playlists.GetPlaylistUseCase
+import com.romeat.smashup.musicservice.MusicServiceConnection
+import com.romeat.smashup.presentation.home.MusicServiceViewModel
 import com.romeat.smashup.util.PlaylistsToSquareDisplayItems
 import com.romeat.smashup.util.Resource
 import com.romeat.smashup.util.SquareDisplayItem
@@ -16,8 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     //private val compilationsUseCase: GetCompilationsUseCase
-    private val getPlaylistUseCase: GetPlaylistUseCase
-) : ViewModel() {
+    private val getPlaylistUseCase: GetPlaylistUseCase,
+    musicServiceConnection: MusicServiceConnection
+) : MusicServiceViewModel(musicServiceConnection) {
 
     var state by mutableStateOf(ChartsState())
 
@@ -45,7 +48,7 @@ class MainViewModel @Inject constructor(
                             state = state.copy(
                                 isLoading = false,
                                 isError = true,
-                                errorMessage = result.message!!
+                                errorMessage = result.message ?: "some error"
                             )
                         }
                     }

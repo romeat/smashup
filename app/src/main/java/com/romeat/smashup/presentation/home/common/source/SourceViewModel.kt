@@ -11,6 +11,7 @@ import com.romeat.smashup.data.likes.LikesRepository
 import com.romeat.smashup.domain.mashups.GetMashupsWithSourceUseCase
 import com.romeat.smashup.domain.mashups.GetSourceUseCase
 import com.romeat.smashup.musicservice.MusicServiceConnection
+import com.romeat.smashup.presentation.home.MusicServiceViewModel
 import com.romeat.smashup.util.CommonNavigationConstants
 import com.romeat.smashup.util.ConvertToUiListItems
 import com.romeat.smashup.util.Resource
@@ -27,17 +28,15 @@ class SourceViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getSourceUseCase: GetSourceUseCase,
     private val getMashupsWithSourceUseCase: GetMashupsWithSourceUseCase,
-    private val musicServiceConnection: MusicServiceConnection,
+    musicServiceConnection: MusicServiceConnection,
     private val likesRepository: LikesRepository
-) : ViewModel() {
+) : MusicServiceViewModel(musicServiceConnection) {
 
     private val _state = MutableStateFlow(SourceScreenState())
     val state = _state.asStateFlow()
 
     private val sourceId: Int =
         checkNotNull(savedStateHandle[CommonNavigationConstants.SOURCE_PARAM])
-
-    private var originalMashupList: List<Mashup> = emptyList()
 
     init {
         viewModelScope.launch {
@@ -124,13 +123,6 @@ class SourceViewModel @Inject constructor(
             }
     }
 
-    fun onMashupClick(mashupId: Int) {
-        musicServiceConnection.playMashupFromPlaylist(
-            mashupId,
-            originalMashupList//ConvertFromUiListItems(state.value.mashupList)
-        )
-    }
-
     fun onLikeClick(mashupId: Int) {
         if (likesRepository.likesState.value.mashupLikes.contains(mashupId)) {
             likesRepository.removeLike(mashupId)
@@ -145,14 +137,6 @@ class SourceViewModel @Inject constructor(
 
     fun onShuffleClick() {
         playCurrentPlaylist(mashupIdToStart = state.value.mashupList.first().id, shuffle = true)
-    }
-
-    private fun playCurrentPlaylist(mashupIdToStart: Int, shuffle: Boolean = false) {
-        musicServiceConnection.playEntirePlaylist(
-            mashupIdToStart = mashupIdToStart,
-            playlist = originalMashupList,
-            shuffle = shuffle
-        )
     }
 }
 

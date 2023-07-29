@@ -12,6 +12,7 @@ import com.romeat.smashup.domain.mashups.GetMashupsListUseCase
 import com.romeat.smashup.domain.playlists.GetPlaylistUseCase
 import com.romeat.smashup.domain.user.GetUserUseCase
 import com.romeat.smashup.musicservice.MusicServiceConnection
+import com.romeat.smashup.presentation.home.MusicServiceViewModel
 import com.romeat.smashup.util.ConvertToUiListItems
 import com.romeat.smashup.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,8 +28,8 @@ class CollectionViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
     private val getMashupsListUseCase: GetMashupsListUseCase,
     private val getPlaylistUseCase: GetPlaylistUseCase,
-    private val musicServiceConnection: MusicServiceConnection,
-) : ViewModel() {
+    musicServiceConnection: MusicServiceConnection,
+) : MusicServiceViewModel(musicServiceConnection) {
 
     private val _state = MutableStateFlow(CollectionState())
     val state = _state.asStateFlow()
@@ -55,13 +56,6 @@ class CollectionViewModel @Inject constructor(
         } else {
             likesRepository.addLike(mashupId)
         }
-    }
-
-    fun onMashupClick(mashupId: Int) {
-        musicServiceConnection.playMashupFromPlaylist(
-            mashupId,
-            state.value.originalMashups
-        )
     }
 
     private suspend fun getMyPlaylists() {
@@ -127,10 +121,10 @@ class CollectionViewModel @Inject constructor(
                         }
                         is Resource.Success -> {
                             val mashups = result.data!!
+                            originalMashupList = mashups
                             _state.update {
                                 it.copy(
                                     isLoading = false,
-                                    originalMashups = mashups,
                                     mashupsLoaded = true,
                                     myLikedMashups = ConvertToUiListItems(
                                         mashups,
@@ -151,8 +145,6 @@ data class CollectionState(
     val isError: Boolean = false,
 
     val currentlyPlayingMashupId: Int? = null,
-
-    val originalMashups: List<Mashup> = emptyList(),
 
     val myLikedMashups: List<MashupListItem> = emptyList(),
     val mashupsLoaded: Boolean = false,

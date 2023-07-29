@@ -13,6 +13,7 @@ import com.romeat.smashup.data.dto.Playlist
 import com.romeat.smashup.data.likes.LikesRepository
 import com.romeat.smashup.domain.playlists.GetPlaylistUseCase
 import com.romeat.smashup.musicservice.MusicServiceConnection
+import com.romeat.smashup.presentation.home.MusicServiceViewModel
 import com.romeat.smashup.util.CommonNavigationConstants
 import com.romeat.smashup.util.ConvertToUiListItems
 import com.romeat.smashup.util.Resource
@@ -30,9 +31,9 @@ class UserViewModel @Inject constructor(
     private val getAuthorUseCase: GetUserUseCase,
     private val getMashupListUseCase: GetMashupsListUseCase,
     private val getPlaylistsUseCase: GetPlaylistUseCase,
-    private val musicServiceConnection: MusicServiceConnection,
+    musicServiceConnection: MusicServiceConnection,
     private val likesRepository: LikesRepository
-) : ViewModel() {
+) : MusicServiceViewModel(musicServiceConnection) {
 
     private val _state = MutableStateFlow(UserScreenState())
     val state = _state.asStateFlow()
@@ -97,10 +98,10 @@ class UserViewModel @Inject constructor(
                 .collect { pair ->
                     when (pair.second) {
                         is Resource.Success -> {
+                            originalMashupList = pair.second.data!!
                             _state.update {
                                 it.copy(
                                     mashupsLoaded = true,
-                                    originalMashupList = pair.second.data!!,
                                     mashupList = ConvertToUiListItems(
                                         pair.second.data!!,
                                         pair.first.mashupLikes
@@ -153,13 +154,6 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun onMashupClick(mashupId: Int) {
-        musicServiceConnection.playMashupFromPlaylist(
-            mashupId,
-            _state.value.originalMashupList
-        )
-    }
-
     fun onLikeClick(mashupId: Int) {
         if (likesRepository.likesState.value.mashupLikes.contains(mashupId)) {
             likesRepository.removeLike(mashupId)
@@ -178,7 +172,6 @@ data class UserScreenState(
     val isEmpty: Boolean = false,
 
     val currentlyPlayingMashupId: Int? = null,
-    val originalMashupList: List<Mashup> = emptyList(),
 
     val mashupsLoaded: Boolean = false,
     val mashupList: List<MashupListItem> = emptyList(),
