@@ -1,10 +1,13 @@
 package com.romeat.smashup.presentation.home.main
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -17,6 +20,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.common.composables.*
+import com.romeat.smashup.presentation.home.common.composables.listitem.MashupItem
+import com.romeat.smashup.presentation.home.common.composables.listitem.PlaylistItem
 import com.romeat.smashup.util.SquareDisplayItem
 
 @Composable
@@ -24,9 +29,11 @@ fun MainScreen(
     onPlaylistClick: (Int) -> Unit,
     onSettingsClick: () -> Unit,
     onNotificationsClick: () -> Unit,
+    onMashupInfoClick: (Int) -> Unit,
     viewModel: MainViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state
+    val state = viewModel.state.collectAsState().value
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -105,39 +112,67 @@ fun MainScreen(
                 .fillMaxWidth()
                 .weight(1.0f)
         ) {
-            if (state.isLoading) {
-                CustomCircularProgressIndicator()
-            } else if (state.isError) {
+            if (state.isError) {
                 ErrorTextMessage()
+            } else if (state.isProgress) {
+                CustomCircularProgressIndicator()
             } else {
-                Column(modifier = Modifier.fillMaxSize()) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                    ) {
-                        ContentRow(
-                            titleRes = R.string.charts,
-                            itemList = state.playlists,
-                            onItemClick = onPlaylistClick
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.size(40.dp))
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                    ) {
-                        if (state.liked.isNotEmpty()) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    item {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                        ) {
                             ContentRow(
                                 titleRes = R.string.charts,
-                                itemList = state.liked,
-                                onItemClick = { }
+                                itemList = state.playlists,
+                                onItemClick = onPlaylistClick
                             )
                         }
                     }
+                    item {
+                        Spacer(modifier = Modifier.size(40.dp))
+                    }
+                    if (state.recommendations.isNotEmpty()) {
+                        item {
+                            Text(
+                                text = stringResource(R.string.playlist_recommendations),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = MaterialTheme.typography.h6.fontSize,
+                                modifier = Modifier.padding(horizontal = 20.dp)
+                            )
+                        }
+                        items(
+                            items = state.recommendations,
+                            key = { it.id }
+                        ) { mashup ->
+                            MashupItem(
+                                mashup = mashup,
+                                onBodyClick = { viewModel.onMashupClick(it.id) },
+                                onInfoClick = { id -> onMashupInfoClick(id) },
+                                onLikeClick = { id -> viewModel.onLikeClick(id)},
+                                isCurrentlyPlaying = state.currentlyPlayingMashupId?.equals(mashup.id)
+                                    ?: false
+                            )
+                        }
+                    }
+
+//                    Row(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .weight(1f)
+//                    ) {
+//                        if (state.liked.isNotEmpty()) {
+//                            ContentRow(
+//                                titleRes = R.string.charts,
+//                                itemList = state.liked,
+//                                onItemClick = { }
+//                            )
+//                        }
+//                    }
                 }
             }
         }

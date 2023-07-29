@@ -74,6 +74,10 @@ interface MainService {
 
      */
 
+    @GET("recommendations/v1")
+    suspend fun getRecommendationsMashupIds(
+    ): Response<ApiWrap<List<Int>>>
+
     @GET("playlist/get")
     suspend fun getPlaylists(@Query("id") commaSeparatedIds: String
     ): Response<ApiWrap<List<Playlist>>>

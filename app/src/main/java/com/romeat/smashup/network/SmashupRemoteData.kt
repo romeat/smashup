@@ -21,6 +21,8 @@ class SmashupRemoteData @Inject constructor(
 
     //suspend fun getCompilationsIds() = mainService.getCompilationsIds()
 
+    suspend fun getRecommendationsMashupIds() = mainService.getRecommendationsMashupIds()
+
     suspend fun getPlaylists(ids: List<Int>) = mainService.getPlaylists(ids.joinToString(","))
 
 
