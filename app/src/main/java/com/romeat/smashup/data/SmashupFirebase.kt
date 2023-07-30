@@ -8,21 +8,25 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.romeat.smashup.domain.user.RemoveFirebaseTokenUseCase
 import com.romeat.smashup.domain.user.UpdateFirebaseTokenUseCase
 import com.romeat.smashup.util.Resource
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class SmashupFirebase @Inject constructor(
-    private val appContext: Context,
-    val loggedUserRepository: LoggedUserRepository,
-    private val updateFirebaseTokenUseCase: UpdateFirebaseTokenUseCase,
-    private val removeFirebaseTokenUseCase: RemoveFirebaseTokenUseCase,
-) : FirebaseMessagingService() {
+@AndroidEntryPoint
+class SmashupFirebase() : FirebaseMessagingService() {
+
+    @Inject
+    lateinit var loggedUserRepository: LoggedUserRepository
+
+    @Inject
+    lateinit var updateFirebaseTokenUseCase: UpdateFirebaseTokenUseCase
+
+    @Inject
+    lateinit var removeFirebaseTokenUseCase: RemoveFirebaseTokenUseCase
 
     private val VERSION_PREFS_FILE = "TokenInfoPrefsFile"
     private val TOKEN_LAST_UPDATED_TIME = "LastUpdatedTime"
@@ -108,13 +112,13 @@ class SmashupFirebase @Inject constructor(
 
 
     private fun getLastCheckedTime(): Long {
-        return appContext
+        return applicationContext
             .getSharedPreferences(VERSION_PREFS_FILE, Context.MODE_PRIVATE)
             .getLong(TOKEN_LAST_UPDATED_TIME, 0)
     }
 
     private fun updateLastCheckedTime(timestamp: Long) {
-        appContext
+        applicationContext
             .getSharedPreferences(VERSION_PREFS_FILE, Context.MODE_PRIVATE)
             .edit()
             .putLong(TOKEN_LAST_UPDATED_TIME, timestamp)
@@ -122,13 +126,13 @@ class SmashupFirebase @Inject constructor(
     }
 
     private fun getLastKnownUserId(): Int {
-        return appContext
+        return applicationContext
             .getSharedPreferences(VERSION_PREFS_FILE, Context.MODE_PRIVATE)
             .getInt(TOKEN_LAST_KNOWN_USER_ID, NO_USER)
     }
 
     private fun updateLastKnownUserId(id: Int) {
-        appContext
+        applicationContext
             .getSharedPreferences(VERSION_PREFS_FILE, Context.MODE_PRIVATE)
             .edit()
             .putInt(TOKEN_LAST_KNOWN_USER_ID, id)
