@@ -35,8 +35,9 @@ android {
         applicationId "com.romeat.smashup"
         minSdk 24
         targetSdk 33
-        versionCode 16
-        versionName "0.5.0"
+        versionCode 17
+        versionName "0.5.1"
+        setProperty("archivesBaseName", "smashup-v" + versionName)
 
         resourceConfigurations += ["en", "ru"]
 
@@ -53,6 +54,7 @@ android {
             debuggable true
             buildConfigField "String", 'API_URL', '"https://api.smashup.ru"'
             resValue "string", "app_name", "@string/app_name_debug"
+            versionNameSuffix "-D"
         }
         release {
             minifyEnabled true
