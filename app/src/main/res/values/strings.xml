@@ -187,4 +187,7 @@
     <string name="remove_from_favourite">Remove from favourite</string>
     <string name="mashup_authors">Authors</string>
     <string name="mashup_sources">Sources</string>
+    <string name="toast_failed_to_load_settings">Failed to load some settings</string>
+    <string name="toast_failed_to_update_setting">Failed to update setting</string>
+    <string name="toast_setting_updated">Setting updated</string>
 </resources>

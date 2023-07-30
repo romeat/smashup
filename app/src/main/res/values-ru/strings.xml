@@ -181,4 +181,7 @@
     <string name="remove_from_favourite">Убрать из любимых</string>
     <string name="mashup_authors">Авторы</string>
     <string name="mashup_sources">Сурсы</string>
+    <string name="toast_failed_to_load_settings">Не удалось получить некоторые настройки</string>
+    <string name="toast_failed_to_update_setting">Не удалось обновить настройки</string>
+    <string name="toast_setting_updated">Настройка обновлена</string>
 </resources>

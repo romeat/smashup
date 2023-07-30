@@ -45,4 +45,8 @@ class SmashupRemoteData @Inject constructor(
     suspend fun updateFcmToken(token: String) = mainService.updateFcmToken(token)
 
     suspend fun deleteFcmToken(token: String) = mainService.deleteFcmToken(token)
+
+    suspend fun getUserSettings() = mainService.getUserSettingsBits()
+
+    suspend fun updateMultisessionBit(allowed: Boolean) = mainService.changeUserSettingsBit(bit = 1, value = allowed.compareTo(false))
 }

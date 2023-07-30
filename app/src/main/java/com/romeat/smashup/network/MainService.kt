@@ -13,6 +13,16 @@ interface MainService {
     suspend fun getCurrentUser(@Query("id") userId: Int
     ): Response<OwnProfile>
 
+    @GET("user/get_settings")
+    suspend fun getUserSettingsBits(
+    ): Response<ApiWrap<SmashupSettings>>
+
+    @POST("user/change_setting")
+    suspend fun changeUserSettingsBit(
+        @Query("bit") bit: Int,
+        @Query("value") value: Int,
+    ): Response<ApiWrap<SmashupSettings>>
+
     @POST("firebase/update_token")
     suspend fun updateFcmToken(@Query("token") token: String
     ): Response<ApiWrap<Unit>>
