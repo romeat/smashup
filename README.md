@@ -1,8 +1,9 @@
 ## Smashup android-native
 
-(Неофициальное) приложение-плеер для прослушивания мэшапов с ресурса smashup.ru.
+Приложение-плеер для прослушивания мэшапов с ресурса smashup.ru.
 
-#### Стэк технологий:
+
+### Стэк технологий:
 - Jetpack Compose
 - архитектура MVVM & Clean Architecture
 - Coroutines & Flow
@@ -11,14 +12,31 @@
 - Compose Navigation & Accompanist Navigation Animation
 - Retrofit, OKHTTP, Glide
 
-#### Последняя версия: 0.3.1 ([скачать apk](https://github.com/romeat/smashup/releases/download/0.3.1/smashup-0.3.1.apk))
-
-#### Gif с демонстрацией внешнего вида приложения:
-
-![Smashup (1)](https://user-images.githubusercontent.com/25282915/230876981-5584e606-a0c5-4244-bc51-929878100d59.gif)
+### Последняя версия: 0.5.1 ([скачать apk](https://github.com/romeat/smashup/releases/download/0.5.1/smashup-v0.5.1-release.apk))
+(Приложение все еще в стадии разработки, некоторые функции недоступны. Please stand by.)
 
 
-#### Общий граф навигации между экранами ([ссылка на полный размер на figma](https://www.figma.com/file/JfrHRBmR4os6a2KQM0PtTC/Untitled?node-id=0-1&t=eV6tCXHkGY5NT7jf-0)):
-![image](https://user-images.githubusercontent.com/25282915/230773055-60911e82-c3d5-4775-9f02-7367054440ed.png)
+### Скриншоты приложения (позже будет gif):
+
+#### Экран логина:
+
+![1](https://github.com/romeat/smashup/assets/25282915/2926c8fa-214c-430e-9425-489a9ad986b0)
+
+#### Главный экран:
+
+![2](https://github.com/romeat/smashup/assets/25282915/9e88f3d4-14e9-45c9-82cb-c0f34de5e091)
+
+#### Экран плейлиста:
 
 
+![3](https://github.com/romeat/smashup/assets/25282915/0e247373-90bd-48cd-8e5e-faf8a48f8575)
+
+#### Экран плеера:
+
+
+![5](https://github.com/romeat/smashup/assets/25282915/091c3f59-b9fd-40eb-b16d-93c05039dfff)
+
+#### Экран настроек:
+
+
+![6](https://github.com/romeat/smashup/assets/25282915/010837a1-2419-4ee8-b164-60c58903315c)
