@@ -13,6 +13,7 @@ import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
 import com.google.android.exoplayer2.*
@@ -22,19 +23,26 @@ import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.util.Util.constrainValue
+import com.romeat.smashup.data.SettingsProvider
 import com.romeat.smashup.data.dto.Mashup
 import com.romeat.smashup.musicservice.mapper.MediaMetadataMapper
 import com.romeat.smashup.util.MediaConstants
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import javax.inject.Inject
 
 /**
  * Simplified code from google UAMP app
  */
+@AndroidEntryPoint
 open class MusicService : MediaBrowserServiceCompat() {
+
+    @Inject
+    lateinit var settingsProvider: SettingsProvider
 
     private lateinit var notificationManager: SmashupNotificationManager
 
@@ -239,9 +247,11 @@ open class MusicService : MediaBrowserServiceCompat() {
     }
      */
 
+    // Set TimelineQueueNavigator maxQueueSize to 500 for correct shuffle behavior.
+    // See: https://github.com/google/ExoPlayer/issues/6658
     private inner class SmashupQueueNavigator(
         mediaSession: MediaSessionCompat
-    ) : TimelineQueueNavigator(mediaSession) {
+    ) : TimelineQueueNavigator(mediaSession, 500) {
         override fun getMediaDescription(player: Player, windowIndex: Int): MediaDescriptionCompat {
             if (windowIndex < currentPlaylistItems.size) {
                 return currentPlaylistItems[windowIndex].description
@@ -280,18 +290,15 @@ open class MusicService : MediaBrowserServiceCompat() {
             playWhenReady: Boolean,
             extras: Bundle?
         ) {
-            var mashupToPlay: Mashup? = null
-            extras?.getString(MediaConstants.MASHUP_TO_PLAY)?.let {
-                mashupToPlay = Json.decodeFromString<Mashup>(it)
-            }
+            val id = mediaId.toIntOrNull()
 
             val playlist = Json.decodeFromString<List<Mashup>>(extras?.getString(MediaConstants.PLAYLIST_TO_PLAY)!!)
-            val index = if (mashupToPlay != null) {
-                playlist.indices.find { playlist[it].id == mashupToPlay!!.id } ?: 0
+            val index = if (id != null) {
+                playlist.indices.find { playlist[it].id == id } ?: 0
             } else 0
 
             preparePlaylist(
-                MediaMetadataMapper.convertToMediaList(playlist),
+                MediaMetadataMapper.convertToMediaList(playlist, settingsProvider.bitrate.value.suffix),
                 index
             )
         }
@@ -395,6 +402,7 @@ open class MusicService : MediaBrowserServiceCompat() {
 
         // TODO add some exception handling
         override fun onPlayerError(error: PlaybackException) {
+            Log.e(TAG, "Player error: " + error.errorCodeName + " (" + error.errorCode + ")");
             /*
             var message = R.string.generic_error;
             Log.e(TAG, "Player error: " + error.errorCodeName + " (" + error.errorCode + ")");

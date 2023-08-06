@@ -2,27 +2,23 @@ package com.romeat.smashup.musicservice.mapper
 
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
+import com.romeat.smashup.BuildConfig
 import com.romeat.smashup.data.dto.Mashup
-import com.romeat.smashup.data.dto.MashupUiData
+import com.romeat.smashup.data.dto.MashupMediaItem
 import com.romeat.smashup.musicservice.*
 import com.romeat.smashup.util.ImageUrlHelper
 
 object MediaMetadataMapper {
+    
+    private const val musicBaseUrl = "${BuildConfig.API_URL}/uploads/mashup/"
 
-    // TODO replace with DI provided values
-    private const val musicBaseUrl = "https://smashup.ru/stream/mashup/"
-    private const val defaultBitrateSuffix = "_128000.mp3"
-
-
-    private fun musicIdToUrl(id: Int) = musicBaseUrl + id.toString() + defaultBitrateSuffix
-
-    fun convertToMedia(mashup: Mashup) : MediaMetadataCompat {
+    fun convertToMedia(mashup: Mashup, bitrate: String) : MediaMetadataCompat {
         val builder = MediaMetadataCompat.Builder()
         builder.let {
             it.id = mashup.id.toString()
             it.title = mashup.name
             it.artist = mashup.owner
-            it.mediaUri = musicIdToUrl(mashup.id)
+            it.mediaUri = musicBaseUrl + mashup.id.toString() + ".mp3?bitrate=" + bitrate
             it.albumArtUri = ImageUrlHelper.mashupImageIdToUrl400px(mashup.imageUrl)
 
             it.displayTitle = mashup.name
@@ -34,13 +30,13 @@ object MediaMetadataMapper {
         return builder.build()
     }
 
-    fun convertToMediaList(mashupList: List<Mashup>) : List<MediaMetadataCompat> {
-        return mashupList.map { convertToMedia(it) }
+    fun convertToMediaList(mashupList: List<Mashup>, bitrate: String) : List<MediaMetadataCompat> {
+        return mashupList.map { convertToMedia(it, bitrate) }
     }
 
 
-    fun convertFromMedia(media: MediaMetadataCompat) : MashupUiData {
-        return MashupUiData(
+    fun convertFromMedia(media: MediaMetadataCompat) : MashupMediaItem {
+        return MashupMediaItem(
             id = media.id!!.toInt(),
             name = media.title!!,
             //owner = media.artist ?: "",
@@ -49,7 +45,7 @@ object MediaMetadataMapper {
         )
     }
 
-    fun convertFromMediaList(mediaList: List<MediaMetadataCompat>) : List<MashupUiData> {
+    fun convertFromMediaList(mediaList: List<MediaMetadataCompat>) : List<MashupMediaItem> {
         return mediaList.map { convertFromMedia(it) }
     }
 }

@@ -14,13 +14,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.romeat.smashup.BuildConfig
 import com.romeat.smashup.R
 import com.romeat.smashup.navgraphs.RootGraph
+import com.romeat.smashup.presentation.home.common.composables.Logo
 import com.romeat.smashup.ui.theme.AppGreenColor
+import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.collectInLaunchedEffectWithLifecycle
 
 @Composable
@@ -30,6 +33,7 @@ fun StartupScreen(
 ) {
 
     val openDialog = remember { mutableStateOf(false) }
+    val activity = (LocalContext.current as? Activity)
 
     viewModel.eventsFlow.collectInLaunchedEffectWithLifecycle() { event ->
         when (event) {
@@ -48,6 +52,19 @@ fun StartupScreen(
         }
     }
 
+    StartupScreenContent(
+        openDialog = openDialog,
+        onProceedDialogButton = { viewModel.onProceedDialogButton() },
+        onExitDialogButton = { activity?.finishAndRemoveTask() }
+    )
+}
+
+@Composable
+fun StartupScreenContent(
+    openDialog: MutableState<Boolean>,
+    onProceedDialogButton: () -> Unit,
+    onExitDialogButton: () -> Unit
+) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -57,23 +74,13 @@ fun StartupScreen(
             verticalArrangement = Arrangement.Center,
         ) {
             Spacer(modifier = Modifier.weight(1.0f))
+            Logo(modifier = Modifier.fillMaxWidth())
+            Spacer(modifier = Modifier.weight(0.05f))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
                 LinearProgressIndicator()
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(vertical = 10.dp),
-                    text = stringResource(id = R.string.loading),
-                    fontSize = MaterialTheme.typography.h6.fontSize,
-                    fontWeight = FontWeight.Bold
-                )
             }
             Spacer(modifier = Modifier.weight(1.0f))
             Row(
@@ -88,11 +95,25 @@ fun StartupScreen(
             if (openDialog.value) {
                 VersionAlertDialog(
                     dialogState = openDialog,
-                    onProceedAnywayClick = { viewModel.onProceedDialogButton() },
-                    onExitAppClick = { viewModel.onExitDialogButton() }
+                    onProceedAnywayClick = onProceedDialogButton,
+                    onExitAppClick = onExitDialogButton
                 )
             }
         }
+    }
+}
+
+@Composable
+@Preview
+fun StartupScreenPreview() {
+    SmashupTheme(darkTheme = true) {
+        StartupScreenContent(
+            openDialog = remember {
+                mutableStateOf(false)
+            },
+            onProceedDialogButton = { },
+            onExitDialogButton = { }
+        )
     }
 }
 
@@ -102,7 +123,6 @@ fun VersionAlertDialog(
     onProceedAnywayClick: () -> Unit,
     onExitAppClick: () -> Unit
 ) {
-    val activity = (LocalContext.current as? Activity)
 
     AlertDialog(
         onDismissRequest = { },
@@ -147,7 +167,7 @@ fun VersionAlertDialog(
                         .padding(10.dp),
                     onClick = {
                         dialogState.value = false
-                        activity?.finishAndRemoveTask()
+                        onExitAppClick()
                     },
                     border = null,
                     colors = ButtonDefaults.outlinedButtonColors(

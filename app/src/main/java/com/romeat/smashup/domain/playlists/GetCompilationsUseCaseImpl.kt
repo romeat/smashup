@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 import javax.inject.Inject
 
+/*
 class GetCompilationsUseCaseImpl @Inject constructor(
     private val remoteData: SmashupRemoteData
 ) : GetCompilationsUseCase {
@@ -31,3 +32,5 @@ class GetCompilationsUseCaseImpl @Inject constructor(
             }
         )
 }
+
+ */

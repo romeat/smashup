@@ -16,12 +16,31 @@ object CommonNavigationConstants {
     const val PLAYLIST_ROUTE = "PLAYLIST"
     const val PLAYLIST_PARAM = "playlistId"
 
+    const val PLAYLIST_LIST_ROUTE = "PLAYLISTS"
+    const val PLAYLIST_LIST_PARAM = "playlistIds"
+
     const val MASHUP_ROUTE = "MASHUP"
     const val MASHUP_PARAM = "mashupId"
+    const val MASHUP_SERIALIZED = "mashupJson"
 
-    const val AUTHOR_ROUTE = "AUTHOR"
-    const val AUTHOR_PARAM = "authorAlias"
+    const val USER_ROUTE = "USER"
+    const val USER_PARAM = "userId"
 
     const val SOURCE_ROUTE = "SOURCE"
     const val SOURCE_PARAM = "sourceId"
+}
+
+object LoginFlow {
+    const val MinUsernameLength = 4
+    const val MaxUsernameLength = 32
+
+    const val MinPasswordLength = 8
+    const val MaxPasswordLength = 32
+
+    val UsernameRegex = "(?=^[а-яА-ЯёЁa-zA-Z0-9_ ]{4,32}\$)(?!^\\d+\$)^.+\$".toRegex()
+    val PasswordRegex = "[a-zA-Z0-9-_=+()*&^%\$#@!]{8,32}".toRegex()
+}
+
+object AuthNavigationConstants {
+    const val EMAIL_PARAM = "email"
 }

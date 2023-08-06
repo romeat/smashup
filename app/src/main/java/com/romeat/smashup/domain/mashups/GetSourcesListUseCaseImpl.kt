@@ -18,7 +18,7 @@ class GetSourcesListUseCaseImpl @Inject constructor(
             action = suspend {
                 val response = remoteData.getSourcesList(sourceIds)
                 if (response.isSuccessful) {
-                    response.body()!!
+                    response.body()!!.response!!
                 } else {
                     throw HttpException(response)
                 }

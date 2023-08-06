@@ -10,9 +10,9 @@ fun Long.toDisplayableTimeString(): String {
     val SS = TimeUnit.MILLISECONDS.toSeconds(this) % 60
 
     return if (HH > 0) {
-        String.format("%d:%02d:%02d", HH, MM, SS);
+        String.format("%d:%02d:%02d", HH, MM, SS)
     } else {
-        String.format("%02d:%02d", MM, SS);
+        String.format("%02d:%02d", MM, SS)
     }
 }
 
@@ -28,3 +28,5 @@ fun ConcatAuthorAndTitle(author: String, title: String): String {
     if (author.isBlank() && title.isBlank()) return ""
     return "$author - $title"
 }
+
+fun String.addEmptyLines(lines: Int) = this + "\n".repeat(lines)

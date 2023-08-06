@@ -18,7 +18,7 @@ class GetPlaylistUseCaseImpl @Inject constructor(
             action = suspend {
                 val response = remoteData.getPlaylists(ids)
                 if (response.isSuccessful) {
-                    response.body()!!
+                    response.body()!!.response!!
                 } else {
                     throw HttpException(response)
                 }

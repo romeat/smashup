@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_release">Smashup</string>
-    <string name="app_name_debug">Smashup D</string>
+    <string name="app_name_release">SmashUp</string>
+    <string name="app_name_debug">SmashUp D</string>
+
+    <string name="welcome">Добро пожаловать в SmashUp!</string>
+    <string name="we_are">Мы - первый и единственный\nстриминговый сервис мэшапов.</string>
+
+    <string name="register">Регистрация</string>
+    <string name="login">Вход</string>
+    <string name="register_confirm">Зарегистрироваться</string>
+    <string name="login_confirm">Войти</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="send">Отправить</string>
 
     <string name="notification_channel">notification_channel</string>
     <string name="notification_channel_description">notification_channel_description</string>
@@ -10,7 +21,7 @@
 
     <string name="bitrate">Битрейт</string>
     <string name="ui_language">Язык</string>
-    <string name="explicit_content">Контент с пометкой Explicit</string>
+    <string name="explicit_content">Разрешить контент с пометкой Explicit</string>
     <string name="turned_on">ВКЛ</string>
     <string name="turned_off">ВЫКЛ</string>
     <string name="log_out">Выход</string>
@@ -27,12 +38,12 @@
     <string name="no_registration_reasoning">Это приложение является неофициальным.\n\nЕсли правила регистрации поменяются, то я могу не успеть обновить их в приложении.</string>
     <string name="username_placeholder">Юзернейм</string>
     <string name="password_placeholder">Пароль</string>
-    <string name="wrong_username_or_password">Неправильный юзернейм или пароль</string>
+    <string name="wrong_username_or_password">Неправильный ник или пароль</string>
     <string name="something_went_wrong_try_later">Что-то пошло не так, попробуйте позже</string>
     <string name="string_empty"> </string>
 
     <string name="search">Поиск</string>
-    <string name="search_hint">минимум 4 символа</string>
+    <string name="search_hint">Мэшапы, плейлисты и т.д…</string>
     <string name="error_during_search">При запросе произошла ошибка</string>
     <string name="no_results">Ничего не нашлось</string>
     <string name="search_mashups">Мэшапы</string>
@@ -49,7 +60,128 @@
     <string name="proceed_anyway_button">Перейти в приложение</string>
     <string name="exit_button">Закрыть приложение</string>
 
-    <string name="bottom_bar_main">ГЛАВНАЯ</string>
-    <string name="bottom_bar_search">ПОИСК</string>
-    <string name="bottom_bar_profile">ПРОФИЛЬ</string>
+    <string name="bottom_bar_main">Главная</string>
+    <string name="bottom_bar_search">Поиск</string>
+    <string name="bottom_bar_collection">Коллекция</string>
+
+    <string name="bitrate_orig">Оригинал</string>
+    <string name="bitrate320">320 кб</string>
+    <string name="bitrate160">160 кб</string>
+    <string name="bitrate128">128 кб</string>
+    <string name="bitrate96">96 кб</string>
+    <string name="bitrate64">64 кб</string>
+
+    <string name="lang_EN">EN</string>
+    <string name="lang_RU">RU</string>
+    <string name="home_screen_title">Добро пожаловать!</string>
+    <string name="mashups_toggle_button">Mashups</string>
+    <string name="shitpost_toggle_button">Shitpost</string>
+
+    <string name="register_nickname_label">Ник</string>
+    <string name="email_label">Почта</string>
+    <string name="password_label">Пароль</string>
+    <string name="register_title">Регистрация</string>
+    <string name="nickname_hint">минимум 4 символа</string>
+    <string name="nick_too_short">Слишком короткий никнейм</string>
+    <string name="password_hint">минимум 8 символов</string>
+    <string name="pass_too_short">Слишком короткий пароль</string>
+    <string name="email_hint">somebody@example.com</string>
+    <string name="email_format_error">Некорректный формат почты</string>
+    <string name="error_user_exists">Такой пользователь уже существует</string>
+    <string name="error_already_sent">Письмо уже отправлено на почту</string>
+    <string name="error_incorrect_data">Ошибка сервера: некорректные данные</string>
+    <string name="nick_wrong_format">Ник может содержать только буквы, цифры, пробелы и подчеркивания</string>
+    <string name="password_wrong_format">Пароль может содержать только цифры, буквы A-Z и символы -_=+()*&amp;^%$#@!</string>
+
+    <string name="login_email_or_nick">Почта или ник</string>
+    <string name="forgot_password_label">Забыли пароль?</string>
+
+    <string name="register_button_1">Регистрация</string>
+    <string name="register_button_2">Зарегистрироваться</string>
+    <string name="login_button_1">Вход</string>
+    <string name="login_button_2">Войти</string>
+
+    <string name="send_button">Отправить</string>
+    <string name="password_recovery">Восстановление пароля</string>
+    <string name="password_recovery_hint">Мы отправим вам инструкции по\nвосстановлению пароля</string>
+
+    <string name="about_app">О приложении</string>
+    <string name="external_components">Сторонние компоненты</string>
+    <string name="user_agreement">Пользовательское соглашение</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="our_team">Команда</string>
+    <string name="adult_content_warning">Сервис Smashup может содержать информацию,\nне предназначенную для несовершеннолетних</string>
+    <string name="touch_point">Проект команды TouchPoint</string>
+    <string name="app_version">Версия %s</string>
+
+    <string name="settings">Настройки</string>
+    <string name="push_notif">Push-уведомления</string>
+    <string name="news_notif">Новостные</string>
+    <string name="system_notif">Системные</string>
+    <string name="account_settings">Настройки аккаунта</string>
+    <string name="allow_multisessions">Разрешить мультисессии</string>
+    <string name="allow_explicit">Показывать Explicit-контент</string>
+    <string name="edit_profile">Редактирование профиля</string>
+    <string name="other_settings">Прочие настройки</string>
+
+    <string name="profile">Профиль</string>
+    <string name="displaying_nickname">Отображаемый ник</string>
+    <string name="no_such_user">Такой пользователь не найден</string>
+    <string name="button_yay">Урааа!</string>
+    <string name="new_password_creation">Создание нового пароля</string>
+    <string name="type_new_password">Введите новый пароль ниже</string>
+    <string name="password_updated_succesfully">Успешная смена пароля!</string>
+    <string name="password_updated_info">Ваш пароль был успешно изменен.  Теперь вы можете использовать новый пароль для входа в ваш аккаунт.</string>
+    <string name="instructions_sent">Инструкции отправлены</string>
+    <string name="instructions_sent_details">%s, мы отправили инструкции на почту. Проверьте ее и возвращайтесь в приложение.</string>
+    <string name="wrong_username_or_email_format">Некорректный формат почты или ника</string>
+    <string name="error_general">Нет ответа от сервера. Попробуйте позже</string>
+    <string name="error_500_server_problems">Проблемы на стороне сервера :( Попробуйте позже</string>
+    <string name="error_404_user_not_found">"Пользователь с указанным ником или почтой не был найден "</string>
+    <string name="error_404_request_unknown">Запрос не найден. Попробуйте создать новый</string>
+    <string name="error_400_user_exists">Пользователь с таким никнеймом или почтой уже зарегистрирован</string>
+    <string name="register_confirm_sent_details">Письмо для подтверждения регистрации отправлено на почту %s. Проверьте ее и возвращайтесь в приложение.</string>
+    <string name="error_400_bad_register_parameters">Отправлена некорректная почта, никнейм или пароль</string>
+    <string name="error_400_email_already_sent">Письмо для подтверждения регистрации уже было отправлено</string>
+    <string name="error_404_no_reg_confirm_found">Не удалось найти запрос регистрации, соответствующий ссылке</string>
+    <string name="error_500_registartion_server_error">При создании пользователя произошла ошибка</string>
+    <string name="registration_confirm_error">Ошибка подтверждения регистрации</string>
+    <string name="register_confirm_title">Подтверждение регистрации</string>
+    <string name="close">Закрыть</string>
+    <string name="confirming_registration">Регистрация подтверждается...</string>
+    
+    <plurals name="mashups_number">
+        <item quantity="one">%d мэшап</item>
+        <item quantity="few">%d мэшапа</item>
+        <item quantity="many">%d мэшапов</item>
+        <item quantity="other">%d мэшапов</item>
+    </plurals>
+    <string name="mashuper_title">Мэшапер</string>
+    <string name="user_title">Пользователь</string>
+    <string name="playlists_title">Плейлисты</string>
+    <string name="mashups_title">Мэшапы</string>
+    <string name="sources_title">Сурсы</string>
+    <string name="authors_title">Пользователи</string>
+    <string name="all">Все</string>
+    <string name="search_nothing_found">Ничего не нашлось</string>
+    <string name="playlist_empty">Плейлист пуст</string>
+    <string name="profile_no_content">У пользователя еще нет мэшапов или плейлистов</string>
+    <string name="all_mashups">Все мэшапы</string>
+    <string name="all_sources">Все сурсы</string>
+    <string name="all_users">Все пользователи</string>
+    <string name="all_playlists">Все плейлисты</string>
+    <string name="collection_empty">Здесь будут ваши любимые мэшапы и ваши плейлисты</string>
+    <string name="collection_favourite_mashups">Любимые мэшапы</string>
+    <string name="playlist_from_search">Из поиска</string>
+    <string name="playlist_mashups_by_user">Мэшапы пользователя</string>
+    <string name="playlist_tracks">Мэшапы по треку</string>
+    <string name="playlist_recommendations">Рекомендации</string>
+    <string name="playlist_favourite_mashups">Любимые мэшапы</string>
+    <string name="add_to_favourite">Добавить в любимые</string>
+    <string name="remove_from_favourite">Убрать из любимых</string>
+    <string name="mashup_authors">Авторы</string>
+    <string name="mashup_sources">Сурсы</string>
+    <string name="toast_failed_to_load_settings">Не удалось получить некоторые настройки</string>
+    <string name="toast_failed_to_update_setting">Не удалось обновить настройки</string>
+    <string name="toast_setting_updated">Настройка обновлена</string>
 </resources>

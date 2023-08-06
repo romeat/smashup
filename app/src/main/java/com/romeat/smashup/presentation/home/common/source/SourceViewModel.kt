@@ -1,21 +1,24 @@
 package com.romeat.smashup.presentation.home.common.source
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.romeat.smashup.data.dto.Mashup
+import com.romeat.smashup.R
+import com.romeat.smashup.data.dto.MashupListItem
 import com.romeat.smashup.data.dto.Source
+import com.romeat.smashup.data.likes.LikesRepository
 import com.romeat.smashup.domain.mashups.GetMashupsWithSourceUseCase
 import com.romeat.smashup.domain.mashups.GetSourceUseCase
 import com.romeat.smashup.musicservice.MusicServiceConnection
+import com.romeat.smashup.presentation.home.MusicServiceViewModel
+import com.romeat.smashup.presentation.home.PlaylistTitle
 import com.romeat.smashup.util.CommonNavigationConstants
+import com.romeat.smashup.util.ConvertToUiListItems
 import com.romeat.smashup.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,10 +28,9 @@ class SourceViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getSourceUseCase: GetSourceUseCase,
     private val getMashupsWithSourceUseCase: GetMashupsWithSourceUseCase,
-    private val musicServiceConnection: MusicServiceConnection
-) : ViewModel() {
-
-    //var state by mutableStateOf(SourceScreenState())
+    musicServiceConnection: MusicServiceConnection,
+    private val likesRepository: LikesRepository
+) : MusicServiceViewModel(musicServiceConnection) {
 
     private val _state = MutableStateFlow(SourceScreenState())
     val state = _state.asStateFlow()
@@ -37,6 +39,8 @@ class SourceViewModel @Inject constructor(
         checkNotNull(savedStateHandle[CommonNavigationConstants.SOURCE_PARAM])
 
     init {
+        playlistTitle = PlaylistTitle.ResType(R.string.playlist_tracks)
+
         viewModelScope.launch {
             getSourceUseCase
                 .invoke(sourceId)
@@ -81,14 +85,21 @@ class SourceViewModel @Inject constructor(
     }
 
     private suspend fun getMashupsWithSource(id: Int) {
-        getMashupsWithSourceUseCase
-            .invoke(id)
-            .collect { result ->
-                when (result) {
+        likesRepository
+            .likesState
+            .combine(getMashupsWithSourceUseCase.invoke(id)) { likes, mashups ->
+                Pair(likes, mashups)
+            }
+            .collect { pair ->
+                when (pair.second) {
                     is Resource.Success -> {
                         _state.update { it ->
+                            originalMashupList = pair.second.data!!
                             it.copy(
-                                mashupList = result.data!!,
+                                mashupList = ConvertToUiListItems(
+                                    pair.second.data!!,
+                                    pair.first.mashupLikes
+                                ),
                                 isMashupListLoading = false,
                                 isMashupListError = false,
                             )
@@ -114,11 +125,24 @@ class SourceViewModel @Inject constructor(
             }
     }
 
-    fun onMashupClick(mashup: Mashup) {
-        musicServiceConnection.playMashupFromPlaylist(mashup, state.value.mashupList)
+    fun onLikeClick(mashupId: Int) {
+        if (likesRepository.likesState.value.mashupLikes.contains(mashupId)) {
+            likesRepository.removeLike(mashupId)
+        } else {
+            likesRepository.addLike(mashupId)
+        }
+    }
+
+    fun onPlayClick() {
+        playCurrentPlaylist(mashupIdToStart = state.value.mashupList.first().id)
+    }
+
+    fun onShuffleClick() {
+        playCurrentPlaylist(mashupIdToStart = state.value.mashupList.first().id, shuffle = true)
     }
 }
 
+@Stable
 data class SourceScreenState(
     val isLoading: Boolean = true,
     val errorMessage: String = "",
@@ -128,5 +152,5 @@ data class SourceScreenState(
     val isMashupListLoading: Boolean = true,
     val isMashupListError: Boolean = false,
     val currentlyPlayingMashupId: Int? = null,
-    val mashupList: List<Mashup> = emptyList()
+    val mashupList: List<MashupListItem> = emptyList()
 )

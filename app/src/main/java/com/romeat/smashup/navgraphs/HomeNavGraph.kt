@@ -3,25 +3,21 @@ package com.romeat.smashup.navgraphs
 import android.annotation.SuppressLint
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import com.google.accompanist.navigation.animation.composable
 import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.HomePlayerViewModel
-import com.romeat.smashup.presentation.home.common.author.AuthorScreen
+import com.romeat.smashup.presentation.home.common.ContentScreenWithPlayer
 import com.romeat.smashup.presentation.home.common.mashup.MashupScreen
 import com.romeat.smashup.presentation.home.common.playlist.PlaylistScreen
 import com.romeat.smashup.presentation.home.common.source.SourceScreen
+import com.romeat.smashup.presentation.home.common.user.UserScreen
+import com.romeat.smashup.presentation.home.favourite.CollectionScreen
 import com.romeat.smashup.presentation.home.main.MainScreen
 import com.romeat.smashup.presentation.home.player.AudioPlayerScreen
-import com.romeat.smashup.presentation.home.profile.ProfileScreen
-import com.romeat.smashup.presentation.home.search.SearchBarScreen
+import com.romeat.smashup.presentation.home.search.SearchScreen
 import com.romeat.smashup.util.CommonNavigationConstants
 
 // used scoped viewmodel
@@ -37,13 +33,13 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
         /**
          * Common navigation lambdas
          */
-        val onMashupInfoClick: (Int) -> Unit =
-            { id -> navController.navigate("${HomeGraphScreen.Mashup.route}/${id}") }
+        val onMashupInfoClick: (String) -> Unit =
+            { serialized -> navController.navigate("${HomeGraphScreen.Mashup.route}/${serialized}") }
 
         val onSourceClick: (Int) -> Unit =
             { id -> navController.navigate("${HomeGraphScreen.Source.route}/${id}") }
 
-        val onAuthorClick: (String) -> Unit =
+        val onAuthorClick: (Int) -> Unit =
             { alias -> navController.navigate("${HomeGraphScreen.Author.route}/${alias}") }
 
         val onPlaylistClick: (Int) -> Unit =
@@ -58,6 +54,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
         /**
          * Bottom bar root destinations
          */
+        // HOME
         composable(
             route = HomeGraphScreen.Main.route,
             enterTransition = { EnterTransition.None },
@@ -67,14 +64,22 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
         ) { backStackEntry ->
             val parentEntry = remember { navController.getBackStackEntry(RootGraph.HOME) }
             val playerViewModel = hiltViewModel<HomePlayerViewModel>(parentEntry)
-            MainScreen(
-                navHostController = navController,
+            ContentScreenWithPlayer(
+                content = {
+                    MainScreen(
+                        onPlaylistClick = onPlaylistClick,
+                        onNotificationsClick = { },
+                        onSettingsClick = { navController.navigate(HomeGraphScreen.Settings.route) },
+                        onMashupInfoClick = onMashupInfoClick,
+                    )
+                },
+                onExpandPlayerClick = onExpandPlayerClicked,
                 playerViewModel = playerViewModel,
-                onPlaylistClick = onPlaylistClick,
-                onExpandPlayerClick = onExpandPlayerClicked
+                navHostController = navController
             )
         }
 
+        // SEARCH
         composable(
             route = HomeGraphScreen.Search.route,
             enterTransition = { EnterTransition.None },
@@ -84,19 +89,31 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
         ) { backStackEntry ->
             val parentEntry = remember { navController.getBackStackEntry(RootGraph.HOME) }
             val playerViewModel = hiltViewModel<HomePlayerViewModel>(parentEntry)
-            SearchBarScreen(
-                navHostController = navController,
+            ContentScreenWithPlayer(
+                content = {
+                    SearchScreen(
+                        onUserClick = onAuthorClick,
+                        onSourceClick = onSourceClick,
+                        onPlaylistClick = onPlaylistClick,
+                        onMashupInfoClick = onMashupInfoClick,
+                        onBackClick = {
+                            navController.navigate(HomeGraphScreen.Main.route) {
+                                popUpTo(RootGraph.HOME) { saveState = false }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                    )
+                },
+                onExpandPlayerClick = onExpandPlayerClicked,
                 playerViewModel = playerViewModel,
-                onAuthorClick = onAuthorClick,
-                onSourceClick = onSourceClick,
-                onPlaylistClick = onPlaylistClick,
-                onMashupInfoClick = onMashupInfoClick,
-                onExpandPlayerClick = onExpandPlayerClicked
+                navHostController = navController
             )
         }
 
+        // COLLECTION
         composable(
-            route = HomeGraphScreen.Profile.route,
+            route = HomeGraphScreen.Collection.route,
             enterTransition = { EnterTransition.None },
             exitTransition = { ExitTransition.None },
             popEnterTransition = { EnterTransition.None },
@@ -104,20 +121,38 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
         ) { backStackEntry ->
             val parentEntry = remember { navController.getBackStackEntry(RootGraph.HOME) }
             val playerViewModel = hiltViewModel<HomePlayerViewModel>(parentEntry)
-            ProfileScreen(
-                navHostController = navController,
-                playerViewModel = playerViewModel,
+            ContentScreenWithPlayer(
+                content = {
+                    CollectionScreen(
+                        onPlaylistClick = onPlaylistClick,
+                        onMashupInfoClick = onMashupInfoClick,
+                        onBackClick = {
+                            navController.navigate(HomeGraphScreen.Main.route) {
+                                popUpTo(RootGraph.HOME) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                    )
+                },
                 onExpandPlayerClick = onExpandPlayerClicked,
-                onLogoutClick = {
-                    navController.popBackStack()
-                    navController.navigate(RootGraph.AUTHENTICATION)
-                }
+                playerViewModel = playerViewModel,
+                navHostController = navController
             )
         }
+
+        /**
+         * Settings sub-graph
+         */
+        settingsNavGraph(navController = navController)
 
 
         /**
          * Inner destinations
+         */
+
+        /**
+         * Playlist screen
          */
         composable(
             route = "${HomeGraphScreen.Playlist.route}/{${CommonNavigationConstants.PLAYLIST_PARAM}}",
@@ -131,38 +166,53 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
         ) { backStackEntry ->
             val parentEntry = remember { navController.getBackStackEntry(RootGraph.HOME) }
             val playerViewModel = hiltViewModel<HomePlayerViewModel>(parentEntry)
-            PlaylistScreen(
-                navHostController = navController,
+            ContentScreenWithPlayer(
+                content = {
+                    PlaylistScreen(
+                        onMashupInfoClick = onMashupInfoClick,
+                        onAuthorClick = onAuthorClick,
+                        onBackClicked = onBackClicked
+                    )
+                },
+                onExpandPlayerClick = onExpandPlayerClicked,
                 playerViewModel = playerViewModel,
-                onBackClicked = onBackClicked,
-                onMashupInfoClick = onMashupInfoClick,
-                onAuthorClick = onAuthorClick,
-                onExpandPlayerClick = onExpandPlayerClicked
+                navHostController = navController
             )
         }
 
+        /**
+         * Mashup screen
+         */
         composable(
-            route = "${HomeGraphScreen.Mashup.route}/{${CommonNavigationConstants.MASHUP_PARAM}}",
-            arguments = listOf(navArgument(CommonNavigationConstants.MASHUP_PARAM) {
-                type = NavType.IntType
+            route = "${HomeGraphScreen.Mashup.route}/{${CommonNavigationConstants.MASHUP_SERIALIZED}}",
+            arguments = listOf(navArgument(CommonNavigationConstants.MASHUP_SERIALIZED) {
+                type = NavType.StringType
             }),
-            enterTransition = { EnterTransition.None },
-            exitTransition = { ExitTransition.None },
-            popEnterTransition = { EnterTransition.None },
-            popExitTransition = { ExitTransition.None }
-        ) { backStackEntry ->
-            val parentEntry = remember { navController.getBackStackEntry(RootGraph.HOME) }
-            val playerViewModel = hiltViewModel<HomePlayerViewModel>(parentEntry)
+            enterTransition = {
+                slideInVertically(
+                    animationSpec = tween(durationMillis = 300),
+                    initialOffsetY = { it })
+            },
+            exitTransition = {
+                slideOutVertically(
+                    animationSpec = tween(durationMillis = 300),
+                    targetOffsetY = { it })
+            },
+            popExitTransition = {
+                slideOutVertically(
+                    animationSpec = tween(durationMillis = 300),
+                    targetOffsetY = { it })
+            },
+        ) {
             MashupScreen(
-                navHostController = navController,
-                playerViewModel = playerViewModel,
-                onBackClicked = onBackClicked,
                 onAuthorClick = onAuthorClick,
-                onSourceClick = onSourceClick,
-                onExpandPlayerClick = onExpandPlayerClicked
+                onSourceClick = onSourceClick
             )
         }
 
+        /**
+         * Source screen
+         */
         composable(
             route = "${HomeGraphScreen.Source.route}/{${CommonNavigationConstants.SOURCE_PARAM}}",
             arguments = listOf(navArgument(CommonNavigationConstants.SOURCE_PARAM) {
@@ -175,19 +225,26 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
         ) { backStackEntry ->
             val parentEntry = remember { navController.getBackStackEntry(RootGraph.HOME) }
             val playerViewModel = hiltViewModel<HomePlayerViewModel>(parentEntry)
-            SourceScreen(
-                navHostController = navController,
+            ContentScreenWithPlayer(
+                content = {
+                    SourceScreen(
+                        onBackClicked = onBackClicked,
+                        onMashupInfoClick = onMashupInfoClick,
+                    )
+                },
+                onExpandPlayerClick = onExpandPlayerClicked,
                 playerViewModel = playerViewModel,
-                onBackClicked = onBackClicked,
-                onMashupInfoClick = onMashupInfoClick,
-                onExpandPlayerClick = onExpandPlayerClicked
+                navHostController = navController
             )
         }
 
+        /**
+         * Author screen
+         */
         composable(
-            route = "${HomeGraphScreen.Author.route}/{${CommonNavigationConstants.AUTHOR_PARAM}}",
-            arguments = listOf(navArgument(CommonNavigationConstants.AUTHOR_PARAM) {
-                type = NavType.StringType
+            route = "${HomeGraphScreen.Author.route}/{${CommonNavigationConstants.USER_PARAM}}",
+            arguments = listOf(navArgument(CommonNavigationConstants.USER_PARAM) {
+                type = NavType.IntType
             }),
             enterTransition = { EnterTransition.None },
             exitTransition = { ExitTransition.None },
@@ -196,12 +253,17 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
         ) { backStackEntry ->
             val parentEntry = remember { navController.getBackStackEntry(RootGraph.HOME) }
             val playerViewModel = hiltViewModel<HomePlayerViewModel>(parentEntry)
-            AuthorScreen(
-                navHostController = navController,
+            ContentScreenWithPlayer(
+                content = {
+                    UserScreen(
+                        onBackClick = onBackClicked,
+                        onMashupInfoClick = onMashupInfoClick,
+                        onPlaylistClick = onPlaylistClick,
+                    )
+                },
+                onExpandPlayerClick = onExpandPlayerClicked,
                 playerViewModel = playerViewModel,
-                onBackClicked = onBackClicked,
-                onMashupInfoClick = onMashupInfoClick,
-                onExpandPlayerClick = onExpandPlayerClicked
+                navHostController = navController
             )
         }
 
@@ -242,34 +304,35 @@ sealed class HomeGraphScreen(val route: String) {
 
     object Main : HomeGraphScreen(route = "MAIN")
     object Search : HomeGraphScreen(route = "SEARCH")
-    object Profile : HomeGraphScreen(route = "PROFILE")
+    object Collection : HomeGraphScreen(route = "COLLECTION")
+    object Settings : HomeGraphScreen(route = "SETTINGS")
 
     object Playlist : HomeGraphScreen(route = CommonNavigationConstants.PLAYLIST_ROUTE)
     object Mashup : HomeGraphScreen(route = CommonNavigationConstants.MASHUP_ROUTE)
     object Source : HomeGraphScreen(route = CommonNavigationConstants.SOURCE_ROUTE)
-    object Author : HomeGraphScreen(route = CommonNavigationConstants.AUTHOR_ROUTE)
+    object Author : HomeGraphScreen(route = CommonNavigationConstants.USER_ROUTE)
 }
 
 sealed class BottomBarScreen(
     val graphScreen: HomeGraphScreen,
     val titleResource: Int,
-    val icon: ImageVector
+    val iconRes: Int
 ) {
     object Main : BottomBarScreen(
         graphScreen = HomeGraphScreen.Main,
         titleResource = R.string.bottom_bar_main,
-        icon = Icons.Default.Home
+        iconRes = R.drawable.ic_bottom_bar_home
     )
 
     object Search : BottomBarScreen(
         graphScreen = HomeGraphScreen.Search,
         titleResource = R.string.bottom_bar_search,
-        icon = Icons.Default.Search
+        iconRes = R.drawable.ic_bottom_bar_search
     )
 
     object Profile : BottomBarScreen(
-        graphScreen = HomeGraphScreen.Profile,
-        titleResource = R.string.bottom_bar_profile,
-        icon = Icons.Default.Person
+        graphScreen = HomeGraphScreen.Collection,
+        titleResource = R.string.bottom_bar_collection,
+        iconRes = R.drawable.ic_bottom_bar_collection
     )
 }

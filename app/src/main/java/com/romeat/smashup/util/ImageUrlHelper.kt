@@ -1,14 +1,19 @@
 package com.romeat.smashup.util
 
+import com.romeat.smashup.BuildConfig
+
 object ImageUrlHelper {
 
-    private const val mashupImageBaseUrl = "https://smashup.ru/uploads/mashup/"
+    private const val imageSuffix800px = "_800x800.png"
     private const val imageSuffix400px = "_400x400.png"
     private const val imageSuffix100px = "_100x100.png"
 
-    private const val playlistImageBaseUrl = "https://smashup.ru/uploads/playlist/"
-    private const val authorImageBaseUrl = "https://smashup.ru/uploads/user/"
-    private const val sourceImageBaseUrl = "https://smashup.ru/uploads/track/"
+    private const val mashupImageBaseUrl = "${BuildConfig.API_URL}/uploads/mashup/"
+    private const val playlistImageBaseUrl = "${BuildConfig.API_URL}/uploads/playlist/"
+    private const val authorImageBaseUrl = "${BuildConfig.API_URL}/uploads/user/"
+    private const val sourceImageBaseUrl = "${BuildConfig.API_URL}/uploads/track/"
+
+    fun mashupImageIdToUrl800px(imageId: String) = mashupImageBaseUrl + imageId + imageSuffix800px
 
     fun mashupImageIdToUrl400px(imageId: String) = mashupImageBaseUrl + imageId + imageSuffix400px
 
@@ -16,7 +21,13 @@ object ImageUrlHelper {
 
     fun playlistImageIdToUrl400px(imageId: String?) = playlistImageBaseUrl + imageId + imageSuffix400px
 
+    fun playlistImageIdToUrl100px(imageId: String?) = playlistImageBaseUrl + imageId + imageSuffix100px
+
     fun authorImageIdToUrl400px(imageId: String) = authorImageBaseUrl + imageId + imageSuffix400px
 
+    fun authorImageIdToUrl100px(imageId: String) = authorImageBaseUrl + imageId + imageSuffix100px
+
     fun sourceImageIdToUrl400px(imageId: String) = sourceImageBaseUrl + imageId + imageSuffix400px
+
+    fun sourceImageIdToUrl100px(imageId: String) = sourceImageBaseUrl + imageId + imageSuffix100px
 }

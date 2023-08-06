@@ -6,9 +6,12 @@ class SmashupRemoteData @Inject constructor(
     private val mainService : MainService
 ) {
 
-    suspend fun getUserInfo(username: String) = mainService.getCurrentUser(username)
+    //suspend fun getUserInfo(username: String) = mainService.getCurrentUser(username)
+    suspend fun getMyLikes() = mainService.getMyLikes()
 
-    suspend fun getAuthorInfo(name: String) = mainService.getAuthorProfile(name)
+    suspend fun getUserProfileList(ids: List<Int>) = mainService.getUserProfileList(ids.joinToString(","))
+
+    suspend fun getAuthorInfo(id: Int) = mainService.getUserProfile(id)
 
     suspend fun getMashupsList(ids: List<Int>) = mainService.getMashupsList(ids.joinToString(","))
 
@@ -16,7 +19,9 @@ class SmashupRemoteData @Inject constructor(
 
     suspend fun getMashupsWithSource(id: Int) = mainService.getMashupsWithSource(id)
 
-    suspend fun getCompilationsIds() = mainService.getCompilationsIds()
+    //suspend fun getCompilationsIds() = mainService.getCompilationsIds()
+
+    suspend fun getRecommendationsMashupIds() = mainService.getRecommendationsMashupIds()
 
     suspend fun getPlaylists(ids: List<Int>) = mainService.getPlaylists(ids.joinToString(","))
 
@@ -28,4 +33,20 @@ class SmashupRemoteData @Inject constructor(
     suspend fun getSourcesWithName(searchQuery: String) = mainService.getSourcesWithName(searchQuery)
 
     suspend fun getUsersWithName(searchQuery: String) = mainService.getUsersWithName(searchQuery)
+
+
+    suspend fun addLikeToMashup(id: Int) = mainService.addLikeToMashup(id)
+
+    suspend fun removeLikeFromMashup(id: Int) = mainService.removeLikeFromMashup(id)
+
+    suspend fun addStreamToMashup(id: Int) = mainService.addStreamToMashup(id)
+
+
+    suspend fun updateFcmToken(token: String) = mainService.updateFcmToken(token)
+
+    suspend fun deleteFcmToken(token: String) = mainService.deleteFcmToken(token)
+
+    suspend fun getUserSettings() = mainService.getUserSettingsBits()
+
+    suspend fun updateMultisessionBit(allowed: Boolean) = mainService.changeUserSettingsBit(bit = 1, value = allowed.compareTo(false))
 }

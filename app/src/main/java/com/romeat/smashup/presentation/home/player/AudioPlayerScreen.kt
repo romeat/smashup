@@ -1,18 +1,19 @@
 package com.romeat.smashup.presentation.home.player
 
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -20,15 +21,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.romeat.smashup.R
-import com.romeat.smashup.presentation.home.PlayerState
+import com.romeat.smashup.musicservice.PlaybackRepeatMode
 import com.romeat.smashup.presentation.home.HomePlayerViewModel
+import com.romeat.smashup.presentation.home.PlayerState
+import com.romeat.smashup.presentation.home.common.composables.FriendlyGlideImage
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
+import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.ImageUrlHelper
-import com.romeat.smashup.util.compose.Marquee
-import com.romeat.smashup.util.compose.MarqueeParams
 import com.romeat.smashup.util.toDisplayableTimeString
-import com.skydoves.landscapist.ShimmerParams
-import com.skydoves.landscapist.glide.GlideImage
 
 
 @Composable
@@ -42,10 +42,14 @@ fun AudioPlayerScreen(
         timestamp = viewModel.currentTimeMs,
         onPreviousClick = { viewModel.onPreviousClick() },
         onNextClick = { viewModel.onNextClick() },
-        onPlayPauseClick = { viewModel.onPlayPauseClick() }
+        onPlayPauseClick = { viewModel.onPlayPauseClick() },
+        onShuffleClick = { viewModel.onShuffleClick() },
+        onRepeatClick = { viewModel.onRepeatClick() },
+        onLikeClick = { viewModel.onLikeClick() }
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AudioPlayerContent(
     state: PlayerState,
@@ -53,193 +57,274 @@ fun AudioPlayerContent(
     onBackPressed: () -> Unit,
     onPreviousClick: () -> Unit,
     onNextClick: () -> Unit,
-    onPlayPauseClick: () -> Unit
+    onPlayPauseClick: () -> Unit,
+    onShuffleClick: () -> Unit,
+    onRepeatClick: () -> Unit,
+    onLikeClick: () -> Unit,
 ) {
     Surface(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize(),
+        color = MaterialTheme.colors.background
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(ScrollState(0))
         ) {
+            /* Top row */
             Row(
                 modifier = Modifier
-                    .padding(4.dp)
-                    .fillMaxWidth()
-                    .clickable { onBackPressed() },
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Icon(
-                    imageVector = ImageVector
-                        .vectorResource(id = R.drawable.ic_baseline_expand_more_24),
-                    contentDescription = "hide player",
-                    modifier = Modifier
-                        .width(64.dp)
-                        .height(32.dp)
-                )
-            }
-
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.1f))
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                GlideImage(
-                    imageModel = ImageUrlHelper.mashupImageIdToUrl400px(state.imageId.toString()),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                        .aspectRatio(1.0f),
-                    contentScale = ContentScale.Crop,
-                    error = ImageVector.vectorResource(id = Placeholder.Napas.resource),
-                    shimmerParams = ShimmerParams(
-                        baseColor = MaterialTheme.colors.background,
-                        highlightColor = MaterialTheme.colors.surface,
-                        durationMillis = 700,
-                        tilt = 0f
-                    )
-                )
-            }
-
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.01f))
-
-            Marquee(
-                params = MarqueeParams(
-                    period = 7500,
-                    gradientEnabled = false,
-                    gradientEdgeColor = Color.Transparent,
-                    direction = LocalLayoutDirection.current,
-                    easing = LinearEasing),
-                modifier = Modifier
-                    .padding(horizontal = 10.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = state.trackName,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = MaterialTheme.typography.h5.fontSize,
-                    textAlign = TextAlign.Start,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-            }
-
-            Marquee(
-                params = MarqueeParams(
-                    period = 7500,
-                    gradientEnabled = false,
-                    gradientEdgeColor = Color.Transparent,
-                    direction = LocalLayoutDirection.current,
-                    easing = LinearEasing),
-                modifier = Modifier
-                    .padding(horizontal = 10.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = state.trackAuthor,
-                    //maxLines = 1,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = MaterialTheme.typography.h5.fontSize,
-                    textAlign = TextAlign.Start,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-            }
-
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.02f),
-                )
-
-            LinearProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp),
-                progress = timestamp.toFloat()/state.trackDurationMs,
-                color = MaterialTheme.colors.primaryVariant
-            )
-
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = 10.dp)
+                    .padding(20.dp)
+                    .height(IntrinsicSize.Min)
                     .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(
+                    modifier = Modifier
+                        .size(48.dp),
+                    onClick = onBackPressed
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp)
+                            .rotate(270f),
+                        imageVector = ImageVector
+                            .vectorResource(id = R.drawable.ic_chevron_left_button),
+                        contentDescription = "hide player",
+                    )
+                }
+
+                Text(
+                    text = state.playlistTitle,
+                    style = MaterialTheme.typography.h5,
+                    fontSize = 22.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .weight(1f)
+                        .basicMarquee(10)
+                )
+
+                IconButton(
+                    modifier = Modifier
+                        .size(48.dp),
+                    onClick = { }
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp),
+                        imageVector = ImageVector
+                            .vectorResource(id = R.drawable.ic_more_button),
+                        contentDescription = "more",
+                    )
+                }
+            }
+
+            /* Cover */
+            Row(
+                modifier = Modifier
+                    .padding(20.dp)
+            ) {
+                FriendlyGlideImage(
+                    imageModel = ImageUrlHelper.mashupImageIdToUrl400px(state.id.toString()),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(15))
+                        .aspectRatio(1.0f),
+                    error = Placeholder.SmashupDefault.resource,
+                )
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            /* Author & track name */
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(
+                    modifier = Modifier
+                        .weight(1f),
+                    verticalArrangement = Arrangement.Center
+                ) {
+
+                    Text(
+                        text = state.trackName,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 22.sp,
+                        textAlign = TextAlign.Start,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 10.dp)
+                            .basicMarquee(10)
+                    )
+
+                    Text(
+                        text = state.trackAuthor,
+                        style = MaterialTheme.typography.body1,
+                        textAlign = TextAlign.Start,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 10.dp)
+                            .basicMarquee(10)
+                    )
+                }
+                IconButton(
+                    modifier = Modifier
+                        .size(48.dp),
+                    onClick = onLikeClick
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(4.dp),
+                        imageVector = if (state.isLiked) {
+                            ImageVector.vectorResource(R.drawable.ic_heart_filled)
+                        } else {
+                            ImageVector.vectorResource(R.drawable.ic_heart_border)
+                        },
+                        contentDescription = "like",
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            /* Progress */
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        progress = timestamp.toFloat() / state.trackDurationMs,
+                        color = MaterialTheme.colors.primaryVariant
+                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            textAlign = TextAlign.Center,
+                            text = timestamp.toDisplayableTimeString(),
+                            fontSize = 10.sp
+                        )
+                        Text(
+                            textAlign = TextAlign.Center,
+                            text = state.trackDurationMs.toDisplayableTimeString(),
+                            fontSize = 10.sp
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            /* Controls */
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = timestamp.toDisplayableTimeString(),
-                    fontSize = 14.sp
-                )
-
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = state.trackDurationMs.toDisplayableTimeString(),
-                    fontSize = 14.sp
-                )
-            }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Spacer(modifier = Modifier.weight(1.0f))
                 IconButton(
                     modifier = Modifier
-                        .weight(1.0f)
-                        .padding(5.dp)
+                        .size(50.dp)
                         .aspectRatio(1.0f),
-                    onClick = { onPreviousClick() }
+                    onClick = onRepeatClick
                 ) {
                     Icon(
-                        modifier = Modifier.fillMaxSize(),
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_baseline_skip_previous_24),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp),
+                        imageVector = ImageVector
+                            .vectorResource(
+                                id =
+                                when (state.repeatMode) {
+                                    PlaybackRepeatMode.None -> R.drawable.ic_repeat_off_button
+                                    PlaybackRepeatMode.RepeatOneSong -> R.drawable.ic_repeat_one_button
+                                    PlaybackRepeatMode.RepeatPlaylist -> R.drawable.ic_repeat_all_button
+                                }
+                            ),
+                        contentDescription = "repeat"
+                    )
+                }
+                IconButton(
+                    modifier = Modifier
+                        .size(50.dp)
+                        .aspectRatio(1.0f),
+                    onClick = onPreviousClick
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp),
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_previous_standard_button),
                         contentDescription = "previous track"
                     )
                 }
                 IconButton(
                     modifier = Modifier
-                        .weight(1.2f)
+                        .size(50.dp)
                         .aspectRatio(1.0f),
-                    onClick = { onPlayPauseClick() }
+                    onClick = onPlayPauseClick
                 ) {
                     Icon(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp),
                         imageVector = if (state.isPlaying) {
-                            ImageVector.vectorResource(id = R.drawable.ic_baseline_pause_24)
+                            ImageVector.vectorResource(id = R.drawable.ic_pause_standard_button)
                         } else {
-                            ImageVector.vectorResource(id = R.drawable.ic_baseline_play_arrow_24)
+                            ImageVector.vectorResource(id = R.drawable.ic_play_standard_button)
                         },
                         contentDescription = "play/pause"
                     )
                 }
                 IconButton(
                     modifier = Modifier
-                        .weight(1.0f)
-                        .padding(5.dp)
+                        .size(50.dp)
                         .aspectRatio(1.0f),
-                    onClick = { onNextClick() }
+                    onClick = onNextClick
                 ) {
                     Icon(
-                        modifier = Modifier.fillMaxSize(),
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_baseline_skip_next_24),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp),
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_next_standard_button),
                         contentDescription = "next track",
                     )
                 }
-                Spacer(modifier = Modifier.weight(1.0f))
+                IconButton(
+                    modifier = Modifier
+                        .size(50.dp)
+                        .aspectRatio(1.0f),
+                    onClick = onShuffleClick
+                ) {
+                    val color = LocalContentColor.current
+                    Icon(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp),
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_shuffle_button),
+                        contentDescription = "shuffle",
+                        tint = if (state.isShuffle) MaterialTheme.colors.primaryVariant else color
+                    )
+                }
             }
-
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.2f))
         }
     }
 }
@@ -247,13 +332,19 @@ fun AudioPlayerContent(
 @Preview
 @Composable
 fun AudioPlayerBigPreview() {
-    AudioPlayerContent(
-        onBackPressed = { /*TODO*/ },
-        state = PlayerState(),
-        timestamp = 12000L,
-        onPreviousClick = { /*TODO*/ },
-        onNextClick = { /*TODO*/ },
-        onPlayPauseClick = { }
-    )
+    SmashupTheme() {
+        AudioPlayerContent(
+            onBackPressed = { /*TODO*/ },
+            state = PlayerState(),
+            timestamp = 12000L,
+            onPreviousClick = { /*TODO*/ },
+            onNextClick = { /*TODO*/ },
+            onPlayPauseClick = { },
+            onShuffleClick = { },
+            onRepeatClick = { },
+            onLikeClick = { },
+        )
+
+    }
 }
 

@@ -1,11 +1,9 @@
 package com.romeat.smashup.di
 
-import com.romeat.smashup.network.AuthService
-import com.romeat.smashup.network.MainService
-import com.romeat.smashup.network.SmashupAuthData
-import com.romeat.smashup.network.SmashupRemoteData
-import com.romeat.smashup.network.cookieinterceptors.RequestCookieInterceptor
-import com.romeat.smashup.network.cookieinterceptors.ResponseCookieInterceptor
+import com.romeat.smashup.BuildConfig
+import com.romeat.smashup.network.*
+import com.romeat.smashup.network.util.RequestInterceptor
+import com.romeat.smashup.network.util.ResponseUnauthorizedInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +11,6 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -33,15 +30,15 @@ object NetworkModule {
     @Provides
     @Singleton
     @AuthInterceptorRetrofitClient
-    fun provideAuthNetwork(interceptor: ResponseCookieInterceptor) : Retrofit = Retrofit.Builder()
-        .addConverterFactory(ScalarsConverterFactory.create())
-        .baseUrl("https://smashup.ru/")
+    fun provideAuthNetwork() : Retrofit = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl(BuildConfig.API_URL)
         .client(
             OkHttpClient
                 .Builder()
-                .connectTimeout(20, TimeUnit.SECONDS)
+                .callTimeout(12, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
-                .addNetworkInterceptor(interceptor)
                 .build()
         )
         .build()
@@ -50,13 +47,20 @@ object NetworkModule {
     @Provides
     @Singleton
     @MainRetrofitClient
-    fun provideMainNetwork(interceptor: RequestCookieInterceptor) : Retrofit = Retrofit.Builder()
+    fun provideMainNetwork(
+        requestInterceptor: RequestInterceptor,
+        responseInterceptor: ResponseUnauthorizedInterceptor
+    ) : Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("https://smashup.ru/")
+        .baseUrl(BuildConfig.API_URL)
         .client(
             OkHttpClient
                 .Builder()
-                .addNetworkInterceptor(interceptor)
+                .callTimeout(15, TimeUnit.SECONDS)
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .addNetworkInterceptor(requestInterceptor)
+                .addNetworkInterceptor(responseInterceptor)
                 .build()
         )
         .build()
