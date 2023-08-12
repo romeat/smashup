@@ -1,16 +1,18 @@
-package com.romeat.smashup.presentation.home.settings.password
+package com.romeat.smashup.presentation.home.settings.username
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.romeat.smashup.R
@@ -18,16 +20,17 @@ import com.romeat.smashup.presentation.common.InfoScreen
 import com.romeat.smashup.presentation.home.common.composables.ErrorText
 import com.romeat.smashup.presentation.home.common.composables.LabelText
 import com.romeat.smashup.presentation.home.common.composables.PurpleButtonWithProgress
+import com.romeat.smashup.presentation.home.common.composables.StyledInput
 import com.romeat.smashup.presentation.home.common.composables.StyledPasswordInput
 import com.romeat.smashup.presentation.home.common.composables.TextBody1
 import com.romeat.smashup.presentation.home.common.composables.TopRow
 
 @Composable
-fun ChangePasswordScreen(
+fun ChangeUsernameScreen(
     onBackClick: () -> Unit,
     onSuccessClick: () -> Unit,
 ) {
-    val viewModel: ChangePasswordViewModel = hiltViewModel()
+    val viewModel: ChangeUsernameViewModel = hiltViewModel()
 
     Surface(
         modifier = Modifier
@@ -36,19 +39,19 @@ fun ChangePasswordScreen(
     ) {
         if (viewModel.state.showSuccessScreen) {
             InfoScreen(
-                topRowTitleResId = R.string.password_change_title,
+                topRowTitleResId = R.string.username_change_title,
                 onBackClick = onBackClick,
                 onConfirmClick = onSuccessClick,
-                titleResId = R.string.confirm_new_password,
+                titleResId = R.string.confirm_new_username,
                 subtitle = stringResource(R.string.confirmation_mail),
                 iconResId = R.drawable.ic_mail_stack,
                 confirmButtonTextId = R.string.confirm
             )
         } else {
-            ChangePasswordScreenContent(
+            ChangeUsernameScreenContent(
                 state = viewModel.state,
                 onCurrentPasswordChange = viewModel::onCurrentPasswordChange,
-                onNewPasswordChange = viewModel::onNewPasswordChange,
+                onNewUsernameChange = viewModel::onNewUsernameChange,
                 onSendClick = viewModel::onSendClick,
                 onBackClick = onBackClick,
             )
@@ -57,10 +60,10 @@ fun ChangePasswordScreen(
 }
 
 @Composable
-fun ChangePasswordScreenContent(
-    state: ChangePasswordState,
+fun ChangeUsernameScreenContent(
+    state: ChangeUsernameState,
     onCurrentPasswordChange: (String) -> Unit,
-    onNewPasswordChange: (String) -> Unit,
+    onNewUsernameChange: (String) -> Unit,
     onSendClick: () -> Unit,
     onBackClick: () -> Unit,
 ) {
@@ -71,7 +74,7 @@ fun ChangePasswordScreenContent(
             .fillMaxSize()
     ) {
         TopRow(
-            title = stringResource(R.string.password_change_title),
+            title = stringResource(R.string.username_change_title),
             onBackPressed = onBackClick,
             showBackButton = true
         )
@@ -83,7 +86,7 @@ fun ChangePasswordScreenContent(
         ) {
             Spacer(modifier = Modifier.weight(0.5f))
 
-            TextBody1(resId = R.string.password_change_info)
+            TextBody1(resId = R.string.username_change_info)
 
             Spacer(modifier = Modifier.weight(0.1f))
 
@@ -101,19 +104,23 @@ fun ChangePasswordScreenContent(
             )
             ErrorText(textRes = state.currentPasswordErrorResId)
 
-            // New password
+            // New nickname
             LabelText(
-                textRes = R.string.new_password,
+                textRes = R.string.new_username,
                 modifier = Modifier.padding(vertical = 6.dp)
             )
-            StyledPasswordInput(
-                password = state.newPassword,
+            StyledInput(
+                text = state.newNickname,
                 enabled = state.inputEnabled,
-                isError = state.isNewPasswordError,
-                onPasswordChange = onNewPasswordChange,
-                focusManager = focusManager
+                onTextChange = onNewUsernameChange,
+                placeholderResId = R.string.nickname_hint,
+                isError = state.isNicknameError,
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                )
             )
-            ErrorText(textRes = state.newPasswordErrorResId)
+            ErrorText(textRes = state.newNicknameErrorResId)
 
             ErrorText(textRes = state.generalErrorResId)
             // Buttons

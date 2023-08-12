@@ -188,11 +188,26 @@
     <string name="toast_setting_updated">Настройка обновлена</string>
     <string name="current_password">Текущий пароль</string>
     <string name="password_change_title">Изменение пароля</string>
-    <string name="password_change_info">"Для изменения пароля, введите ваш текущий пароль "</string>
+    <string name="password_change_info">"Для изменения пароля введите ваш текущий пароль "</string>
     <string name="confirm_new_password">Подтвердите новый пароль</string>
+    <string name="confirm_new_username">Подтвердите новый никнейм</string>
+    <string name="confirm_new_email">Подтвердите новую почту</string>
     <string name="confirmation_mail">На вашу почту был отправлено письмо для подтверждения</string>
     <string name="new_password">Новый пароль</string>
     <string name="button_change">Изменить</string>
     <string name="confirming_new_password">Подтверждаем изменение пароля...</string>
     <string name="failed_to_confirm_password">Не удалось подтвердить новый пароль</string>
+    <string name="password_confirm_success">Пароль обновлен!</string>
+    <string name="email_change_title">Изменение почты</string>
+    <string name="email_change_info">Для изменения почты введите ваш текущий пароль</string>
+    <string name="new_email">Новая почта</string>
+    <string name="confirming_new_email">Подтверждаем изменение почты...</string>
+    <string name="failed_to_confirm_email">Не удалось подтвердить новую почту</string>
+    <string name="email_confirm_success">Почта обновлена!</string>
+    <string name="username_change_title">Изменние никнейма</string>
+    <string name="username_change_info">Для изменения никнейма введите ваш текущий пароль</string>
+    <string name="new_username">Новый никнейм</string>
+    <string name="confirming_new_username">Подтверждаем изменение никнейма...</string>
+    <string name="failed_to_confirm_username">Не удалось подтвердить новый никнейм</string>
+    <string name="username_confirm_success">Никнейм обновлен!</string>
 </resources>

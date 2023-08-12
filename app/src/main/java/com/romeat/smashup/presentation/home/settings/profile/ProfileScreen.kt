@@ -1,7 +1,18 @@
 package com.romeat.smashup.presentation.home.settings.profile
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -15,7 +26,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -24,17 +34,17 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.common.composables.FriendlyGlideImage
-import com.romeat.smashup.presentation.home.common.composables.NoBackgroundButton
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
 import com.romeat.smashup.presentation.home.common.composables.TopRow
 import com.romeat.smashup.ui.theme.SmashupTheme
 import com.romeat.smashup.util.ImageUrlHelper
-import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun ProfileScreen(
     onBackClick: () -> Unit,
-    toEditPassword: () -> Unit
+    toEditPassword: () -> Unit,
+    toEditUsername: () -> Unit,
+    toEditEmail: () -> Unit,
 ) {
     val viewModel: ProfileViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState().value
@@ -48,6 +58,8 @@ fun ProfileScreen(
             state = state,
             onBackClick = onBackClick,
             onEditPasswordClick = toEditPassword,
+            onEditUsernameClick = toEditUsername,
+            onEditEmailClick = toEditEmail,
             onEditAvatarClick = {}
         )
     }
@@ -59,6 +71,8 @@ fun ProfileScreenContent(
     onBackClick: () -> Unit,
     onEditAvatarClick: () -> Unit,
     onEditPasswordClick: () -> Unit,
+    onEditUsernameClick: () -> Unit,
+    onEditEmailClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -105,12 +119,20 @@ fun ProfileScreenContent(
             Spacer(modifier = Modifier.height(25.dp))
             ProfileDataItem(
                 titleRes = R.string.displaying_nickname,
-                text = state.nickname
+                text = state.nickname,
+                modifier = Modifier.clickable {
+                    onEditUsernameClick()
+                },
+                showEditIcon = true
             )
             Spacer(modifier = Modifier.height(25.dp))
             ProfileDataItem(
                 titleRes = R.string.email_label,
-                text = state.email
+                text = state.email,
+                modifier = Modifier.clickable {
+                    onEditEmailClick()
+                },
+                showEditIcon = true
             )
             Spacer(modifier = Modifier.height(25.dp))
             ProfileDataItem(
@@ -181,7 +203,7 @@ fun ProfileScreenContentPreview() {
                     "adwd@dawda.gg",
                     "******"
                 ),
-                {}, {}, {}
+                {}, {}, {}, {}, {}
             )
         }
     }

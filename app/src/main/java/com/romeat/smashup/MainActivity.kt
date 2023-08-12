@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity() {
             val homeDeeplinkPaths = listOf(
                 getString(R.string.deeplink_path_change_email_confirm),
                 getString(R.string.deeplink_path_change_password_confirm),
+                getString(R.string.deeplink_path_change_username_confirm),
             )
 
             if (viewModel.isUserLogged()) {

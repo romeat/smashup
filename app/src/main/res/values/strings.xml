@@ -198,10 +198,24 @@
     <string name="password_change_title">Change password</string>
     <string name="password_change_info">To confirm password change, type your current password</string>
     <string name="confirm_new_password">Confirm new password</string>
+    <string name="confirm_new_username">Confirm new username</string>
+    <string name="confirm_new_email">Confirm new email</string>
     <string name="confirmation_mail">Confirmation mail was sent to your email</string>
     <string name="new_password">New password</string>
     <string name="button_change">Change</string>
     <string name="confirming_new_password">Confirming password update...</string>
     <string name="failed_to_confirm_password">Failed to confirm new password</string>
     <string name="password_confirm_success">Password updated!</string>
+    <string name="email_change_title">Change email</string>
+    <string name="email_change_info">To confirm email change, type your current password</string>
+    <string name="new_email">New email</string>
+    <string name="confirming_new_email">Confirming email update...</string>
+    <string name="failed_to_confirm_email">Failed to confirm new email</string>
+    <string name="email_confirm_success">Email updated!</string>
+    <string name="username_change_title">Change username</string>
+    <string name="username_change_info">To confirm username change, type your current password</string>
+    <string name="new_username">New username</string>
+    <string name="confirming_new_username">Confirming username update...</string>
+    <string name="failed_to_confirm_username">Failed to confirm new username</string>
+    <string name="username_confirm_success">Username updated!</string>
 </resources>
