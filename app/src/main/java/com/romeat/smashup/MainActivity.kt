@@ -74,11 +74,23 @@ class MainActivity : AppCompatActivity() {
 
             val homeDeeplinkPaths = listOf(
                 getString(R.string.deeplink_path_change_email_confirm),
+                getString(R.string.deeplink_path_change_password_confirm),
             )
 
             if (viewModel.isUserLogged()) {
-                // todo handle deeplinks for logged users
-                return
+                // deeplinks for logged users
+                val deeplinkUserId = intent.data?.getQueryParameter("userId")?.toInt() ?: -1
+
+                if (deeplinkUserId == viewModel.loggedUserRepository.userInfoFlow.value!!.id) {
+                    intent.data?.path?.let { incomingDeeplinkPath ->
+                        if (homeDeeplinkPaths.any { authPath ->
+                                incomingDeeplinkPath.contains(authPath)
+                            }
+                        ) {
+                            navController.handleDeepLink(intent)
+                        }
+                    }
+                }
             } else {
                 // Auth navgraph deeplinks
                 intent.data?.path?.let { incomingDeeplinkPath ->

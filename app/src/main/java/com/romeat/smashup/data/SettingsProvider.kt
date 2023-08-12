@@ -28,7 +28,7 @@ class SettingsProvider @Inject constructor(
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     private val bitrateSuffix = "_bitrate_setting"
-    private val defaultBitrate = BitrateOption.KB320
+    private val defaultBitrate = BitrateOption.KB160
 
     // TODO create BiMap for this data
     private val bitrateToDatastoreStringMap = hashMapOf(

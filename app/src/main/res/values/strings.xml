@@ -8,6 +8,8 @@
     <string name="deeplink_path_register_confirm" translatable="false">/register/confirm</string>
     <string name="deeplink_path_password_recover_confirm" translatable="false">/user/recover_password/confirm</string>
     <string name="deeplink_path_change_email_confirm" translatable="false">/change_email/confirm</string>
+    <string name="deeplink_path_change_password_confirm" translatable="false">/change_password/confirm</string>
+    <string name="deeplink_path_change_username_confirm" translatable="false">/change_username/confirm</string>
 
     <string name="welcome">Welcome to SmashUp!</string>
     <string name="we_are">We are the first and only\n mashup streaming service.</string>
@@ -157,6 +159,8 @@
     <string name="close">Close</string>
     <string name="confirming_registration">Confirming registration...</string>
 
+    <string name="error_403_wrong_current_password">Wrong current password</string>
+
     <plurals name="mashups_number">
         <item quantity="one">%d mashup</item>
         <item quantity="other">%d mashups</item>
@@ -190,4 +194,14 @@
     <string name="toast_failed_to_load_settings">Failed to load some settings</string>
     <string name="toast_failed_to_update_setting">Failed to update setting</string>
     <string name="toast_setting_updated">Setting updated</string>
+    <string name="current_password">Current password</string>
+    <string name="password_change_title">Change password</string>
+    <string name="password_change_info">To confirm password change, type your current password</string>
+    <string name="confirm_new_password">Confirm new password</string>
+    <string name="confirmation_mail">Confirmation mail was sent to your email</string>
+    <string name="new_password">New password</string>
+    <string name="button_change">Change</string>
+    <string name="confirming_new_password">Confirming password update...</string>
+    <string name="failed_to_confirm_password">Failed to confirm new password</string>
+    <string name="password_confirm_success">Password updated!</string>
 </resources>

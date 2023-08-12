@@ -8,6 +8,8 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
@@ -16,11 +18,17 @@ import androidx.compose.material.TextFieldColors
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -104,6 +112,48 @@ fun StyledInput(
                     )
                 }
             )
+        }
+    )
+}
+
+@Composable
+fun StyledPasswordInput(
+    password: String,
+    enabled: Boolean,
+    onPasswordChange: (String) -> Unit,
+    isError: Boolean,
+    focusManager: FocusManager,
+) {
+    var passwordVisible: Boolean by remember { mutableStateOf(false) }
+
+    StyledInput(
+        text = password,
+        enabled = enabled,
+        onTextChange = onPasswordChange,
+        placeholderResId = R.string.password_hint,
+        isError = isError,
+        modifier = Modifier.fillMaxWidth(),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Done
+        ),
+        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                focusManager.clearFocus()
+            }
+        ),
+        trailingIcon = {
+            val image = if (passwordVisible)
+                R.drawable.ic_baseline_visibility_off_24
+            else R.drawable.ic_baseline_visibility_24
+
+            IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = image),
+                    "password visibility"
+                )
+            }
         }
     )
 }

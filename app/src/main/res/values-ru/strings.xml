@@ -149,6 +149,8 @@
     <string name="register_confirm_title">Подтверждение регистрации</string>
     <string name="close">Закрыть</string>
     <string name="confirming_registration">Регистрация подтверждается...</string>
+
+    <string name="error_403_wrong_current_password">Неправильный текущий пароль</string>
     
     <plurals name="mashups_number">
         <item quantity="one">%d мэшап</item>
@@ -184,4 +186,13 @@
     <string name="toast_failed_to_load_settings">Не удалось получить некоторые настройки</string>
     <string name="toast_failed_to_update_setting">Не удалось обновить настройки</string>
     <string name="toast_setting_updated">Настройка обновлена</string>
+    <string name="current_password">Текущий пароль</string>
+    <string name="password_change_title">Изменение пароля</string>
+    <string name="password_change_info">"Для изменения пароля, введите ваш текущий пароль "</string>
+    <string name="confirm_new_password">Подтвердите новый пароль</string>
+    <string name="confirmation_mail">На вашу почту был отправлено письмо для подтверждения</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="button_change">Изменить</string>
+    <string name="confirming_new_password">Подтверждаем изменение пароля...</string>
+    <string name="failed_to_confirm_password">Не удалось подтвердить новый пароль</string>
 </resources>

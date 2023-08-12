@@ -23,6 +23,40 @@ interface MainService {
         @Query("value") value: Int,
     ): Response<ApiWrap<SmashupSettings>>
 
+    /* Change email */
+    @POST("/user/change_email")
+    suspend fun changeUserEmail(
+        @Body body: ChangeEmailRequest
+    ): Response<ApiWrap<Unit>>
+
+    @POST("/user/change_email/confirm")
+    suspend fun changeUserEmailConfirm(
+        @Query("id") id: String
+    ): Response<ApiWrap<Unit>>
+
+    /* Change username */
+    @POST("/user/change_username")
+    suspend fun changeUserName(
+        @Body body: ChangeUsernameRequest
+    ): Response<ApiWrap<Unit>>
+
+    @POST("/user/change_username/confirm")
+    suspend fun changeUserNameConfirm(
+        @Query("id") id: String
+    ): Response<ApiWrap<Unit>>
+
+    /* Change password */
+    @POST("/user/change_password")
+    suspend fun changeUserPassword(
+        @Body body: ChangePasswordRequest
+    ): Response<ApiWrap<Unit>>
+
+    @POST("/user/change_password/confirm")
+    suspend fun changeUserPasswordConfirm(
+        @Query("id") id: String
+    ): Response<ApiWrap<Unit>>
+
+    /* Firebase token */
     @POST("firebase/update_token")
     suspend fun updateFcmToken(@Query("token") token: String
     ): Response<ApiWrap<Unit>>
