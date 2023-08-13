@@ -210,4 +210,6 @@
     <string name="confirming_new_username">Подтверждаем изменение никнейма...</string>
     <string name="failed_to_confirm_username">Не удалось подтвердить новый никнейм</string>
     <string name="username_confirm_success">Никнейм обновлен!</string>
+    <string name="toast_avatar_updated">Аватар обновлен</string>
+    <string name="toast_avatar_fail">Не удалось обновить аватар</string>
 </resources>

@@ -22,3 +22,8 @@ data class ChangeUsernameRequest(
     @SerializedName("username")
     val newUsername: String
 )
+
+data class UpdateAvatarRequest(
+    @SerializedName("basedImageFile")
+    val base64Image: String
+)

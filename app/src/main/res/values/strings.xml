@@ -218,4 +218,6 @@
     <string name="confirming_new_username">Confirming username update...</string>
     <string name="failed_to_confirm_username">Failed to confirm new username</string>
     <string name="username_confirm_success">Username updated!</string>
+    <string name="toast_avatar_updated">Avatar updated</string>
+    <string name="toast_avatar_fail">Failed to update avatar</string>
 </resources>

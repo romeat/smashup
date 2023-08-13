@@ -1,5 +1,9 @@
 package com.romeat.smashup.util
 
+import android.content.Context
+import android.content.Intent
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import com.romeat.smashup.BuildConfig
 
 object ImageUrlHelper {
@@ -30,4 +34,17 @@ object ImageUrlHelper {
     fun sourceImageIdToUrl400px(imageId: String) = sourceImageBaseUrl + imageId + imageSuffix400px
 
     fun sourceImageIdToUrl100px(imageId: String) = sourceImageBaseUrl + imageId + imageSuffix100px
+}
+
+interface Launcher {
+    fun launch()
+}
+
+class PickImage : ActivityResultContracts.PickVisualMedia() {
+    override fun createIntent(context: Context, input: PickVisualMediaRequest): Intent {
+        val intent = super.createIntent(context, input)
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/jpeg", "image/png"))
+
+        return intent
+    }
 }

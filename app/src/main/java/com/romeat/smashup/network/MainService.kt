@@ -56,6 +56,12 @@ interface MainService {
         @Query("id") id: String
     ): Response<ApiWrap<Unit>>
 
+    /* Update avatar */
+    @POST("/user/update_image")
+    suspend fun updateAvatar(
+        @Body body: UpdateAvatarRequest
+    ): Response<ApiWrap<Unit>>
+
     /* Firebase token */
     @POST("firebase/update_token")
     suspend fun updateFcmToken(@Query("token") token: String

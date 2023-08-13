@@ -3,6 +3,7 @@ package com.romeat.smashup.network
 import com.romeat.smashup.data.dto.ChangeEmailRequest
 import com.romeat.smashup.data.dto.ChangePasswordRequest
 import com.romeat.smashup.data.dto.ChangeUsernameRequest
+import com.romeat.smashup.data.dto.UpdateAvatarRequest
 import javax.inject.Inject
 
 class SmashupRemoteData @Inject constructor(
@@ -68,4 +69,5 @@ class SmashupRemoteData @Inject constructor(
 
     suspend fun changeUserNameConfirm(token: String) = mainService.changeUserNameConfirm(token)
 
+    suspend fun updateAvatar(encodedAvatar: String) = mainService.updateAvatar(UpdateAvatarRequest(encodedAvatar))
 }
