@@ -1,5 +1,9 @@
 package com.romeat.smashup.network
 
+import com.romeat.smashup.data.dto.ChangeEmailRequest
+import com.romeat.smashup.data.dto.ChangePasswordRequest
+import com.romeat.smashup.data.dto.ChangeUsernameRequest
+import com.romeat.smashup.data.dto.UpdateAvatarRequest
 import javax.inject.Inject
 
 class SmashupRemoteData @Inject constructor(
@@ -49,4 +53,21 @@ class SmashupRemoteData @Inject constructor(
     suspend fun getUserSettings() = mainService.getUserSettingsBits()
 
     suspend fun updateMultisessionBit(allowed: Boolean) = mainService.changeUserSettingsBit(bit = 1, value = allowed.compareTo(false))
+
+    suspend fun changeUserEmail(password: String, newEmail: String) =
+        mainService.changeUserEmail(ChangeEmailRequest(password, newEmail))
+
+    suspend fun changeUserEmailConfirm(token: String) = mainService.changeUserEmailConfirm(token)
+
+    suspend fun changeUserPassword(password: String, newPassword: String) =
+        mainService.changeUserPassword(ChangePasswordRequest(password, newPassword))
+
+    suspend fun changeUserPasswordConfirm(token: String) = mainService.changeUserPasswordConfirm(token)
+
+    suspend fun changeUserName(password: String, newUsername: String) =
+        mainService.changeUserName(ChangeUsernameRequest(password, newUsername))
+
+    suspend fun changeUserNameConfirm(token: String) = mainService.changeUserNameConfirm(token)
+
+    suspend fun updateAvatar(encodedAvatar: String) = mainService.updateAvatar(UpdateAvatarRequest(encodedAvatar))
 }
