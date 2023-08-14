@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -49,6 +50,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.romeat.smashup.BuildConfig
 import com.romeat.smashup.R
 import com.romeat.smashup.presentation.home.common.composables.FriendlyGlideImage
 import com.romeat.smashup.presentation.home.common.composables.Placeholder
@@ -141,10 +143,16 @@ fun ProfileScreenContent(
     val context = LocalContext.current
     @Composable
     fun rememberPickImageLauncherForActivityResult(onResult: (Uri?) -> Unit): Launcher {
+        val legacyLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent(), onResult = onResult)
         val launcher = rememberLauncherForActivityResult(contract = PickImage(), onResult = onResult)
+
         return object : Launcher {
             override fun launch() {
-                launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.SingleMimeType("*/*")))
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
+                    launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.SingleMimeType("*/*")))
+                } else {
+                    legacyLauncher.launch("image/*")
+                }
             }
         }
     }
