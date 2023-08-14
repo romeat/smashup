@@ -32,16 +32,6 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.VIEW" />-->
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <category android:name="android.intent.category.BROWSABLE" />-->
-
-<!--                <data-->
-<!--                    android:scheme="https"-->
-<!--                    android:host="smashup.ru"-->
-<!--                    android:pathPrefix="/change_pass"/>-->
-<!--            </intent-filter>-->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -59,7 +49,14 @@
                     android:scheme="https"
                     android:host="@string/deeplink_host"
                     android:pathPrefix="@string/deeplink_path_change_email_confirm"/>
-
+                <data
+                    android:scheme="https"
+                    android:host="@string/deeplink_host"
+                    android:pathPrefix="@string/deeplink_path_change_password_confirm"/>
+                <data
+                    android:scheme="https"
+                    android:host="@string/deeplink_host"
+                    android:pathPrefix="@string/deeplink_path_change_username_confirm"/>
             </intent-filter>
 
         </activity>
