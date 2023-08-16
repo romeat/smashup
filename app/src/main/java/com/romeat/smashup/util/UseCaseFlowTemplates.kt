@@ -21,6 +21,7 @@ suspend fun <T> getResourceWithExceptionLogging(
             emit(Resource.Success(result))
         } catch (e: SmashupApiException) {
             Log.e(Constants.LOG_TAG, e.stackTraceToString())
+            Log.e(Constants.LOG_TAG, "${e.code}, ${e.data.message}, ${e.data}")
             emit(Resource.Error(e, e.code, e.data.message, e.data))
         } catch (e: HttpException) {
             Log.e(Constants.LOG_TAG, e.message())
