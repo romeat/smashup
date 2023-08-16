@@ -60,7 +60,7 @@ interface MainService {
     @POST("/user/update_image")
     suspend fun updateAvatar(
         @Body body: UpdateAvatarRequest
-    ): Response<ApiWrap<Unit>>
+    ): Response<ApiWrap<UserProfile>>
 
     /* Firebase token */
     @POST("firebase/update_token")
