@@ -54,7 +54,12 @@ fun NoBackgroundButton(
     textRes: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    colors: ButtonColors = ButtonDefaults.buttonColors(
+        contentColor = MaterialTheme.colors.onSurface,
+        backgroundColor = MaterialTheme.colors.background,
+        disabledBackgroundColor = MaterialTheme.colors.background
+    ),
 ) {
     OutlinedButton(
         modifier = modifier
@@ -62,11 +67,7 @@ fun NoBackgroundButton(
             .height(48.dp),
         onClick = onClick,
         enabled = enabled,
-        colors = ButtonDefaults.buttonColors(
-            contentColor = MaterialTheme.colors.onSurface,
-            backgroundColor = MaterialTheme.colors.background,
-            disabledBackgroundColor = MaterialTheme.colors.background
-        ),
+        colors = colors,
         border = null
     ) {
         Text(

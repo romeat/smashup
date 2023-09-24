@@ -1,9 +1,7 @@
 package com.romeat.smashup.presentation.home.settings.profile
 
 import android.graphics.Bitmap
-import android.graphics.Matrix
 import android.util.Base64
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romeat.smashup.R
@@ -34,22 +32,24 @@ class ProfileViewModel @Inject constructor(
     val events = _eventChannel.receiveAsFlow()
 
     init {
-        val user = loggedUser.userInfoFlow.value
-        user?.let { presentUser ->
-            _state.update {
-                it.copy(
-                    nickname = presentUser.username,
-                    email = "блять, емаил неоткуда взять",
-                    passwordDots = "***********",
-                    imageUrl = presentUser.imageUrl
-                )
+        viewModelScope.launch {
+            loggedUser.userInfoFlow.collect { it ->
+                it?.let { user ->
+                    _state.update {
+                        it.copy(
+                            nickname = user.username,
+                            email = "блять, емаил неоткуда взять",
+                            passwordDots = "***********",
+                            imageUrl = user.imageUrl
+                        )
+                    }
+                }
             }
         }
     }
 
     fun updateAvatar(bitmap: Bitmap) {
         val str = encodeImage(bitmap)
-//        Log.d("TAG", "updateAvatar: $str")
         str?.let {
             viewModelScope.launch {
                 updateAvatarUseCase
@@ -62,6 +62,10 @@ class ProfileViewModel @Inject constructor(
                             is Resource.Loading -> {}
                             is Resource.Success -> {
                                 _eventChannel.send(ProfileEvent.ShowToast(R.string.toast_avatar_updated))
+                                viewModelScope.launch {
+                                    val user = loggedUser.userInfoFlow.value
+                                    loggedUser.updateUserStat(user!!.copy(imageUrl = result.data!!.imageUrl))
+                                }
                             }
                         }
                     }
@@ -70,22 +74,28 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun encodeImage(bm: Bitmap): String? {
-        val maxHeight = 800
-        val maxWidth = 800
-        val scale: Float = Math.min(
-            maxHeight.toFloat() / bm.width,
-            maxWidth.toFloat() / bm.height
-        )
 
-        val matrix = Matrix()
-        matrix.postScale(scale, scale)
+        val minDimension = 801
+        var height = bm.height
+        var width = bm.width
 
-        val scaledBitmap = Bitmap.createBitmap(bm, 0, 0, bm.width, bm.height, matrix, true)
+        if (bm.width > bm.height) {
+            height = minDimension
+            width = ((minDimension * bm.width) / bm.height)
+        } else if (bm.height > bm.width) {
+            width = minDimension
+            height = ((minDimension * bm.height) / bm.width)
+        } else {
+            // square
+            height = minDimension
+            width = minDimension
+        }
+        val scaledBitmap = Bitmap.createScaledBitmap(bm, width, height, true)
 
         val baos = ByteArrayOutputStream()
         scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val b = baos.toByteArray()
-        return Base64.encodeToString(b, Base64.DEFAULT)
+        return Base64.encodeToString(b, Base64.NO_WRAP)
     }
 }
 
