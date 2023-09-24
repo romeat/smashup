@@ -43,7 +43,6 @@
     <string name="and_other_actions">and other actions are currently available only on</string>
     <string name="the_website">the website</string>
     <string name="why_no_registration">(But why so?)</string>
-    <string name="no_registration_reasoning">This is not an official app.\n\nIf sign up rules change, I may not be able to update them in application fast enough.</string>
     <string name="username_placeholder">Username</string>
     <string name="password_placeholder">Password</string>
     <string name="wrong_username_or_password">Wrong nickname or password</string>
@@ -64,8 +63,7 @@
     <string name="charts">Charts</string>
     <string name="user_has_no_mashups">Looks like user didn\'t upload any mashups</string>
 
-    <string name="version_outdated">App is outdated, please install actual version.\n\nYou can still use app, but its performance is not guaranteed.</string>
-    <string name="proceed_anyway_button">Use anyway</string>
+    <string name="version_outdated">App is outdated, please install actual version.\n</string>
     <string name="exit_button">Close app</string>
 
     <string name="bottom_bar_main">Main</string>
@@ -220,4 +218,8 @@
     <string name="username_confirm_success">Username updated!</string>
     <string name="toast_avatar_updated">Avatar updated</string>
     <string name="toast_avatar_fail">Failed to update avatar</string>
+    <string name="button_download_update">Download update</string>
+    <string name="button_skip">Skip</string>
+    <string name="new_version_available">New version available, do you want to download update?</string>
+    <string name="new_version_is_loading">Downloading new version...</string>
 </resources>

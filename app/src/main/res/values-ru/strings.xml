@@ -35,7 +35,6 @@
     <string name="and_other_actions">и другие действия - пока только на</string>
     <string name="the_website">оф. сайте</string>
     <string name="why_no_registration">(Почему так?)</string>
-    <string name="no_registration_reasoning">Это приложение является неофициальным.\n\nЕсли правила регистрации поменяются, то я могу не успеть обновить их в приложении.</string>
     <string name="username_placeholder">Юзернейм</string>
     <string name="password_placeholder">Пароль</string>
     <string name="wrong_username_or_password">Неправильный ник или пароль</string>
@@ -56,8 +55,7 @@
     <string name="charts">Подборки</string>
     <string name="user_has_no_mashups">Кажется, пользователь не загружал мэшапы</string>
 
-    <string name="version_outdated">Приложение устарело, пожалуйста установите актуальную версию.\n\nВы можете продолжить пользоваться текущей версией, но ее работоспособность не гарантирована.</string>
-    <string name="proceed_anyway_button">Перейти в приложение</string>
+    <string name="version_outdated">Приложение устарело, пожалуйста установите актуальную версию.\n</string>
     <string name="exit_button">Закрыть приложение</string>
 
     <string name="bottom_bar_main">Главная</string>
@@ -212,4 +210,8 @@
     <string name="username_confirm_success">Никнейм обновлен!</string>
     <string name="toast_avatar_updated">Аватар обновлен</string>
     <string name="toast_avatar_fail">Не удалось обновить аватар</string>
+    <string name="button_download_update">Скачать обновление</string>
+    <string name="button_skip">Пропустить</string>
+    <string name="new_version_available">Доступна новая версия приложения, скачать?</string>
+    <string name="new_version_is_loading">Новая версия скачивается...</string>
 </resources>

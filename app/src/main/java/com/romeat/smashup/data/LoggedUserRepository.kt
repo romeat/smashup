@@ -27,9 +27,6 @@ class LoggedUserRepository @Inject constructor(
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    private val USER_PREFS_FILE = "UserPrefsFile"
-    private val USER_PREFS_NAME = "UserName"
-
     val userInfoFlow: StateFlow<LoginResponse?> = appContext.dataStore.data
         .map { pref ->
             Gson().fromJson(pref[USER_KEY], LoginResponse::class.java)
@@ -51,6 +48,10 @@ class LoggedUserRepository @Inject constructor(
             musicServiceConnection.sendCommand(MediaConstants.STOP_PLAYER, null)
         }
     }
+
+    suspend fun getCurrentUser() = appContext.dataStore.data.map { pref ->
+        Gson().fromJson(pref[USER_KEY], LoginResponse::class.java)
+    }.firstOrNull()
 }
 
 
